@@ -1,3 +1,5 @@
+# CS 546 Final Project Group 18
+
 ## Team Members
 - Elias Frieling
 - Tayler Marin
