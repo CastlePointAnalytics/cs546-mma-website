@@ -1,1 +1,1 @@
-# cs546_mma_website
+# cs546-mma-website
