@@ -4,8 +4,8 @@
     "lastName": "Jones",
     "record": { "wins": 26, "losses": 1, "draws": 0 },
     "age": 33,
-    "height": 193,
-    "weight": 93,
-    "reach": 214.63,
+    "height": 76,
+    "weight": 205,
+    "reach": 96,
     "location": "USA"
 }
