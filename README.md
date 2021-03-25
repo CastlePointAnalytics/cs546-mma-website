@@ -55,6 +55,26 @@
     - [ ] Last fight weekend (stats + analytics performance)
 6. Global user analytics
 
+## Coding Coventions
+1. CamelCase
+2. Indentation
+
+## Agile Conventions
+1. Trello (look into this)
+
+## Workflow (Git) Conventions
+1. Master?
+2. Develop
+    (Out of these will be the feature we own)
+    3. Ryan
+    4. Elias
+    5. Tayler
+    6. Ellie
+    7. Luke
+
+## Data convetions
+1. Github Gist provided by CPA
+
 Github: https://github.com/CastlePointAnalytics/cs546-mma-website
 
 
