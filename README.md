@@ -74,6 +74,10 @@
 
 ## Data convetions
 1. Github Gist provided by CPA
+2. All percentages will be represented as decimals
+3. All heights will be represented in inches
+4. All weights will be represented in pounds
+5. All reaches will be represented in inches
 
 Github: https://github.com/CastlePointAnalytics/cs546-mma-website
 
