@@ -19,10 +19,10 @@
 
 ## Core Features
 
-1. Landing page
+1. **(Ryan)** Landing page
     - [ ] Allows users to pick fighter combinations using two drop downs
     - [ ] Shows upcoming fights (fighter, location, date, odds)
-2. Betting Strategy
+2. **(Luke)** Betting Strategy
     - [ ] Expected value of betting portfolio based on average returns
     - [ ] Basic Betting
     - [ ] Parlays 
