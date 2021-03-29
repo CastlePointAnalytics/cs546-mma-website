@@ -54,9 +54,6 @@
     - [ ] Embed URLs to video content that we call (pop up in the site)
 3. Merge player into one player (hypothetical hybrid)
     - [ ] Create your own player (half + half fighter)
-4. Preview history page
-    - [ ] Last fight weekend (stats + analytics performance)
-5. Global user analytics
 
 ## Coding Coventions
 1. CamelCase
