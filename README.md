@@ -40,20 +40,23 @@
     - [ ] Age
     - [ ] Supporting info
     - [ ] Show their pick ems
+6. User page : Show thread of messages from users in all forums (out of context? With context?
+7. Preview history page
+    - [ ] Last fight weekend (stats + analytics performance)
+8. Global user analytics
 
 ## Extra Features
 
-1. User page : Show thread of messages from users in all forums (out of context? With context?)
-2. Filter fighter matchups based on
+1. Filter fighter matchups based on
     - [ ] Gender
     - [ ] Weight class
-3. Video fight previews
+2. Video fight previews
     - [ ] Embed URLs to video content that we call (pop up in the site)
-4. Merge player into one player (hypothetical hybrid)
+3. Merge player into one player (hypothetical hybrid)
     - [ ] Create your own player (half + half fighter)
-5. Preview history page
+4. Preview history page
     - [ ] Last fight weekend (stats + analytics performance)
-6. Global user analytics
+5. Global user analytics
 
 ## Coding Coventions
 1. CamelCase
