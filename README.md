@@ -33,7 +33,7 @@
     - [ ] Record, Age, Height, Weight, Reach
     - [ ] Win probability, Vegas Money Lines, By Decision, etc.
     - [ ] Pick ems
-4. Forum exclusively for this fight
+4. **(Tayler)** Forum exclusively for this fight
     - [ ] Ability to edit and delete messages
 5. User Profile Page
     - [ ] Name
