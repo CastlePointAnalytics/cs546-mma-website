@@ -35,7 +35,7 @@
     - [ ] Pick ems
 4. **(Tayler)** Forum exclusively for this fight
     - [ ] Ability to edit and delete messages
-5. User Profile Page
+5. **(Ellie)** User Profile Page
     - [ ] Name
     - [ ] Age
     - [ ] Supporting info
