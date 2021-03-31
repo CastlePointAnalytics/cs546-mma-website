@@ -28,7 +28,7 @@
     - [ ] Parlays 
     - [ ] Set-and-Forget bet allocation
     - [ ] Advanced betting Kelly
-3. Match Up Statistic Page
+3. **(Elias)** Match Up Statistic Page
     - [ ] Newsletter format (contains information of fighters in match up)
     - [ ] Record, Age, Height, Weight, Reach
     - [ ] Win probability, Vegas Money Lines, By Decision, etc.
