@@ -41,9 +41,9 @@
     - [ ] Supporting info
     - [ ] Show their pick ems
     - [ ] Show thread of messages from users in all forums (out of context? With context?
-7. Preview history page
+6. Preview history page
     - [ ] Last fight weekend (stats + analytics performance)
-8. Global user analytics
+7. Global user analytics
 
 ## Extra Features
 
