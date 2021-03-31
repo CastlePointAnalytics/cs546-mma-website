@@ -40,7 +40,7 @@
     - [ ] Age
     - [ ] Supporting info
     - [ ] Show their pick ems
-6. User page : Show thread of messages from users in all forums (out of context? With context?
+    - [ ] Show thread of messages from users in all forums (out of context? With context?
 7. Preview history page
     - [ ] Last fight weekend (stats + analytics performance)
 8. Global user analytics
