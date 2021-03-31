@@ -1,11 +1,11 @@
 # CS 546 Final Project Group 18
 
 ## Team Members
-- Elias Frieling
-- Tayler Marin
-- Luke McEvoy
-- Ryan Perretta
-- Eleonora Savova
+- Elias Frieling (efrielin@stevens.edu)
+- Tayler Marin (tarmin@stevens.edu)
+- Luke McEvoy (lmcevoy@stevens.edu)
+- Ryan Perretta (rperrett@stevens.edu)
+- Eleonora Savova (esavova@stevens.edu)
 
 ## Introduction
 
