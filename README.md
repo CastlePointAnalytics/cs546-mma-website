@@ -2,7 +2,7 @@
 
 ## Team Members
 - Elias Frieling (efrielin@stevens.edu)
-- Tayler Marin (tarmin@stevens.edu)
+- Tayler Marin (tmarin@stevens.edu)
 - Luke McEvoy (lmcevoy@stevens.edu)
 - Ryan Perretta (rperrett@stevens.edu)
 - Eleonora Savova (esavova@stevens.edu)
