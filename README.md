@@ -63,14 +63,33 @@
 1. Trello (look into this)
 
 ## Workflow (Git) Conventions
-1. Master?
+
+#### How to rebase with Main branch
+Start in ```main``` branch<br />
+-> ```(main): git pull```<br />
+-> ```(main): git checkout develop```<br />
+<br />
+Move to ```develop``` branch<br />
+-> ```(develop): git pull```<br />
+-> ```(develop): git merge main```<br />
+-> ```(develop): git checkout YOUR_BRANCH```<br />
+<br />
+Move to ```YOUR_BRANCH``` branch<br />
+-> ```(YOUR_BRANCH): git pull```<br />
+-> ```(YOUR_BRANCH): git merge develop```<br />
+<br />
+Start Coding!
+
+#### Branches
+1. Main
 2. Develop
-    (Out of these will be the feature we own)
-    3. Ryan
-    4. Elias
-    5. Tayler
-    6. Ellie
-    7. Luke
+3. Ryan
+4. Elias
+5. Tayler
+6. Ellie
+7. Luke
+
+
 
 ## Data convetions
 1. Github Gist provided by CPA
