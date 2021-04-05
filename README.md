@@ -70,12 +70,10 @@ Start in ```main``` branch<br />
 -> ```(main): git checkout develop```<br />
 <br />
 Move to ```develop``` branch<br />
--> ```(develop): git pull```<br />
 -> ```(develop): git merge main```<br />
 -> ```(develop): git checkout YOUR_BRANCH```<br />
 <br />
 Move to ```YOUR_BRANCH``` branch<br />
--> ```(YOUR_BRANCH): git pull```<br />
 -> ```(YOUR_BRANCH): git merge develop```<br />
 <br />
 Start Coding!
