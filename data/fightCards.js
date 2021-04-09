@@ -39,7 +39,12 @@ let exportedMethods = {
 
         return fight;
     },
-    //getUpcomingFights: async () => {},
+    getUpcomingFights: async () => {
+        // determine how many of the upcoming fights should be displayed
+        // get all fights and then find which are the closest
+        // either sort the list of fightCards returned or iteratively choose the next closest fight
+        // return final list in order of closeness (closest to furthest)
+    },
 };
 
 module.exports = exportedMethods;
