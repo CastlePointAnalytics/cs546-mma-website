@@ -16,6 +16,11 @@ let exportedMethods = {
 
         return data;
     },
+    /**
+     * Finds the fightCard with the id provided
+     * @param {string} id the object id of the fightCard we wish to find in string format
+     * @returns the fightCard with the _id changed to its string representation
+     */
     getFightById: async (id) => {
         // will check if id is type string and non-empty
         checker.checkIsProperString(id, "Id", true);
@@ -25,6 +30,14 @@ let exportedMethods = {
         let fight = await fightCardCollection.findOne({
             _id: mongo.ObjectId(id),
         });
+
+        // check if the fight with this id is found
+        if (fight == null) throw `Fight Card with id ${id} not found.`;
+
+        // set the _id into the string representation of itself
+        fight._id = id;
+
+        return fight;
     },
     //getUpcomingFights: async () => {},
 };
