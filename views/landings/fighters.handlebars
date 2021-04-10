@@ -1,0 +1,29 @@
+<main>
+    <form action="POST" method="/PUT_URL_HERE">
+        <!-- will receive and display all fighter in a dropdown -->
+        <label>Fighter 1: 
+            <select name="fighter1">
+                {{#each fighters}}
+                <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                {{/each}}
+            </select>
+        </label>
+        <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
+        <label>Fighter 2: 
+            <select name="fighter2">
+                {{#each fighters}}
+                <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                {{/each}}
+            </select>
+        </label>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Upcoming Fights:</h2>
+    {{#each upcomingFights}}
+    <div class="upcomingFight">
+        <h3>{{title}}</h3>
+        <p>{{date}}</p>
+        <p>{{location}}</p>
+    </div>
+    {{/each}}
+</main>
