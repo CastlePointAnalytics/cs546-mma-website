@@ -185,7 +185,6 @@ let exportedMethods = {
     myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
     return myFightCard;
   },
->>>>>>> elias
 };
 
 module.exports = exportedMethods;
