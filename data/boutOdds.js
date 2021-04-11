@@ -35,7 +35,6 @@ function checkDate(dt) {
 }
 //TODO: Convection of if string will be ID or objectID
 let exportedMethods = {
-<<<<<<< HEAD
     async getBoutById(id) {
         const boutOddsCollection = await boutOdds();
         const boutOdd = await boutOddsCollection.findOne({ _id: id });
@@ -50,7 +49,6 @@ let exportedMethods = {
         if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
         return await this.getBoutById(newInsertInformation.insertedId);
     },
-=======
   async validateBoutObject(boutObject) {
     //     "_id": "807f191a810c19729de860ae",
     //     "fighter1": {
