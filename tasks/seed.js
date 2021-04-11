@@ -5,7 +5,8 @@ const fetchData = require('../fetchData/fetchData');
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
 const fullCardDistributionsCollection = data.fullCardDistributions;
-const boutOddsCollection = data.boutOdds;
+// const boutOddsCollection = data.boutOdds;
+const boutOddsCollection = require('../data/boutOdds');
 const messagesCollection = data.messages;
 const usersCollection = data.users;
 
@@ -14,6 +15,7 @@ async function main() {
 	await db.dropDatabase();
 
 	const fightersJSONData = await fetchData.getFighters();
+	// [(id1, id2), ...]
 	for (let i = 0; i < fightersJSONData.length; i++) {
 		await fightersCollection.addFighter(fightersJSONData[i]);
 	}
