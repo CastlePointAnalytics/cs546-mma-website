@@ -1,16 +1,16 @@
 <main>
-    <form action="POST" method="/PUT_URL_HERE">
+    <form action="POST" method="/PUT_URL_HERE" id="matchUpForm">
         <!-- will receive and display all fighter in a dropdown -->
-        <label>Fighter 1: 
-            <select name="fighter1">
+        <label for="fighter1">Fighter 1: 
+            <select name="fighter1" id="fighter1">
                 {{#each fighters}}
                 <option value="{{_id}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
             </select>
         </label>
         <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
-        <label>Fighter 2: 
-            <select name="fighter2">
+        <label for="fighter2">Fighter 2: 
+            <select name="fighter2" id="fighter2">
                 {{#each fighters}}
                 <option value="{{_id}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
