@@ -39,10 +39,6 @@ function validateFightCard(fightCard) {
   //     "expectedValue": { "fighter1": 1.7, "fighter2": 6.2 },
   //     "fightDate": "4/10/2021"
   // }
-  if (fightCard.allBoutOdds.length === 0) {
-    //boutodds array is empty
-    throw "allBoutOdds must not be empty";
-  }
   for (let i = 0; i < fightCard.allBoutOdds.length; i++) {
     //Loop through allBoutOdds and confirm each fighter is in the fighters db
     //All error checking on this done in fighters.js
@@ -52,6 +48,7 @@ function validateFightCard(fightCard) {
 }
 let exportedMethods = {
   async getFightCardById(id) {
+    //Assumes id in object form
     const fightCardsCollection = await fightCards();
     const fightCard = await fightCardsCollection.findOne({ _id: id });
     if (!fightCard) throw "Fight card not found";
