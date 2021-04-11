@@ -3,6 +3,7 @@ const fightCardsData = require('./fightCards');
 const messagesData = require('./messages');
 const fightersData = require('./fighters');
 const fullCardDistributionsData = require('./fullCardDistributions');
+const boutOddsData = require('./boutOdds');
 
 module.exports = {
 	users: usersData,
@@ -10,4 +11,5 @@ module.exports = {
 	messages: messagesData,
 	fighters: fightersData,
 	fullCardDistributions: fullCardDistributionsData,
+	boutOdds: boutOddsData,
 };

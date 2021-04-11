@@ -3,12 +3,23 @@ const fighters = mongoCollections.fighters;
 const checker = require("../errorChecking");
 const mongo = require("mongodb");
 
+function validateFighterObject(fighterObject) {
+    if (typeof fighterObject.firstName !== "string") throw "invalid first name";
+    // lastName,
+    // record,
+    // age,
+    // height,
+    // weight,
+    // reach,
+    // location,
+}
+
 let exportedMethods = {
     /**
      * Gets all of the fighters from the collection and returns them with ids in string form
      * @returns all of the fighters in the collection
      */
-    getAllFighters: async () => {
+    async getAllFighters() {
         const fighterCollection = await fighters();
 
         // gets all fighters in the collection
@@ -21,30 +32,20 @@ let exportedMethods = {
 
         return fighters;
     },
-    /**
-     * Searches the collection for a fighter with the given id and returns if found,
-     * otherwise throws error.
-     * @returns fighter with the id <id>
-     */
-    getFighterById: async (id) => {
-        // will check if id is type string and non-empty
-        checker.checkIsProperString(id, "Fighter Id", true);
-
+    async getFighterById(id) {
         const fighterCollection = await fighters();
-
-        // gets the fighter with the specified id
-        let fighter = await fighterCollection.findOne({
-            _id: mongo.ObjectId(id),
-        });
-
-        // check that fighter was found
-        if (fighter == null) {
-            throw `Fighter with id ${id} not found.`;
-        }
-
-        fighter._id = id;
-
+        const fighter = await fighterCollection.findOne({ _id: id });
+        if (!fighter) throw "Fighter not found";
         return fighter;
+    },
+    async addFighter(newFighterObject) {
+        validateFighterObject(newFighterObject);
+        const fightersCollection = await fighters();
+        const newInsertInformation = await fightersCollection.insertOne(
+            newFighterObject
+        );
+        if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
+        return await this.getFighterById(newInsertInformation.insertedId);
     },
 };
 

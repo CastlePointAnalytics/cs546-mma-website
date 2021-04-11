@@ -22,4 +22,5 @@ module.exports = {
 	messages: getCollectionFn('messages'),
 	fighters: getCollectionFn('fighters'),
 	fullCardDistributions: getCollectionFn('fullCardDistributions'),
+	boutOdds: getCollectionFn('boutOdds'),
 };
