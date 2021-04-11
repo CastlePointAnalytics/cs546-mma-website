@@ -1,5 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const fightCards = mongoCollections.fightCards;
+const fightCard = require("./fightCards");
 const fighters = require("./fighters");
 function checkIds(id) {
   if (!id) throw "You must provide an id to search for";
@@ -34,6 +35,7 @@ function checkDate(dt) {
 //TODO: Convection of if string will be ID or objectID
 let exportedMethods = {
   async validateBoutObject(boutObject) {
+    console.log(boutObject);
     //     "_id": "807f191a810c19729de860ae",
     //     "fighter1": {
     //         "_id": "507f1f77bcf86cd799439011",
@@ -64,8 +66,16 @@ let exportedMethods = {
     //     "fightDate": "4/10/2021"
     // }
     //Check that both fighters are in the db, will throw if they are not
-    await fighters.getFighterById(boutObject.fighter1._id);
-    await fighters.getFighterById(boutObject.fighter2._id);
+    try {
+      await fighters.getFighterById(boutObject.fighter1); //BROKEN
+    } catch (e) {
+      console.error(e);
+    }
+    try {
+      await fighters.getFighterById(boutObject.fighter2);
+    } catch (e) {
+      console.error(e);
+    }
     if (!checkDate(boutObject.fightDate)) {
       throw `fightDate must be in mm/dd/yyyy format, it is currently: ${boutObject.fightDate}`;
     }
@@ -140,10 +150,10 @@ let exportedMethods = {
   async addBout(fightCardID, newBoutObject) {
     await module.exports.validateBoutObject(newBoutObject);
     const fightCardsCollection = await fightCards();
-    let myFightCard = await fightCards.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
+    //let myFightCard = await fightCard.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
     let { ObjectId } = require("mongodb");
     let newObjId = ObjectId(); //creates a new object ID
-    newBoutObject[_id] = newObjId;
+    newBoutObject._id = newObjId;
     try {
       await fightCardsCollection.updateOne(
         { _id: fightCardID },
@@ -152,7 +162,8 @@ let exportedMethods = {
     } catch (e) {
       console.error(e);
     }
-    myFightCard = await fightCards.getFightCardById(fightCardID); //This assume Object representation
+    console.log(typeof fightCardID);
+    myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
     return myFightCard;
   },
 };
