@@ -33,7 +33,7 @@ function checkDate(dt) {
 }
 //TODO: Convection of if string will be ID or objectID
 let exportedMethods = {
-  validateBoutObject(boutObject) {
+  async validateBoutObject(boutObject) {
     //     "_id": "807f191a810c19729de860ae",
     //     "fighter1": {
     //         "_id": "507f1f77bcf86cd799439011",
@@ -64,8 +64,8 @@ let exportedMethods = {
     //     "fightDate": "4/10/2021"
     // }
     //Check that both fighters are in the db, will throw if they are not
-    fighters.getFighterById(boutObject.fighter1._id);
-    fighters.getFighterById(boutObject.fighter2._id);
+    await fighters.getFighterById(boutObject.fighter1._id);
+    await fighters.getFighterById(boutObject.fighter2._id);
     if (!checkDate(boutObject.fightDate)) {
       throw `fightDate must be in mm/dd/yyyy format, it is currently: ${boutObject.fightDate}`;
     }
@@ -138,7 +138,7 @@ let exportedMethods = {
   },
   //TODO: Convection of if string will be ID or objectID
   async addBout(fightCardID, newBoutObject) {
-    validateBoutObject(newBoutObject);
+    await module.exports.validateBoutObject(newBoutObject);
     const fightCardsCollection = await fightCards();
     let myFightCard = await fightCards.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
     let { ObjectId } = require("mongodb");
