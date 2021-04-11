@@ -35,7 +35,6 @@ function checkDate(dt) {
 //TODO: Convection of if string will be ID or objectID
 let exportedMethods = {
   async validateBoutObject(boutObject) {
-    console.log(boutObject);
     //     "_id": "807f191a810c19729de860ae",
     //     "fighter1": {
     //         "_id": "507f1f77bcf86cd799439011",
@@ -67,7 +66,7 @@ let exportedMethods = {
     // }
     //Check that both fighters are in the db, will throw if they are not
     try {
-      await fighters.getFighterById(boutObject.fighter1); //BROKEN
+      await fighters.getFighterById(boutObject.fighter1);
     } catch (e) {
       console.error(e);
     }
@@ -150,10 +149,16 @@ let exportedMethods = {
   async addBout(fightCardID, newBoutObject) {
     await module.exports.validateBoutObject(newBoutObject);
     const fightCardsCollection = await fightCards();
-    //let myFightCard = await fightCard.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
+    let myFightCard = await fightCard.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
     let { ObjectId } = require("mongodb");
     let newObjId = ObjectId(); //creates a new object ID
     newBoutObject._id = newObjId;
+    newBoutObject.fighter1 = await fighters.getFighterById(
+      newBoutObject.fighter1
+    ); //Replace the ID with the fighter
+    newBoutObject.fighter2 = await fighters.getFighterById(
+      newBoutObject.fighter2
+    );
     try {
       await fightCardsCollection.updateOne(
         { _id: fightCardID },
@@ -162,7 +167,6 @@ let exportedMethods = {
     } catch (e) {
       console.error(e);
     }
-    console.log(typeof fightCardID);
     myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
     return myFightCard;
   },
