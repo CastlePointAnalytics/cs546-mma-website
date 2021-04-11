@@ -34,26 +34,25 @@ let exportedMethods = {
         return localFightCard[0].allBoutOdds[i];
       }
     }
+    throw `boutOdd with id: ${id} was not found`;
   },
-  //   const bookCollection = await books();
-  //     objId = myDBfunction(id);
-  //     //gets the book with the review
-  //     let localBook = await bookCollection
-  //       .find({ "reviews._id": objId })
-  //       .toArray();
-  //     for (let i = 0; i < localBook[0].reviews.length; i++) {
-  //       if (localBook[0].reviews[i]._id.toString() == objId.toString()) {
-  //         return localBook[0].reviews[i];
-  //       }
-  //     }
-  //     throw "The review was not found, and I really don't know why. You should never get this message";
-  async addBout(newBoutObject) {
-    const boutOddsCollection = await boutOdds();
-    const newInsertInformation = await boutOddsCollection.insertOne(
-      newBoutObject
-    );
-    if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
-    return await this.getBoutById(newInsertInformation.insertedId);
+  //TODO: Convection of if string will be ID or objectID
+  async addBout(fightCardID, newBoutObject) {
+    const fightCardsCollection = await fightCards();
+    let myFightCard = await fightCards.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
+    let { ObjectId } = require("mongodb");
+    let newObjId = ObjectId(); //creates a new object ID
+    newBoutObject[_id] = newObjId;
+    try {
+      await fightCardsCollection.updateOne(
+        { _id: fightCardID },
+        { $addToSet: { allBoutOdds: newBoutObject } }
+      );
+    } catch (e) {
+      console.error(e);
+    }
+    myFightCard = await fightCards.getFightCardById(fightCardID); //This assume Object representation
+    return myFightCard;
   },
 };
 
