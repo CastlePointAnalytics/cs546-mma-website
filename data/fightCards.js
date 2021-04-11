@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const fightCards = mongoCollections.fightCards;
 const fighters = require("./fighters");
+const boutOdds = require("./boutOdds");
 function validateFightCard(fightCard) {
   // {
   //     "_id": "507f1f77bcf86cd799439011",
@@ -40,10 +41,8 @@ function validateFightCard(fightCard) {
   //     "fightDate": "4/10/2021"
   // }
   for (let i = 0; i < fightCard.allBoutOdds.length; i++) {
-    //Loop through allBoutOdds and confirm each fighter is in the fighters db
-    //All error checking on this done in fighters.js
-    getFighterById(fightCard.allBoutOdds[i].fighter1._id);
-    getFighterById(fightCard.allBoutOdds[i].fighter2._id);
+    //Loop through allBoutOdds and confirming all the boutOdds are formatted correctly
+    boutOdds.validateBoutObject(fightCard.allBoutOdds[i]); //Method in ./boutOdds.js
   }
 }
 let exportedMethods = {
