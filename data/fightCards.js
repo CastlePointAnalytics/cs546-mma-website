@@ -20,7 +20,7 @@ function checkDate(dt) {
 function validateFightCard(fightCard) {
   // {
   //     "_id": "507f1f77bcf86cd799439011",
-  //     "allBoutOdds": [{}, {}],
+  //     "allBoutOdds": [],
   //     "location": "Las Vegas, NV",
   //     "date": "10/15/2021",
   //     "title": "UFC 260"
