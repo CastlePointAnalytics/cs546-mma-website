@@ -1,7 +1,4 @@
 const mongoCollections = require("../config/mongoCollections");
-<<<<<<< HEAD
-const boutOdds = mongoCollections.boutOdds;
-=======
 const fightCards = mongoCollections.fightCards;
 const fightCard = require("./fightCards");
 const fighters = require("./fighters");
@@ -16,7 +13,7 @@ function getIdFromString(id) {
   let { ObjectId } = require("mongodb");
   let newObjId = ObjectId(); //creates a new object ID
   let x = newObjId.toString(); // converts the Object ID to string
->>>>>>> elias
+
 
   //Now we check if it's a valid ObjectId so we attempt to convert a value to a valid object ID,
   //if it fails, it will throw an error (you do not have to throw the error, it does it automatically and the catch where you call the function will catch the error just as it catches your other errors).
