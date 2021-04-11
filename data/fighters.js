@@ -34,17 +34,24 @@ let exportedMethods = {
     },
     async getFighterById(id) {
         const fighterCollection = await fighters();
+
         const fighter = await fighterCollection.findOne({ _id: id });
+
+        // check that the fighter exists, if not throw
         if (!fighter) throw "Fighter not found";
+
         return fighter;
     },
     async addFighter(newFighterObject) {
         validateFighterObject(newFighterObject);
         const fightersCollection = await fighters();
+
         const newInsertInformation = await fightersCollection.insertOne(
             newFighterObject
         );
+        // verify that the insert was made properly
         if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
+
         return await this.getFighterById(newInsertInformation.insertedId);
     },
 };
