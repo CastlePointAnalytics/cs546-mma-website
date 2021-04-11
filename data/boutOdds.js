@@ -9,7 +9,6 @@ let exportedMethods = {
 		return boutOdd;
 	},
 	async addBout(newBoutObject) {
-		// validateFighterObject(newBoutObject);
 		const boutOddsCollection = await boutOdds();
 		const newInsertInformation = await boutOddsCollection.insertOne(
 			newBoutObject,

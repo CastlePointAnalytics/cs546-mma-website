@@ -2,6 +2,10 @@ const mongoCollections = require('../config/mongoCollections');
 const fullCardDistributions = mongoCollections.fullCardDistributions;
 
 let exportedMethods = {
+	async getAllFullCardDistributions() {
+		const fullCardDistributionsCollection = await fullCardDistributions();
+		return await fullCardDistributionsCollection.find({}).toArray();
+	},
 	async getFullCardDistributionById(id) {
 		const fullCardDistributionsCollection = await fullCardDistributions();
 		const fullCardDistribution = await fullCardDistributionsCollection.findOne({
@@ -11,7 +15,6 @@ let exportedMethods = {
 		return fullCardDistribution;
 	},
 	async addFullCardDistribution(newFullCardDistributionObject) {
-		console.log('---> ', newFullCardDistributionObject);
 		const fullCardDistributionsCollection = await fullCardDistributions();
 		const newInsertInformation = await fullCardDistributionsCollection.insertOne(
 			newFullCardDistributionObject,
