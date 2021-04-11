@@ -1,6 +1,5 @@
 const mongoCollections = require("../config/mongoCollections");
 const fightCards = mongoCollections.fightCards;
-const boutOdds = require("./boutOdds");
 function checkStrings(s) {
   if (!s || typeof s !== "string" || s.trim() === "") return false;
   return true;
@@ -35,9 +34,8 @@ function validateFightCard(fightCard) {
   if (!checkStrings(fightCard.title)) {
     throw `Fight Card Title must be a non empty string, it is currenty: ${fightCard.title}`;
   }
-  for (let i = 0; i < fightCard.allBoutOdds.length; i++) {
-    //Loop through allBoutOdds and confirming all the boutOdds are formatted correctly
-    boutOdds.validateBoutObject(fightCard.allBoutOdds[i]); //Method in ./boutOdds.js
+  if (!fightCard.allBoutOdds.length == 0) {
+    throw `Bout odds must be empty to start when creating a fightCard`;
   }
 }
 let exportedMethods = {
@@ -55,7 +53,9 @@ let exportedMethods = {
       newFightCardObject
     );
     if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
-    return await this.getFightCardById(newInsertInformation.insertedId);
+    return await module.exports.getFightCardById(
+      newInsertInformation.insertedId
+    );
   },
 };
 
