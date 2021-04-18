@@ -5,7 +5,7 @@ const fetchData = require('../fetchData/fetchData');
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
 const fullCardDistributionsCollection = data.fullCardDistributions;
-// const boutOddsCollection = data.boutOdds;
+const boutOddsCollection = data.boutOdds;
 const boutOddsCollection = require('../data/boutOdds');
 const messagesCollection = data.messages;
 const usersCollection = data.users;
@@ -38,6 +38,35 @@ async function main() {
 		);
 	}
 
+	let d = new Date();
+	d.setHours(d.getHours() + 1);
+
+	let message1;
+	let message2;
+	let bout1Messages;
+	let message3;
+	try{
+		message1 = await messagesCollection.createMessage('1','Test Message', new Date(), '4');
+	}catch(e){
+		console.log(e);
+	}
+	try{
+		message2 = await messagesCollection.createMessage('1', 'Message #2', d, '7', '4');
+	
+	}catch(e){
+		console.log(e);
+	}
+	try{
+		bout1Messages = await messagesCollection.getAllMessagesFromBout('1');
+		console.log(bout1Messages);
+	}catch(e){
+		console.log(e);
+	}
+	try{
+		message3 = await messagesCollection.updateMessage(message1._id.toString(), 'new message', '4', d);
+	}catch(e){
+		console.log(e);
+	}
 	await db.serverConfig.close();
 }
 
