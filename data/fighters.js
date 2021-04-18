@@ -25,10 +25,10 @@ let exportedMethods = {
         // gets all fighters in the collection
         let fighters = await fighterCollection.find();
 
-        // converts ids from Object Ids to strings
-        for (fighter in fighters) {
-            fighter._id = fighter._id.toString();
-        }
+        // // converts ids from Object Ids to strings
+        // for (fighter in fighters) {
+        //     fighter._id = fighter._id.toString();
+        // }
 
         return fighters;
     },

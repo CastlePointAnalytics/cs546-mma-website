@@ -18,12 +18,20 @@
         </label>
         <button type="submit">Submit</button>
     </form>
-    <h2>Upcoming Fights:</h2>
-    {{#each upcomingFights}}
-    <div class="upcomingFight">
-        <h3>{{title}}</h3>
-        <p>{{date}}</p>
-        <p>{{location}}</p>
+    <h2>Most Recent Fight:</h2>
+    <div id="mostRecentFight">
+        <h3>{{mostRecent.title}}</h3>
+        <p>{{mostRecent.date}}</p>
+        <p>{{mostRecent.location}}</p>
     </div>
-    {{/each}}
+    <h2>Upcoming Fights:</h2>
+    <div id="upcomingFights">
+        {{#each upcoming}}
+        <div class="upcomingFight">
+            <h3>{{title}}</h3>
+            <p>{{date}}</p>
+            <p>{{location}}</p>
+        </div>
+        {{/each}}
+    </div>
 </main>
