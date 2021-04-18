@@ -8,6 +8,27 @@ function checkIds(id) {
     throw "Id must be a non empty string";
   }
 }
+function validateFightCard(fightCard) {
+  // {
+  //     "_id": "507f1f77bcf86cd799439011",
+  //     "allBoutOdds": [],
+  //     "location": "Las Vegas, NV",
+  //     "date": "10/15/2021",
+  //     "title": "UFC 260"
+  // }
+  if (!checkStrings(fightCard.location)) {
+    throw `Fight Card Location must be a non empty string, it is currenty: ${fightCard.location}`;
+  }
+  if (!checkDate(fightCard.date)) {
+    throw `Date must be formatted in mm/dd/yyyy, it is currently: ${fightCard.date}`;
+  }
+  if (!checkStrings(fightCard.title)) {
+    throw `Fight Card Title must be a non empty string, it is currenty: ${fightCard.title}`;
+  }
+  if (!fightCard.allBoutOdds.length == 0) {
+    throw `Bout odds must be empty to start when creating a fightCard`;
+  }
+}
 function myDBfunction(id) {
   //function used to convert string id to obj id
   checkIds(id);
@@ -28,6 +49,23 @@ router.get("/:id", async (req, res) => {
     res.json(card);
   } catch (e) {
     res.status(404).json({ error: "Card not found" });
+  }
+});
+router.post("/", async (req, res) => {
+  const newFightCardData = req.body;
+  // {
+  //     "_id": "507f1f77bcf86cd799439011",
+  //     "allBoutOdds": [],
+  //     "location": "Las Vegas, NV",
+  //     "date": "10/15/2021",
+  //     "title": "UFC 260"
+  // }
+  try {
+    const { location, date, title } = newFightCardData;
+    const newFightCard = await fightCardsData.addBook(location, date, title);
+    res.json(newFightCard);
+  } catch (e) {
+    res.status(500).json({ error: e });
   }
 });
 module.exports = router;
