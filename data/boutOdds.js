@@ -1,7 +1,4 @@
 const mongoCollections = require("../config/mongoCollections");
-<<<<<<< HEAD
-const boutOdds = mongoCollections.boutOdds;
-=======
 const fightCards = mongoCollections.fightCards;
 const fightCard = require("./fightCards");
 const fighters = require("./fighters");
@@ -16,7 +13,7 @@ function getIdFromString(id) {
   let { ObjectId } = require("mongodb");
   let newObjId = ObjectId(); //creates a new object ID
   let x = newObjId.toString(); // converts the Object ID to string
->>>>>>> elias
+
 
   //Now we check if it's a valid ObjectId so we attempt to convert a value to a valid object ID,
   //if it fails, it will throw an error (you do not have to throw the error, it does it automatically and the catch where you call the function will catch the error just as it catches your other errors).
@@ -38,7 +35,6 @@ function checkDate(dt) {
 }
 //TODO: Convection of if string will be ID or objectID
 let exportedMethods = {
-<<<<<<< HEAD
     async getBoutById(id) {
         const boutOddsCollection = await boutOdds();
         const boutOdd = await boutOddsCollection.findOne({ _id: id });
@@ -53,7 +49,6 @@ let exportedMethods = {
         if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
         return await this.getBoutById(newInsertInformation.insertedId);
     },
-=======
   async validateBoutObject(boutObject) {
     //     "_id": "807f191a810c19729de860ae",
     //     "fighter1": {
@@ -190,7 +185,6 @@ let exportedMethods = {
     myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
     return myFightCard;
   },
->>>>>>> elias
 };
 
 module.exports = exportedMethods;
