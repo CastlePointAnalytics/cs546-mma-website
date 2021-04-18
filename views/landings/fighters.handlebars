@@ -3,6 +3,7 @@
         <!-- will receive and display all fighter in a dropdown -->
         <label for="fighter1">Fighter 1: 
             <select name="fighter1" id="fighter1">
+                <option value="default" selected>Choose First Fighter</option>
                 {{#each fighters}}
                 <option value="{{_id}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
@@ -11,6 +12,7 @@
         <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
         <label for="fighter2">Fighter 2: 
             <select name="fighter2" id="fighter2">
+                <option value="default" selected>Choose Second Fighter</option>
                 {{#each fighters}}
                 <option value="{{_id}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
