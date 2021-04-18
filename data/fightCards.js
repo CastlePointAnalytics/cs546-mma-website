@@ -34,9 +34,6 @@ function validateFightCard(fightCard) {
   if (!checkStrings(fightCard.title)) {
     throw `Fight Card Title must be a non empty string, it is currenty: ${fightCard.title}`;
   }
-  if (!fightCard.allBoutOdds.length == 0) {
-    throw `Bout odds must be empty to start when creating a fightCard`;
-  }
 }
 let exportedMethods = {
   async getFightCardById(id) {
@@ -49,8 +46,14 @@ let exportedMethods = {
   async addFightCard(newFightCardObject) {
     validateFightCard(newFightCardObject);
     const fightCardsCollection = await fightCards();
+    let newFightCard = {
+      location: newFightCardObject.location,
+      date: newFightCardObject.date,
+      title: newFightCardObject.title,
+      allBoutOdds: [],
+    };
     const newInsertInformation = await fightCardsCollection.insertOne(
-      newFightCardObject
+      newFightCard
     );
     if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
     return await module.exports.getFightCardById(
