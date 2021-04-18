@@ -16,6 +16,7 @@ function myDBfunction(id) {
   let parsedId = ObjectId(id);
   return parsedId;
 }
+
 router.get("/:id", async (req, res) => {
   //Gets all boutOdds from a fightcard
   try {
@@ -36,13 +37,25 @@ router.get("/boutOdds/:id", async (req, res) => {
     res.status(404).json({ error: "Bout Odds not found" });
   }
 });
-
-router.delete(":id", async (req, res) => {
+router.post("/:id", async (req, res) => {
+  //TODO: Error handling
   try {
-    const review = await reviewData.removeReview(req.params.id);
-    res.json(review);
+    const fightCard = await fightCards.getFightCardById(
+      //Making sure the fightCard exists
+      myDBfunction(req.params.id)
+    );
   } catch (e) {
-    res.status(404).json({ error: "Review not found" });
+    res.status(404).json({ error: "Fightcard not found" });
+  }
+  try {
+    const newBoutOdds = req.body;
+    const newBoutOdds = await boutOdds.addBout(
+      myDBfunction(req.params.id),
+      newBoutOdds
+    );
+    res.json(newBoutOdds);
+  } catch (e) {
+    res.status(500).json({ error: e });
   }
 });
 module.exports = router;
