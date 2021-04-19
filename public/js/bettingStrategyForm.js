@@ -1,4 +1,10 @@
+// const data = require('../../data');
+// const fullCardDistData = data.fullCardDistributions;
+
 (function () {
+	// const data = require('../../data');
+	// const fullCardDistData = data.fullCardDistributions;
+
 	const portfolioMethods = {
 		strategySpread(bankRoll, strategy) {
 			if (typeof fullCardDist !== 'array')
@@ -10,9 +16,6 @@
 		},
 	};
 
-	// const data = require('../../data');
-	// const fullCardDistData = data.fullCardDistributions;
-
 	const staticForm = document.getElementById('static-form');
 	if (staticForm) {
 		const bankRollElement = document.getElementById('betting-bank-roll');
@@ -22,6 +25,9 @@
 		const parlayContainer = document.getElementById('parlay');
 
 		// const fullCardDist = await fullCardDistData.getAllFullCardDistributions();
+		// console.log(fullCardDist);
+
+		// const fullCardDist = await require('../../data').fullCardDistributions.getAllFullCardDistributions()
 
 		staticForm.addEventListener('submit', (event) => {
 			event.preventDefault();
