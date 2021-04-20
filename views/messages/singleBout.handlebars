@@ -1,0 +1,23 @@
+<main>
+    <h1>{{bout.figher1.lastName}} v. {{bout.fighter2.lastName}}</h1>
+    <h2>{{bout.fightDate}}</h2>
+
+    <h4>Message Thread</h4>
+
+    {{#each messages}}
+        <div>
+            <p>{{user.userName}}</p>
+            <p>{{this.text}}</p>
+            <p>{{this.timestamp}}</p>
+            <form id="reply">
+                <button type='button'>Reply</button>
+            </form>
+        </div>
+    {{/each}}
+
+    <form id="postMessage" method="POST" action="/{{bout._id}}">
+        <!--<label for="message" id=>Add Message</label>
+        <input id='messageText' type="text" placeholder="Enter Message Here"/>-->
+        <button id="postNewMessage" type="submit">Post</button>
+    </form>
+</main>

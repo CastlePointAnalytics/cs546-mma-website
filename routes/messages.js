@@ -3,16 +3,19 @@ const router = express.Router();
 const data = require('../data');
 const messagesData = data.messages;
 const userData = data.users;
+const boutData = data.fightCards;
+const path = require('path');
 
 router.get('/', (request,response)=>{
-    response.render(); // Render handlebars with different bout forum options
+    response.sendFile(path.resolve('./static/messages/allFights.html'));
 });
 
 router.get('/:bout_id', async (request, response)=>{
     try{
         const messages = await messagesData.getAllMessagesFromBout(request.params.bout_id);
-        // get usernames somehow
-        response.render('', {messages: messages}); // Render basic handlebar with list of messages
+        // const bout = boutData.___ // get bout Info
+        //const users = userData.___ // get usernames somehow
+        response.render('messages/singleBout', {messages: messages, users: users, bout: bout}); // Render basic handlebar with list of messages
     }catch(e){
         response.status(500).send({error: 'Could not get bout message thread'});
         return;
@@ -25,24 +28,23 @@ router.post('/:bout_id', async (request, response)=>{
     const message = request.body;
 
     if(!message.text){
-        response.status(400).render('error'); // Render error message (*check lecture code*) 
-        return; // might be a redirect idk
+        response.redirect(''); // Should be handled client-side. Any error is internal. Refer to lab 9
     }
     if(!message.user_id){
         response.status(400).render('error'); // Render error message (*check lecture code*)
         return;
     }
-    if(!message.parent){ // parent not neccessary fix this
-        response.status(400).render('error'); // Render error message (*check lecture code*)
-        return;
-    }
+    // if(!message.parent){ // parent not neccessary fix this
+    //     response.status(400).render('error'); // Render error message (*check lecture code*)
+    //     return;
+    // }
    
-    
     try{
-        const {text, user_id, parent} = message
+        const {text, parent} = message
+        const user_id = request.cookies.user.value; // something like that
         await messagesData.createMessage(request.params.bout_id, text, timestamp, user_id, parent);
         await userData.update(); // Need update function from Ellie
-        response.redirect(request.path); // Make sure this will work
+        response.redirect(`/messages/${request.path}`); // Make sure this will work
     }catch(e){
         response.status(500).send({error: 'Could not create new post!'});
         return;
@@ -60,7 +62,7 @@ router.delete('/:message_id', async (request, response) => {
     try{
         await messagesData.deleteMessage(request.params.message_id, request.body.user_id);
         await userData.deleteMessage(); // Need delete function from Ellie
-        response.redirect(`/${message.boutcard_Id}`);
+        response.redirect(`/messages/${message.boutcard_Id}`);
     }catch(e){
         response.status(500).send({error:'Could not delete post'});
         return;
@@ -91,8 +93,8 @@ router.put('/:message_id', async (request, response) =>{
     }
     try{
         await messagesData.updateMessage(request.params.message_id, text, user_id, timestamp);
-        await userData.update() // Need update function from Ellie
-        response.redirect(`/${message.boutcard_Id}`); 
+        await userData.update(); // Need update function from Ellie
+        response.redirect(`/messages/${message.boutcard_Id}`); 
     }catch(e){
         response.status(500).send({error: "Could not update post"});
         return;
