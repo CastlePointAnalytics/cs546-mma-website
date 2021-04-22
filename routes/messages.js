@@ -14,8 +14,7 @@ router.get('/:bout_id', async (request, response)=>{
     try{
         const messages = await messagesData.getAllMessagesFromBout(request.params.bout_id);
         // const bout = boutData.___ // get bout Info
-        //const users = userData.___ // get usernames somehow
-        response.render('messages/singleBout', {messages: messages, users: users, bout: bout}); // Render basic handlebar with list of messages
+        response.render('messages/singleBout', {messages: messages, bout: bout}); // Render basic handlebar with list of messages
     }catch(e){
         response.status(500).send({error: 'Could not get bout message thread'});
         return;
@@ -34,15 +33,16 @@ router.post('/:bout_id', async (request, response)=>{
         response.status(400).render('error'); // Render error message (*check lecture code*)
         return;
     }
-    // if(!message.parent){ // parent not neccessary fix this
-    //     response.status(400).render('error'); // Render error message (*check lecture code*)
-    //     return;
-    // }
+    if(!message.parent){ // parent not neccessary fix this
+         response.status(400).render('error'); // Render error message (*check lecture code*)
+         return;
+    }
    
     try{
-        const {text, parent} = message
+        const {text, parent} = message;
         const user_id = request.cookies.user.value; // something like that
-        await messagesData.createMessage(request.params.bout_id, text, timestamp, user_id, parent);
+        const username = userData.get(user_id).username;
+        await messagesData.createMessage(request.params.bout_id, text, timestamp, user_id, username, parent);
         await userData.update(); // Need update function from Ellie
         response.redirect(`/messages/${request.path}`); // Make sure this will work
     }catch(e){
