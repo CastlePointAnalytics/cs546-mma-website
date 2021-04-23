@@ -51,21 +51,5 @@ router.get("/:id", async (req, res) => {
     res.status(404).json({ error: "Card not found" });
   }
 });
-router.post("/", async (req, res) => {
-  const newFightCardData = req.body;
-  // {
-  //     "_id": "507f1f77bcf86cd799439011",
-  //     "allBoutOdds": [],
-  //     "location": "Las Vegas, NV",
-  //     "date": "10/15/2021",
-  //     "title": "UFC 260"
-  // }
-  try {
-    const { location, date, title } = newFightCardData;
-    const newFightCard = await fightCardsData.addBook(location, date, title);
-    res.json(newFightCard);
-  } catch (e) {
-    res.status(500).json({ error: e });
-  }
-});
+
 module.exports = router;
