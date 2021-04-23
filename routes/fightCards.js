@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
+const path = require("path");
 const fightCardsData = data.fightCards;
 function checkIds(id) {
   if (!id) throw "You must provide an id to search for";
@@ -46,9 +47,12 @@ router.get("/:id", async (req, res) => {
     const card = await fightCardsData.getFightCardById(
       myDBfunction(req.params.id)
     );
-    res.json(card);
+    res.render("landings/fightCard", {
+      title: card.title,
+      allBouts: card.allBoutOdds,
+    });
   } catch (e) {
-    res.status(404).json({ error: "Card not found" });
+    res.status(404).json({ error: e.message });
   }
 });
 
