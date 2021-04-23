@@ -1,0 +1,16 @@
+#title {
+  text-align: center;
+}
+.bouts {
+  text-align: center;
+}
+.column {
+  float: left;
+}
+.left,
+.right {
+  width: 40%;
+}
+.middle {
+  width: 20%;
+}
