@@ -31,12 +31,16 @@
     </div>
     <h2>Upcoming Fights:</h2>
     <div id="upcomingFights">
-        {{#each upcoming}}
-        <div class="upcomingFight">
-            <h3>{{title}}</h3>
-            <p>{{date}}</p>
-            <p>{{location}}</p>
-        </div>
-        {{/each}}
+        {{#if upcoming.length}}
+            <p>No upcoming fights.</p>
+        {{else}}
+            {{#each upcoming}}
+            <div class="upcomingFight">
+                <h3>{{title}}</h3>
+                <p>{{date}}</p>
+                <p>{{location}}</p>
+            </div>
+            {{/each}}
+        {{/if}}
     </div>
 </main>
