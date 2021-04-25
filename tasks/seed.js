@@ -1,42 +1,41 @@
-const { boutOdds } = require('../config/mongoCollections');
 const dbConnection = require('../config/mongoConnection');
 const data = require('../data');
 const fetchData = require('../fetchData/fetchData');
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
-const fullCardDistributionsCollection = data.fullCardDistributions;
-// const boutOddsCollection = data.boutOdds;
-const boutOddsCollection = require('../data/boutOdds');
-const messagesCollection = data.messages;
-const usersCollection = data.users;
+const boutOddsCollection = data.boutOdds;
+// const boutOddsCollection = require('../data/boutOdds');
+// const boutOdds = data.boutOdds;
+ const messagesCollection = data.messages;
+// const usersCollection = data.users;
 
 async function main() {
 	const db = await dbConnection();
 	await db.dropDatabase();
 
 	const fightersJSONData = await fetchData.getFighters();
-	// [(id1, id2), ...]
-	for (let i = 0; i < fightersJSONData.length; i++) {
-		await fightersCollection.addFighter(fightersJSONData[i]);
-	}
-
-	const boutOddsJSONData = await fetchData.getBoutOdds();
-	for (let i = 0; i < boutOddsJSONData.length; i++) {
-		await boutOddsCollection.addBout(boutOddsJSONData[i]);
-	}
-
 	const fightCardsJSONData = await fetchData.getFightCards();
-	for (let i = 0; i < fightCardsJSONData.length; i++) {
-		await fightCardsCollection.addFightCard(fightCardsJSONData[i]);
+	const boutOddsJSONData = await fetchData.getBoutOdds();
+	const currFightCard = await fightCardsCollection.addFightCard(
+		fightCardsJSONData[0],
+	);
+	let boutIndex = 0;
+	for (let i = 0; i < fightersJSONData.length; i += 2) {
+		currBoutOdd = boutOddsJSONData[boutIndex++];
+		const odds = {
+			fighter1: (await fightersCollection.addFighter(fightersJSONData[i]))._id,
+			fighter2: (await fightersCollection.addFighter(fightersJSONData[i + 1]))
+				._id,
+			cpaProb: currBoutOdd.cpaProb,
+			vegasProb: currBoutOdd.vegasProb,
+			vegasMoneyLine: currBoutOdd.vegasMoneyLine,
+			expectedValue: currBoutOdd.expectedValue,
+			fightDate: currFightCard.date,
+		};
+		await boutOddsCollection.addBout(currFightCard._id, odds);
 	}
 
-	const fullCardDistributionsJSONData = await fetchData.getFullCardDistributions();
-	for (let i = 0; i < fullCardDistributionsJSONData.length; i++) {
-		console.log(fullCardDistributionsJSONData[i]);
-		await fullCardDistributionsCollection.addFullCardDistribution(
-			fullCardDistributionsJSONData[i],
-		);
-	}
+	//let bout1message1 = await messagesCollection.createMessage();
 
 	await db.serverConfig.close();
 }
