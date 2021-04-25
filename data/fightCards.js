@@ -24,6 +24,30 @@ function stringToDate(stringDate) {
     // convert to a usable JS Date object
     return new Date(stringDate[2], stringDate[1] - 1, stringDate[2]);
 }
+/**
+ * Sort the fightCards in order of date, furthest away to earliest
+ */
+function sortFightCardsByDate(fightCards) {
+    if (fightCards.length <= 1) {
+        return fightCards;
+    }
+
+    for (let i = 0; i < fightCards.length; i++) {
+        let max = i;
+        for (let j = i; j < fightCards.length; j++) {
+            if (
+                stringToDate(fightCards[max].date) <
+                stringToDate(fightcards[j].date)
+            )
+                max = j;
+        }
+        // swap
+        let temp = fightCards[max];
+        fightCards[max] = fightCards[i];
+        fightCards[i] = temp;
+    }
+    return fightCards;
+}
 function validateFightCard(fightCard) {
     // {
     //     "_id": "507f1f77bcf86cd799439011",
@@ -70,6 +94,10 @@ let exportedMethods = {
         if (!fightCards) throw "No fight cards in DB";
         return fightCards;
     },
+    /**
+     * Gets the most recent fight that has already taken place
+     * @returns
+     */
     async getMostRecentFightCard() {
         const today = new Date();
         const allFightCards = await module.exports(getAllFightCards());
@@ -88,7 +116,34 @@ let exportedMethods = {
         }
         return mostRecentFightCard;
     },
-    async getUpcomingFightCards() {},
+    /**
+     * Gets the 10 closest upcoming fightCards
+     */
+    async getUpcomingFightCards() {
+        const today = new Date();
+        const allFightCards = await module.exports(getAllFightCards());
+
+        // list that will always be in descending order (fight that is furthest away will always be first element)
+        let upcomingFights = [];
+        for (let fightCard of allFightCards) {
+            let fightDate = stringToDate(fightCard.date);
+            // if fight has alreaady happened, then skip this iteration
+            if (fightDate < today) {
+                continue;
+            }
+            // check if list is empty
+            if (upcomingFights.length < 5) {
+                upcomingFights.push(fightCard);
+            }
+            // if the furthest out upcomingFight is after the current fight, replace the furthest upcomingFight
+            else if (stringToDate(upcomingFights[0].date) > fightDate) {
+                upcomingFights[0] = fightCard;
+            }
+            // sort in descending order
+            upcomingFights = sortFightCardsByDate(upcomingFights);
+        }
+        return upcomingFights;
+    },
 };
 
 module.exports = exportedMethods;
