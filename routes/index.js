@@ -22,7 +22,7 @@ const constructorMethods = (app) => {
             let mostRecentFightCard = await fightCardsData.getMostRecentFightCard();
             let upcomingFights = await fightCardsData.getUpcomingFightCards();
             res.render("landings/fighters", {
-                fighters,
+                fighters: await fighters.toArray(),
                 mostRecent: mostRecentFightCard,
                 upcoming: upcomingFights,
             });
