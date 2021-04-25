@@ -9,7 +9,8 @@
                 {{/each}}
             </select>
         </label>
-        <p class="error" id="fighter1Error" hidden>Must select a value for Fighter 1.</p>
+        <span class="error" id="fighter1Error" hidden>Must select a value for Fighter 1.</span>
+        <br>
         <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
         <label for="fighter2">Fighter 2: 
             <select name="fighter2" id="fighter2">
@@ -19,8 +20,9 @@
                 {{/each}}
             </select>
         </label>
-        <p class="error" id="fighter2Error" hidden>Must select a value for Fighter 2.</p>
-        <p class="error" id="sameFighterError" hidden>Fighter 1 and Fighter 2 cannot be the same fighter.</p>
+        <span class="error" id="fighter2Error" hidden>Must select a value for Fighter 2.</span>
+        <br>
+        <span class="error" id="sameFighterError" hidden>Fighter 1 and Fighter 2 cannot be the same fighter.</span>
         <button type="submit">Submit</button>
     </form>
     <h2>Most Recent Fight:</h2>
