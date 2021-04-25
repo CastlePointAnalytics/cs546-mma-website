@@ -32,17 +32,12 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     next();
 };
 
-//app.use;
 app.use("/public", static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
-
 app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
-
-app.use("/public", static);
-app.use(express.json());
 
 configRoutes(app);
 
