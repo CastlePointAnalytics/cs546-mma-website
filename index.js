@@ -5,7 +5,7 @@ const configRoutes = require("./routes");
 const exphbs = require("express-handlebars");
 
 const handlebarsInstance = exphbs.create({
-    defaultLayout: "main",
+    defaultLayout: "landing",
     // Specify helpers which are only registered on this instance.
     helpers: {
         asJSON: (obj, spacing) => {
@@ -32,7 +32,7 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     next();
 };
 
-app.use;
+//app.use;
 app.use("/public", static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,8 +40,6 @@ app.use(rewriteUnsupportedBrowserMethods);
 
 app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
-
-const static = express.static(__dirname + "/public");
 
 app.use("/public", static);
 app.use(express.json());
