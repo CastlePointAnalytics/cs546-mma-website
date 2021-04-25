@@ -1,7 +1,7 @@
-// const data = require('../../data');
-// const fullCardDistData = data.fullCardDistributions;
+const data = import('../../data');
+const fullCardDistData = data.fullCardDistributions;
 
-(function () {
+(async function () {
 	// const data = require('../../data');
 	// const fullCardDistData = data.fullCardDistributions;
 
