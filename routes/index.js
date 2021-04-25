@@ -12,8 +12,7 @@ const constructorMethods = (app) => {
 	app.use('/fullCardDistributions', fullCardDistributionsRoutes);
 
 	app.use('*', (req, res) => {
-		// res.status(404).json({ error: 'Not found' });
-		res.redirect('/fullCardDistributions');
+		res.status(404).json({ error: 'Not found' });
 	});
 };
 
