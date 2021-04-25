@@ -41,7 +41,7 @@ router.post('/:bout_id', async (request, response)=>{
     try{
         const {text, parent} = message;
         const user_id = request.cookies.user.value; // something like that
-        const username = userData.get(user_id).username;
+        const username = await userData.get(user_id).username;
         await messagesData.createMessage(request.params.bout_id, text, timestamp, user_id, username, parent);
         await userData.update(); // Need update function from Ellie
         response.redirect(`/messages/${request.path}`); // Make sure this will work
