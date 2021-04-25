@@ -2,9 +2,9 @@
   "name": "cs546-mma-website",
   "version": "1.0.0",
   "description": "CS 546 Final Project",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node ./tasks/seed.js"
   },
