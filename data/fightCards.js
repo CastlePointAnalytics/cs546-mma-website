@@ -90,9 +90,9 @@ let exportedMethods = {
     },
     async getAllFightCards() {
         const fightCardsCollection = await fightCards();
-        const fightCards = await fightCardsCollection.find();
-        if (!fightCards) throw "No fight cards in DB";
-        return fightCards;
+        const allFightCards = await fightCardsCollection.find();
+        if (!allFightCards) throw "No fight cards in DB";
+        return allFightCards.toArray();
     },
     /**
      * Gets the most recent fight that has already taken place
@@ -100,8 +100,7 @@ let exportedMethods = {
      */
     async getMostRecentFightCard() {
         const today = new Date();
-        const allFightCards = await module.exports(getAllFightCards());
-
+        const allFightCards = await module.exports.getAllFightCards();
         let mostRecentFightCard = allFightCards[0];
         let mostRecentFightDate = stringToDate(allFightCards[0].date);
         for (let fightCard of allFightCards) {
@@ -121,7 +120,7 @@ let exportedMethods = {
      */
     async getUpcomingFightCards() {
         const today = new Date();
-        const allFightCards = await module.exports(getAllFightCards());
+        const allFightCards = await module.exports.getAllFightCards();
 
         // list that will always be in descending order (fight that is furthest away will always be first element)
         let upcomingFights = [];
