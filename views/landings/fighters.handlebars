@@ -3,27 +3,44 @@
         <!-- will receive and display all fighter in a dropdown -->
         <label for="fighter1">Fighter 1: 
             <select name="fighter1" id="fighter1">
+                <option value="default" selected disabled hidden>Choose First Fighter</option>
                 {{#each fighters}}
                 <option value="{{_id}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
             </select>
         </label>
+        <p class="error" id="fighter1Error" hidden>Must select a value for Fighter 1.</p>
         <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
         <label for="fighter2">Fighter 2: 
             <select name="fighter2" id="fighter2">
+                <option value="default" selected disabled hidden>Choose Second Fighter</option>
                 {{#each fighters}}
                 <option value="{{_id}}">{{firstName}} {{lastName}}</option>
                 {{/each}}
             </select>
         </label>
+        <p class="error" id="fighter2Error" hidden>Must select a value for Fighter 2.</p>
+        <p class="error" id="sameFighterError" hidden>Fighter 1 and Fighter 2 cannot be the same fighter.</p>
         <button type="submit">Submit</button>
     </form>
-    <h2>Upcoming Fights:</h2>
-    {{#each upcomingFights}}
-    <div class="upcomingFight">
-        <h3>{{title}}</h3>
-        <p>{{date}}</p>
-        <p>{{location}}</p>
+    <h2>Most Recent Fight:</h2>
+    <div id="mostRecentFight">
+        <h3>{{mostRecent.title}}</h3>
+        <p>{{mostRecent.date}}</p>
+        <p>{{mostRecent.location}}</p>
     </div>
-    {{/each}}
+    <h2>Upcoming Fights:</h2>
+    <div id="upcomingFights">
+        {{#if upcoming.length}}
+            <p>No upcoming fights.</p>
+        {{else}}
+            {{#each upcoming}}
+            <div class="upcomingFight">
+                <h3>{{title}}</h3>
+                <p>{{date}}</p>
+                <p>{{location}}</p>
+            </div>
+            {{/each}}
+        {{/if}}
+    </div>
 </main>
