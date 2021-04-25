@@ -1,25 +1,26 @@
 {
-  "name": "cs546-mma-website",
-  "version": "1.0.0",
-  "description": "CS 546 Final Project",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CastlePointAnalytics/cs546-mma-website.git"
-  },
-  "author": "Group 18",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/CastlePointAnalytics/cs546-mma-website/issues"
-  },
-  "homepage": "https://github.com/CastlePointAnalytics/cs546-mma-website#readme",
-  "dependencies": {
-    "axios": "^0.21.1",
-    "express": "^4.17.1",
-    "mongodb": "^3.6.6"
-  }
+    "name": "cs546-mma-website",
+    "version": "1.0.0",
+    "description": "CS 546 Final Project",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "seedDB": "node tasks/seed.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CastlePointAnalytics/cs546-mma-website.git"
+    },
+    "author": "Group 18",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/CastlePointAnalytics/cs546-mma-website/issues"
+    },
+    "homepage": "https://github.com/CastlePointAnalytics/cs546-mma-website#readme",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "express": "^4.17.1",
+        "mongodb": "^3.6.6"
+    }
 }
