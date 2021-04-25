@@ -5,7 +5,7 @@ const configRoutes = require('./routes');
 const exphbs = require('express-handlebars');
 
 const handlebarsInstance = exphbs.create({
-	defaultLayout: 'main',
+	defaultLayout: 'landing',
 	// Specify helpers which are only registered on this instance.
 	helpers: {
 		asJSON: (obj, spacing) => {
