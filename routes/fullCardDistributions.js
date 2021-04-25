@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const data = require('../data');
-const fullCardDistData = data.fullCardDistributions;
+const path = require('path');
 
 router.get('/', async (req, res) => {
-	try {
-		const fullCardDistList = fullCardDistData.getAllFullCardDistributions();
-		res.json(fullCardDistList);
-	} catch (e) {
-		[res.status(500).json({ error: e })];
-	}
+	res.sendFile(path.resolve('static/bettingStrategy.html'));
 });
 
 module.exports = router;
