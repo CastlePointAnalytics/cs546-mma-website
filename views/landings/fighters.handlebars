@@ -1,30 +1,33 @@
 <main>
-    <form action="POST" method="/PUT_URL_HERE" id="matchUpForm">
-        <!-- will receive and display all fighter in a dropdown -->
-        <label for="fighter1">Fighter 1: 
-            <select name="fighter1" id="fighter1">
-                <option value="default" selected disabled hidden>Choose First Fighter</option>
-                {{#each fighters}}
-                <option value="{{_id}}">{{firstName}} {{lastName}}</option>
-                {{/each}}
-            </select>
-        </label>
-        <span class="error" id="fighter1Error" hidden>Must select a value for Fighter 1.</span>
-        <br>
-        <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
-        <label for="fighter2">Fighter 2: 
-            <select name="fighter2" id="fighter2">
-                <option value="default" selected disabled hidden>Choose Second Fighter</option>
-                {{#each fighters}}
-                <option value="{{_id}}">{{firstName}} {{lastName}}</option>
-                {{/each}}
-            </select>
-        </label>
-        <span class="error" id="fighter2Error" hidden>Must select a value for Fighter 2.</span>
-        <br>
-        <span class="error" id="sameFighterError" hidden>Fighter 1 and Fighter 2 cannot be the same fighter.</span>
-        <button type="submit">Submit</button>
-    </form>
+    <h2>Match-Up</h2>
+    <div>
+        <form action="POST" method="/PUT_URL_HERE" id="matchUpForm">
+            <!-- will receive and display all fighter in a dropdown -->
+            <label for="fighter1">Fighter 1: 
+                <select name="fighter1" id="fighter1">
+                    <option value="default" selected disabled hidden>Choose First Fighter</option>
+                    {{#each fighters}}
+                    <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                    {{/each}}
+                </select>
+            </label>
+            <span class="error" id="fighter1Error" hidden>Must select a value for Fighter 1.</span>
+            <br>
+            <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
+            <label for="fighter2">Fighter 2: 
+                <select name="fighter2" id="fighter2">
+                    <option value="default" selected disabled hidden>Choose Second Fighter</option>
+                    {{#each fighters}}
+                    <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                    {{/each}}
+                </select>
+            </label>
+            <span class="error" id="fighter2Error" hidden>Must select a value for Fighter 2.</span>
+            <br>
+            <span class="error" id="sameFighterError" hidden>Fighter 1 and Fighter 2 cannot be the same fighter.</span>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
     <h2>Most Recent Fight:</h2>
     <div id="mostRecentFight">
         <h3>{{mostRecent.title}}</h3>
@@ -34,7 +37,7 @@
     <h2>Upcoming Fights:</h2>
     <div id="upcomingFights">
         {{#if upcoming.length}}
-            <p>No upcoming fights.</p>
+            <p id="noUpcoming">No upcoming fights.</p>
         {{else}}
             {{#each upcoming}}
             <div class="upcomingFight">
