@@ -39,6 +39,11 @@ app.use(rewriteUnsupportedBrowserMethods);
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');
 
+const static = express.static(__dirname + '/public');
+
+app.use('/public', static);
+app.use(express.json());
+
 configRoutes(app);
 
 app.listen(3000, () => {

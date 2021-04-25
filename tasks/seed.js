@@ -6,7 +6,7 @@ const fightCardsCollection = data.fightCards;
 const boutOddsCollection = data.boutOdds;
 // const boutOddsCollection = require('../data/boutOdds');
 // const boutOdds = data.boutOdds;
-// const messagesCollection = data.messages;
+ const messagesCollection = data.messages;
 // const usersCollection = data.users;
 
 async function main() {
@@ -34,6 +34,9 @@ async function main() {
 		};
 		await boutOddsCollection.addBout(currFightCard._id, odds);
 	}
+
+	//let bout1message1 = await messagesCollection.createMessage();
+
 	await db.serverConfig.close();
 }
 
