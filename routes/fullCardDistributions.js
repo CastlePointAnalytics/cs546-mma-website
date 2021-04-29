@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 
 router.get('/', async (req, res) => {
-	res.sendFile(path.resolve('static/bettingStrategy.html'));
+	res.sendFile(path.resolve('static/bettingStrategy/bettingStrategy.html'));
 });
 
 module.exports = router;
