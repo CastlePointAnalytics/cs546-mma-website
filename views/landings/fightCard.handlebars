@@ -1,7 +1,8 @@
 <main>
     <h1 id="title">{{title}}</h1>
-    <form id="static-form" method="post">
+    
         <div id="fight-card">
+            <form id="pickemForm" method="post"></form>
             <div class="bouts">
                 {{#each allBouts}}
                     
@@ -20,7 +21,7 @@
                             <label for="pickEm" id="pickEm-left">
                             {{fighter1.lastName}}
                             </label>
-                            <input type="radio" name="pickEm" id="pickEm"/>
+                            <input type="radio" name={{@index}} id="pickEm"/>
                         </div>
                     </div>
                     <div class="column middle">
@@ -50,13 +51,16 @@
                             <label for="pickEm" id="formLabel">
                             {{fighter2.lastName}}
                             </label>
-                            <input type="radio" name="pickEm" id="pickEm-right"/>
+                            <input type="radio" name={{@index}} id="pickEm-right"/>
                         </div>
                     </div>
-                <hr>
+                    <input type="submit" value="Submit">
+                <br>
+                
                 {{/each}}
             </div>
+            </form>
         </div>
         
-    </form>
+    
 </main>
