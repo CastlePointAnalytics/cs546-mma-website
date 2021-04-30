@@ -50,6 +50,7 @@ router.get("/:id", async (req, res) => {
     res.render("landings/fightCard", {
       title: card.title,
       allBouts: card.allBoutOdds,
+      css: "fightCard.css",
     });
   } catch (e) {
     res.status(404).json({ error: e.message });
