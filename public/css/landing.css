@@ -14,3 +14,20 @@
 .middle {
   width: 20%;
 }
+.error {
+    color: red;
+}
+div {
+    border: thin solid black;
+    border-radius: 5px;
+    padding: 1%;
+}
+
+p {
+    text-indent: 40px;
+}
+
+#noUpcoming {
+    text-align: center;
+    text-indent: 0;
+}

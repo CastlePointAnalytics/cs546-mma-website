@@ -33,42 +33,50 @@ module.exports = {
         const messageList = await collection.find({boutcard_Id: boutcard_Id}).toArray();
         if(messageList.length === 0) throw 'Could not find messages for provided fight!'
 
+        // need to sort by timestamp
+
+        messageList.sort((a,b) => a.timestamp - b.timestamp);
+
         return messageList;
     },
 
-    async getAllMessagesFromUser(user_id){
-        user_id = user_id.trim();
-        if(!user_id || typeof user_id != 'string' || user_id.length < 1) throw "User ID passed was invalid type"
+    // async getAllMessagesFromUser(user_id){
+    //     user_id = user_id.trim();
+    //     if(!user_id || typeof user_id != 'string' || user_id.length < 1) throw "User ID passed was invalid type"
 
-        const collection = await messages();
+    //     const collection = await messages();
         
-        const messageList = await collection.find({user_id: user_id}).toArray();
+    //     const messageList = await collection.find({user_id: user_id}).toArray();
 
-        if(messageList.length == 0) throw 'Could not find messages for provided user!'
+    //     if(messageList.length == 0) throw 'Could not find messages for provided user!'
 
-        return messageList;
-    },
+    //     return messageList;
+    // },
 
-    async createMessage(boutcard_Id, text, timestamp, user_id, parent){
+    async createMessage(boutcard_Id, text, timestamp, user_id, username, parent){
         boutcard_Id = boutcard_Id.trim();
         if(!boutcard_Id || typeof boutcard_Id != 'string' || boutcard_Id.length < 1) throw "Bout ID passed was invalid type" // would be an internal server error, not user
         text = text.trim();
         if(!text || typeof text != 'string' || text.length < 1) throw "Please input text!"
         user_id = user_id.trim();
         if(!user_id || typeof user_id != 'string' || user_id.length < 1) throw "User ID passed was invalid type" // would be an internal server error, not user
-        if(!parent){
+        parent = parent.trim();
+        if(!parent || typeof parent != 'string' || parent.length < 1) throw "Parent id of incorrect type" // would be an internal server error, not user
+        if(parent === 'NoParent'){
             parent = null;
         }
-        else{
-            parent = parent.trim();
-            if(typeof parent != 'string' || parent.length < 1) throw "Parent id of incorrect type" // would be an internal server error, not user
-        }
+        if(!timestamp || typeof timestamp.toString() != 'string') throw "Timestamp error" // Server error, not user
+
+        username = username.trim();
+        if(!username || typeof username != 'string' || username.length < 1)throw "Username pass was invalid type" // would be an internal server error, not user
+        
 
         let newMessage = {
             boutcard_Id: boutcard_Id,
             text: text,
             timestamp: timestamp,
             user_id: user_id,
+            username: username,
             parent: parent
         }
 
@@ -81,7 +89,7 @@ module.exports = {
         return await this.getMessage(insertInfo.insertedId.toString());
     },
 
-    async updateMessage(id, text, user_id){
+    async updateMessage(id, text, user_id, timestamp){
         id = id.trim();
         if(!id || typeof id != 'string' || id.length < 1) throw "Could not get id for message!"
         
@@ -98,7 +106,8 @@ module.exports = {
         const collection = await messages();
 
         let newText = {
-            text: text
+            text: text,
+            timestamp: timestamp
         }
 
         let parsedId;
@@ -108,7 +117,7 @@ module.exports = {
             throw e.message;
         }
 
-        const updateInfo = await collecion.updateOne({_id: parsedId}, {$set: newText});
+        const updateInfo = await collection.updateOne({_id: parsedId}, {$set: newText});
         if(updateInfo.modifiedCount === 0) throw "Could not update message";
 
         return await this.getMessage(id);
