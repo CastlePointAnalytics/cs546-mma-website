@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Message Forum Homepage</title>
+</head>
+<body>
+    <h1>Message Forum Homepage</h1>
+
+    <form id='fightSelection' method="GET">
+        <label for = 'fightsDropdown'>Fightcards: </label>
+        <select id="fightsDropdown">
+            <option value=''>Select Fightcard....</option>
+            <option value='upcoming'>
+                Fight Card 123
+            </option>
+            <option value='past'>
+                Fight Card 456
+            </option>
+        </select>
+        <button type='submit' id='select'>Select</button>
+    </form>
+
+    <div hidden id='upcoming'>
+        <p>Upcoming</p>
+        <!-- for each fight 
+
+            <img> INSERT FIGHT IMAGE </img>
+            <a href='/boutId'>Fighter1-lastName v. Fighter2-lastName> 
+        -->
+    </div>
+    <div hidden id='past'>
+        <p>Past</p>
+        <!-- for each fight 
+
+            <img> INSERT FIGHT IMAGE </img>
+            <a href='/boutId'>Fighter1-lastName v. Fighter2-lastName> 
+        -->
+    </div>
+    <script src="/public/js/messages/selectFight.js"></script>
+</body>
