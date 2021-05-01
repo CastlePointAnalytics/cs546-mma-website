@@ -4,10 +4,8 @@ const fetchData = require('../fetchData/fetchData');
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
 const boutOddsCollection = data.boutOdds;
-// const boutOddsCollection = require('../data/boutOdds');
-// const boutOdds = data.boutOdds;
- const messagesCollection = data.messages;
-// const usersCollection = data.users;
+const messagesCollection = data.messages;
+const usersCollection = data.users;
 
 async function main() {
 	const db = await dbConnection();
