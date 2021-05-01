@@ -2,9 +2,37 @@ $(document).ready(() => {
 	$('#submit').click((e) => {
 		e.preventDefault();
 		const bankRoll = $('#betting-bank-roll').val();
-		portfolioSpread(bankRoll);
+		if (validateBankroll(bankRoll)) {
+			portfolioSpread(bankRoll);
+		}
 	});
 });
+
+function clearData() {
+	$('#errorDiv').empty();
+	$('#errorDiv').hide();
+	$('#set-n-forget').empty();
+	$('#kelly').empty();
+	$('#parlay').empty();
+	$('#main-card').empty();
+	$('#prelims').empty();
+	$('#cpa-signature').empty();
+	$('#underdog').empty();
+}
+
+function validateBankroll(bankRoll) {
+	// TODO
+	// case where 'e' is passed since that is a number
+	bankRoll = parseFloat(bankRoll).toFixed(2);
+	if (bankRoll <= 0) {
+		$('#errorDiv').empty();
+		$('#errorDiv').show();
+		let errorMessage = `<h1>Your bank roll $${bankRoll} is invalid. Try again</h1>`;
+		$('#errorDiv').append(errorMessage);
+		return false;
+	}
+	return true;
+}
 
 function bettingMethodArith(fullCardDist, bankRoll) {
 	fullCardDist.setNForget.forEach((fighter) => {
@@ -51,13 +79,7 @@ function portfolioSpread(bankRoll) {
 		url: '/fullCardDistributions/apiData',
 		contentType: 'application/json',
 	}).then((data) => {
-		$('#set-n-forget').empty();
-		$('#kelly').empty();
-		$('#parlay').empty();
-		$('#main-card').empty();
-		$('#prelims').empty();
-		$('#cpa-signature').empty();
-		$('#underdog').empty();
+		clearData();
 		bettingMethodArith(data[0], bankRoll);
 	});
 }
