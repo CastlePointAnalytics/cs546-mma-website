@@ -15,7 +15,7 @@
   width: 20%;
 }
 .error {
-  color: red;
+    color: rgb(197, 0, 0);
 }
 div {
   border: thin solid black;
@@ -25,6 +25,10 @@ div {
 
 p {
   text-indent: 40px;
+}
+
+select {
+    width: 175px;
 }
 
 #noUpcoming {

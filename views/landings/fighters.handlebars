@@ -1,7 +1,7 @@
 <main>
     <h2>Match-Up</h2>
     <div>
-        <form action="POST" method="/PUT_URL_HERE" id="matchUpForm">
+        <form action="/PUT_URL_HERE" method="POST" id="matchUpForm">
             <!-- will receive and display all fighter in a dropdown -->
             <label for="fighter1">Fighter 1: 
                 <select name="fighter1" id="fighter1">
@@ -25,6 +25,7 @@
             <span class="error" id="fighter2Error" hidden>Must select a value for Fighter 2.</span>
             <br>
             <span class="error" id="sameFighterError" hidden>Fighter 1 and Fighter 2 cannot be the same fighter.</span>
+            <br>
             <button type="submit">Submit</button>
         </form>
     </div>
