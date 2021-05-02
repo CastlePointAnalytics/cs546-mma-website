@@ -1,14 +1,30 @@
+#title {
+  text-align: center;
+}
+.bouts {
+  text-align: center;
+}
+.column {
+  float: left;
+}
+.left,
+.right {
+  width: 40%;
+}
+.middle {
+  width: 20%;
+}
 .error {
     color: rgb(197, 0, 0);
 }
 div {
-    border: thin solid black;
-    border-radius: 5px;
-    padding: 1%;
+  border: thin solid black;
+  border-radius: 5px;
+  padding: 1%;
 }
 
 p {
-    text-indent: 40px;
+  text-indent: 40px;
 }
 
 select {
@@ -16,6 +32,6 @@ select {
 }
 
 #noUpcoming {
-    text-align: center;
-    text-indent: 0;
+  text-align: center;
+  text-indent: 0;
 }
