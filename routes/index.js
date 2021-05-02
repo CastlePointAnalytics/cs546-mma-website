@@ -30,7 +30,9 @@ const constructorMethods = (app) => {
             });
         } catch (e) {
             console.log(e);
-            // come up with cleaner solution for an error here
+            res.status(403).json({
+                error: "Could not load data from endpoint.",
+            });
         }
     });
 
