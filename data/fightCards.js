@@ -90,8 +90,11 @@ let exportedMethods = {
     },
     async getAllFightCards() {
         const fightCardsCollection = await fightCards();
+
+        // get all fightcards in the collection
         const allFightCards = await fightCardsCollection.find();
-        if (!allFightCards) throw "No fight cards in DB";
+
+        // returns the cursor to the fightCards as an array
         return allFightCards.toArray();
     },
     /**
@@ -101,9 +104,12 @@ let exportedMethods = {
     async getMostRecentFightCard() {
         const today = new Date();
         const allFightCards = await module.exports.getAllFightCards();
+
+        // sets the most recent fight card and date to the first item in the list of all fightCards
         let mostRecentFightCard = allFightCards[0];
         let mostRecentFightDate = stringToDate(allFightCards[0].date);
         for (let fightCard of allFightCards) {
+            // convert current fightCard's date to a usable JS Date
             let fightDate = stringToDate(fightCard.date);
 
             // if current fightDate was before today AND after the current mostRecentFight
@@ -138,7 +144,7 @@ let exportedMethods = {
             else if (stringToDate(upcomingFights[0].date) > fightDate) {
                 upcomingFights[0] = fightCard;
             }
-            // sort in descending order
+            // sort in descending order by date, in order to keep the most distant game as the first element
             upcomingFights = sortFightCardsByDate(upcomingFights);
         }
         return upcomingFights;
