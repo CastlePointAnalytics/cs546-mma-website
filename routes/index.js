@@ -27,6 +27,7 @@ const constructorMethods = (app) => {
                 fighters: await fighters.toArray(),
                 mostRecent: mostRecentFightCard,
                 upcoming: upcomingFights,
+                css: "landing.css",
             });
         } catch (e) {
             console.log(e);
