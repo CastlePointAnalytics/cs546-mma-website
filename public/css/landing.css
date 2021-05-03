@@ -1,6 +1,13 @@
 #title {
     text-align: center;
 }
+#navbar {
+    border: none;
+    background-color: black;
+}
+#navbar * {
+    color: white;
+}
 .bouts {
     text-align: center;
 }
