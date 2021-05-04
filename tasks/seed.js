@@ -19,6 +19,8 @@ async function main() {
 	const currFightCard = await fightCardsCollection.addFightCard(
 		fightCardsJSONData[0],
 	);
+
+	let boutIds = [];
 	let boutIndex = 0;
 	for (let i = 0; i < fightersJSONData.length; i += 2) {
 		currBoutOdd = boutOddsJSONData[boutIndex++];
@@ -32,10 +34,15 @@ async function main() {
 			expectedValue: currBoutOdd.expectedValue,
 			fightDate: currFightCard.date,
 		};
-		await boutOddsCollection.addBout(currFightCard._id, odds);
+		let boutId = await boutOddsCollection.addBout(currFightCard._id, odds);
+		boutIds.push(boutId);
 	}
 
-	//let bout1message1 = await messagesCollection.createMessage();
+	let timestamp = new Date();
+	await messagesCollection.createMessage(boutIds[0].toString(), "Brunson will win this fight easily", timestamp, "1", "test_user_name");
+	timestamp.setHours(timestamp.getHours()+1);
+	await messagesCollection.createMessage(boutIds[0].toString(), "Nah Holland all the way", timestamp, "2", "anotha_one");
+
 
 	await db.serverConfig.close();
 }
