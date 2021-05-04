@@ -18,9 +18,9 @@ function validateFormData(inputUsername, inputPassword) {
 async function authenticatedUser(inputUsername, inputPassword) {
 	validateFormData(inputUsername, inputPassword);
 	let presentUser = false;
-	for (let user of usersData) {
+	for (let user of await userData.getAllUsers()) {
 		if (
-			user.username.toLowerCase() == inputUsername &&
+			user.username.toLowerCase() == inputUsername.toLowerCase() &&
 			(await bcrypt.compare(inputPassword, user.hashedPassword))
 		) {
 			presentUser = true;
@@ -68,16 +68,7 @@ router.post('/login', async (req, res) => {
 	}
 });
 
-router.get('/:id', async (req, res) => {
-	try {
-		const user = await userData.get(req.params.id);
-		res.json(user);
-	} catch (e) {
-		res.status(404).json({ message: 'Error: not found!' });
-	}
-});
-
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
 	const userAdd = req.body;
 	try {
 		er.isValidString(userAdd.username, 'username');
@@ -90,11 +81,12 @@ router.post('/', async (req, res) => {
 		return;
 	}
 	try {
-		const { username, firstName, lastName, age, country } = userAdd;
+		const { username, firstName, lastName, password, age, country } = userAdd;
 		const user = await userData.create(
 			username,
 			firstName,
 			lastName,
+			password,
 			age,
 			country,
 		);
