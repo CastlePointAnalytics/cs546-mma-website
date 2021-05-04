@@ -23,14 +23,14 @@ let exportedMethods = {
         const fighterCollection = await fighters();
 
         // gets all fighters in the collection
-        let fighters = await fighterCollection.find();
+        let allFighters = await fighterCollection.find();
 
-        // converts ids from Object Ids to strings
-        for (fighter in fighters) {
-            fighter._id = fighter._id.toString();
-        }
+        // // converts ids from Object Ids to strings
+        // for (fighter in fighters) {
+        //     fighter._id = fighter._id.toString();
+        // }
 
-        return fighters;
+        return allFighters;
     },
     async getFighterById(id) {
         const fighterCollection = await fighters();
