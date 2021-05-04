@@ -1,0 +1,38 @@
+<h1>Message Forum Homepage</h1>
+
+<form id='fightSelection' method="GET">
+    <label for = 'fightsDropdown'>Fightcards: </label>
+    <select id="fightsDropdown">
+        <option value=''>Select Fightcard....</option>
+        <option value='upcoming'>
+            UFC 260
+        </option>
+        <option value='past'>
+            Fight Card 456
+        </option>
+    </select>
+    <button type='submit' id='select'>Select</button>
+</form>
+
+<div hidden id='upcoming'>
+    <!-- for each fight 
+
+        <img> INSERT FIGHT IMAGE </img>
+        <a href='/messages/boutId'>Fighter1-lastName v. Fighter2-lastName> 
+    -->
+    {{#each upcoming}}
+    <div>
+    <img src='/public/JPGs/{{this.image_link}}.jpg' alt="{{this.image_link}}" width=200 height=200/>
+    <a href='messages/{{this.site_link}}'>Fight Forum</a>
+    </div>
+    {{/each}}
+</div>
+<div hidden id='past'>
+    <p>Past</p>
+    <!-- for each fight 
+
+        <img> INSERT FIGHT IMAGE </img>
+        <a href='/boutId'>Fighter1-lastName v. Fighter2-lastName> 
+    -->
+</div>
+<script src="/public/js/messages/selectFight.js"></script>

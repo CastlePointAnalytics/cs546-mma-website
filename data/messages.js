@@ -2,7 +2,6 @@ const mongoCollections = require('../config/mongoCollections');
 const messages = mongoCollections.messages;
 let {ObjectId} = require('mongodb');
 
-
 module.exports = {
     async getMessage(id){
         id = id.trim();
@@ -21,6 +20,8 @@ module.exports = {
 
         if(message === null) throw 'Could not get message!'
 
+        message.timestamp = message.timestamp.toUTCString();
+
         return message
     },
 
@@ -36,6 +37,10 @@ module.exports = {
         // need to sort by timestamp
 
         messageList.sort((a,b) => a.timestamp - b.timestamp);
+
+        for(let message of messageList){
+            message.timestamp = message.timestamp.toUTCString();
+        }
 
         return messageList;
     },
@@ -53,19 +58,20 @@ module.exports = {
     //     return messageList;
     // },
 
-    async createMessage(boutcard_Id, text, timestamp, user_id, username, parent){
+    async createMessage(boutcard_Id, text, timestamp, user_id, username){
         boutcard_Id = boutcard_Id.trim();
         if(!boutcard_Id || typeof boutcard_Id != 'string' || boutcard_Id.length < 1) throw "Bout ID passed was invalid type" // would be an internal server error, not user
         text = text.trim();
         if(!text || typeof text != 'string' || text.length < 1) throw "Please input text!"
         user_id = user_id.trim();
         if(!user_id || typeof user_id != 'string' || user_id.length < 1) throw "User ID passed was invalid type" // would be an internal server error, not user
-        parent = parent.trim();
-        if(!parent || typeof parent != 'string' || parent.length < 1) throw "Parent id of incorrect type" // would be an internal server error, not user
-        if(parent === 'NoParent'){
-            parent = null;
-        }
-        if(!timestamp || typeof timestamp.toString() != 'string') throw "Timestamp error" // Server error, not user
+        // parent = parent.trim();
+        // if(!parent || typeof parent != 'string' || parent.length < 1) throw "Parent id of incorrect type" // would be an internal server error, not user
+        // if(parent === 'NoParent'){
+        //     parent = null;
+        // }
+
+        if(!timestamp || typeof timestamp.toUTCString() != 'string') throw "Timestamp error" // Server error, not user
 
         username = username.trim();
         if(!username || typeof username != 'string' || username.length < 1)throw "Username pass was invalid type" // would be an internal server error, not user
@@ -77,7 +83,7 @@ module.exports = {
             timestamp: timestamp,
             user_id: user_id,
             username: username,
-            parent: parent
+            //parent: parent
         }
 
         const collection = await messages();
@@ -147,6 +153,8 @@ module.exports = {
 
         if(deleteInfo.deletedCount === 0) throw 'Could not delete message!'
 
-        return {deleted: true};
-    }
+        return {deleted: id};
+    },
+
+
 };
