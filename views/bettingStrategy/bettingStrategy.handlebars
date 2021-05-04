@@ -1,0 +1,52 @@
+<main class="container">
+    <h1 id="page-title">Betting Strategy</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form id="static-form">
+                <div class="form-group">
+                    <label for="betting-bank-roll">Betting Bank Roll</label>
+                    <input name="betting-bank-roll" type="number" min="0.00" max="10000.00" step="0.01"
+                        class="form-control" id="betting-bank-roll" placeholder="Betting Bank Roll">
+                    <button type="submit" id="submit" class="btn btn-default">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="error" id="errorDiv" hidden></div>
+
+
+    <div class="card-data">
+        <div class="float-child">
+            <div class='set-n-forget'>
+                <h2>Set N Forget</h2>
+                <ul id="set-n-forget"></ul>
+            </div>
+            <div class='kelly'>
+                <h2>Kelly</h2>
+                <ul id="kelly"></ul>
+            </div>
+        </div>
+
+        <div class="float-child">
+            <div class='parlay'></div>
+            <h2>Parlays</h2>
+            <div class='main-card'>
+                <ul id='main-card'></ul>
+            </div>
+            <div class='prelims'>
+                <ul id='prelims'></ul>
+            </div>
+            <div class='cpa-signature'>
+                <ul id='cpa-signature'></ul>
+            </div>
+            <div class='lock-of-the-week'>
+                <ul id='lock-of-the-week'></ul>
+            </div>
+            <div class='underdog'>
+                <ul id='underdog'></ul>
+            </div>
+        </div>
+    </div>
+</main>
