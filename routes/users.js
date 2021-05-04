@@ -30,14 +30,13 @@ async function authenticatedUser(inputUsername, inputPassword) {
 }
 
 router.get('/', async (req, res) => {
-	res.render('user/login');
-	// // if authenticated user, redirect to profile page
-	// if (req.session.user) {
-	// 	res.redirect('/profile');
-	// } else {
-	// 	// render a view with a login form
-	// 	res.render('user/login');
-	// }
+	// if authenticated user, redirect to profile page
+	if (req.session.user) {
+		res.redirect('/profile');
+	} else {
+		// render a view with a login form
+		res.render('user/login');
+	}
 });
 
 router.post('/login', async (req, res) => {
@@ -58,10 +57,10 @@ router.post('/login', async (req, res) => {
 			username: currUser.username,
 			firstName: currUser.firstName,
 			lastName: currUser.lastName,
-			profession: currUser.profession,
-			bio: currUser.bio,
+			age: currUser.age,
+			country: currUser.country,
 		};
-		res.redirect('/profile');
+		res.redirect('user/profile');
 	} else {
 		// if not successful
 		res.status(401).render('user/login');

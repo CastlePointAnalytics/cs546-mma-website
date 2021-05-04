@@ -1,13 +1,15 @@
-const dbConnection = require("../config/mongoConnection");
-const data = require("../data");
-const fetchData = require("../fetchData/fetchData");
+const dbConnection = require('../config/mongoConnection');
+const data = require('../data');
+const fetchData = require('../fetchData/fetchData');
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
 const boutOddsCollection = data.boutOdds;
+const messagesCollection = data.messages;
+const usersCollection = data.users;
 
 async function main() {
-  const db = await dbConnection();
-  await db.dropDatabase();
+	const db = await dbConnection();
+	await db.dropDatabase();
 
 	const fightersJSONData = await fetchData.getFighters();
 	const fightCardsJSONData = await fetchData.getFightCards();
@@ -35,10 +37,39 @@ async function main() {
 	}
 
 	let timestamp = new Date();
-	await messagesCollection.createMessage(boutIds[0].toString(), "Brunson will win this fight easily", timestamp, "1", "test_user_name");
-	timestamp.setHours(timestamp.getHours()+1);
-	await messagesCollection.createMessage(boutIds[0].toString(), "Nah Holland all the way", timestamp, "2", "anotha_one");
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'Brunson will win this fight easily',
+		timestamp,
+		'1',
+		'test_user_name',
+	);
+	timestamp.setHours(timestamp.getHours() + 1);
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'Nah Holland all the way',
+		timestamp,
+		'2',
+		'anotha_one',
+	);
 
+	await usersCollection.create(
+		'lmcevoy',
+		'luke',
+		'mcevoy',
+		'passwordl',
+		21,
+		'US',
+	);
+	await usersCollection.create('jmoney', 'Jay', 'Money', 'passwordj', 31, 'EU');
+	await usersCollection.create(
+		'frezno',
+		'Fredrick',
+		'Buns',
+		'passwordf',
+		65,
+		'EU',
+	);
 
 	await db.serverConfig.close();
 }
