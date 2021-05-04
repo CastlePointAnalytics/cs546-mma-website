@@ -1,17 +1,13 @@
-const dbConnection = require('../config/mongoConnection');
-const data = require('../data');
-const fetchData = require('../fetchData/fetchData');
+const dbConnection = require("../config/mongoConnection");
+const data = require("../data");
+const fetchData = require("../fetchData/fetchData");
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
 const boutOddsCollection = data.boutOdds;
-// const boutOddsCollection = require('../data/boutOdds');
-// const boutOdds = data.boutOdds;
- const messagesCollection = data.messages;
-// const usersCollection = data.users;
 
 async function main() {
-	const db = await dbConnection();
-	await db.dropDatabase();
+  const db = await dbConnection();
+  await db.dropDatabase();
 
 	const fightersJSONData = await fetchData.getFighters();
 	const fightCardsJSONData = await fetchData.getFightCards();

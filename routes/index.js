@@ -18,16 +18,22 @@ const constructorMethods = (app) => {
         try {
             // get fighters
             let fighters = await fightersData.getAllFighters();
-            // get most recent fightCards
+            // get most recent fightCard
             let mostRecentFightCard = await fightCardsData.getMostRecentFightCard();
+            // get 5 closest upcoming fights
             let upcomingFights = await fightCardsData.getUpcomingFightCards();
+            // renders the landing page using handlebars
             res.render("landings/fighters", {
-                fighters,
+                fighters: await fighters.toArray(),
                 mostRecent: mostRecentFightCard,
                 upcoming: upcomingFights,
+                css: "landing.css",
             });
         } catch (e) {
             console.log(e);
+            res.status(403).json({
+                error: "Could not load data from endpoint.",
+            });
         }
     });
 
