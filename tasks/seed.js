@@ -36,24 +36,7 @@ async function main() {
 		boutIds.push(boutId);
 	}
 
-	let timestamp = new Date();
-	await messagesCollection.createMessage(
-		boutIds[0].toString(),
-		'Brunson will win this fight easily',
-		timestamp,
-		'1',
-		'test_user_name',
-	);
-	timestamp.setHours(timestamp.getHours() + 1);
-	await messagesCollection.createMessage(
-		boutIds[0].toString(),
-		'Nah Holland all the way',
-		timestamp,
-		'2',
-		'anotha_one',
-	);
-
-	await usersCollection.create(
+	let luke = await usersCollection.create(
 		'lmcevoy',
 		'luke',
 		'mcevoy',
@@ -61,14 +44,46 @@ async function main() {
 		21,
 		'US',
 	);
-	await usersCollection.create('jmoney', 'Jay', 'Money', 'passwordj', 31, 'EE');
-	await usersCollection.create(
+	let jay = await usersCollection.create(
+		'jmoney',
+		'Jay',
+		'Money',
+		'passwordj',
+		31,
+		'EE',
+	);
+	let fred = await usersCollection.create(
 		'frezno',
 		'Fredrick',
 		'Buns',
 		'passwordf',
 		65,
 		'FJ',
+	);
+
+	let timestamp = new Date();
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'Brunson will win this fight easily',
+		timestamp,
+		luke._id,
+		luke.username,
+	);
+	timestamp.setHours(timestamp.getHours() + 1);
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'Nah Holland all the way',
+		timestamp,
+		jay._id,
+		jay.username,
+	);
+	timestamp.setHours(timestamp.getHours() + 3);
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'F*** Holland',
+		timestamp,
+		fred._id,
+		fred.username,
 	);
 
 	await db.serverConfig.close();

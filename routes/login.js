@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcryptjs');
+const saltRounds = 2;
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -28,7 +29,11 @@ async function authenticatedUser(inputUsername, inputPassword) {
 }
 
 router.get('/', async (req, res) => {
-	if (req.session.user) {
+	if (
+		req.session.user &&
+		req.session.user.username &&
+		req.session.user.password
+	) {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
@@ -40,32 +45,29 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-	console.log('POST login');
-	// if successful username + password
 	if (await authenticatedUser(req.body.username, req.body.password)) {
-		// set AuthCookie
 		let currUser;
 		for (let user of await userData.getAllUsers()) {
 			if (
-				user.username.toLowerCase() == req.body.username &&
+				user.username.toLowerCase() == req.body.username.toLowerCase() &&
 				(await bcrypt.compare(req.body.password, user.password))
 			) {
 				currUser = user;
 			}
 		}
+		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 		req.session.user = {
 			id: currUser._id,
 			username: currUser.username,
 			firstName: currUser.firstName,
 			lastName: currUser.lastName,
+			password: hashedPassword,
 			age: currUser.age,
 			country: currUser.country,
 		};
 		res.status(200).render('user/profile', { user: req.session.user });
 	} else {
-		// if not successful
 		res.status(401).render('user/login');
-		// error message with HTTP 401
 	}
 });
 
