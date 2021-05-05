@@ -47,7 +47,10 @@ router.get('/', async (req, res) => {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
-			res.status(200).render('user/profile', { user: req.session.user });
+			res.status(200).render('user/profile', {
+				user: req.session.user,
+				// js: 'user/loggedin',
+			});
 		}
 	} else {
 		res.status(200).render('user/signup');
@@ -59,7 +62,10 @@ router.post('/', async (req, res) => {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
-			res.status(200).render('user/profile', { user: req.session.user });
+			res.status(200).render('user/profile', {
+				user: req.session.user,
+				// js: 'user/loggedin',
+			});
 		}
 	} else {
 		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -82,7 +88,10 @@ router.post('/', async (req, res) => {
 				age: user.age,
 				country: user.country,
 			};
-			res.status(200).render('user/profile', { user: user });
+			res.status(200).render('user/profile', {
+				user: user,
+				// js: 'user/loggedin'
+			});
 		} else {
 			res.status(403).render('user/signup');
 		}

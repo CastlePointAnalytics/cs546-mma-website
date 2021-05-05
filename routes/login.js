@@ -37,7 +37,10 @@ router.get('/', async (req, res) => {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
-			res.status(200).render('user/profile', { user: req.session.user });
+			res.status(200).render('user/profile', {
+				user: req.session.user,
+				// js: 'user/loggedin.js',
+			});
 		}
 	} else {
 		res.render('user/login');
@@ -65,7 +68,10 @@ router.post('/', async (req, res) => {
 			age: currUser.age,
 			country: currUser.country,
 		};
-		res.status(200).render('user/profile', { user: req.session.user });
+		res.status(200).render('user/profile', {
+			user: req.session.user,
+			// js: 'user/loggedin'
+		});
 	} else {
 		res.status(401).render('user/login');
 	}

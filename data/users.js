@@ -478,5 +478,20 @@ module.exports = {
 		}
 		id = id.toString();
 		return await this.get(id);
-	}, //end deleteMessage
+	},
+	async getGlobalUserStats() {
+		const users = await this.getAllUsers();
+		const worldDict = {};
+		for (let user of users) {
+			if (user.country === null) break;
+			if (user.country in worldDict) {
+				user.country += 1;
+			} else {
+				worldDict[`${user.country}`] = 1;
+			}
+		}
+		const entries = Object.entries(worldDict);
+		console.log(worldDict, entries);
+		return entries;
+	},
 };
