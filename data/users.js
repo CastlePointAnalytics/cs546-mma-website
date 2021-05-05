@@ -263,30 +263,28 @@ module.exports = {
 		return await userCollection.find({}).toArray();
 	},
 	async get(id) {
-		try {
-			errorChecking.checkIsProperString(id, 'id');
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	errorChecking.checkIsProperString(id, 'id');
+		// } catch (e) {
+		// 	throw e;
+		// }
 		const userCollection = await users();
-		// let userId = mongodb.ObjectId(id);
 		const user = await userCollection.findOne({ _id: id }); //?
-		if (user === null) throw 'No book with that id';
-		user._id = user._id.toString();
+		if (!user) throw 'No user with that id';
 		return user;
 	},
 	async create(username, firstName, lastName, password, age, country) {
 		const userCollection = await users();
 		//error checking...
-		try {
-			errorChecking.checkIsProperString(username, 'username');
-			errorChecking.checkIsProperString(firstName, 'firstName');
-			errorChecking.checkIsProperString(lastName, 'lastName');
-			// age, 'age'; //TODO
-			errorChecking.checkIsProperString(country, 'country');
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	errorChecking.checkIsProperString(username, 'username');
+		// 	errorChecking.checkIsProperString(firstName, 'firstName');
+		// 	errorChecking.checkIsProperString(lastName, 'lastName');
+		// 	// age, 'age'; //TODO
+		// 	errorChecking.checkIsProperString(country, 'country');
+		// } catch (e) {
+		// 	throw e;
+		// }
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 
 		let newUser = {

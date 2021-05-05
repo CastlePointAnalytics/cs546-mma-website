@@ -39,6 +39,32 @@ router.get('/', async (req, res) => {
 	}
 });
 
-router.post('/', async (req, res) => {});
+router.post('/', async (req, res) => {
+	if (req.session.user) {
+		if (
+			authenticatedUser(req.session.user.username, req.session.user.password)
+		) {
+			res.status(200).render('user/profile', { user: req.session.user });
+		}
+	} else {
+		const user = await userData.create(
+			req.body.username,
+			req.body.firstName,
+			req.body.lastName,
+			req.body.password,
+			req.body.age,
+			req.body.country,
+		);
+		req.session.user = {
+			id: user._id,
+			username: user.username,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			age: user.age,
+			country: user.country,
+		};
+		res.render('user/profile', { user: user });
+	}
+});
 
 module.exports = router;
