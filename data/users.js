@@ -485,7 +485,7 @@ module.exports = {
 		for (let user of users) {
 			if (user.country === null) break;
 			if (user.country in worldDict) {
-				user.country += 1;
+				worldDict[`${user.country}`] += 1;
 			} else {
 				worldDict[`${user.country}`] = 1;
 			}

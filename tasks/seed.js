@@ -52,6 +52,22 @@ async function main() {
 		31,
 		'EE',
 	);
+	let hold = await usersCollection.create(
+		'holdma',
+		'Hold',
+		'Ma',
+		'passwordm',
+		31,
+		'EE',
+	);
+	let elon = await usersCollection.create(
+		'emusk',
+		'Elon',
+		'Musk',
+		'passworde',
+		53,
+		'EE',
+	);
 	let fred = await usersCollection.create(
 		'frezno',
 		'Fredrick',
