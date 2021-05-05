@@ -1,4 +1,6 @@
-const usersRoutes = require('./users');
+const loginRoutes = require('./login');
+const logoutRoutes = require('./logout');
+const signupRoutes = require('./signup');
 const fightCardsRoutes = require('./fightCards');
 const messagesRoutes = require('./messages');
 const fightersRoutes = require('./fighters');
@@ -8,9 +10,9 @@ const fightersData = data.fighters;
 const fightCardsData = data.fightCards;
 
 const constructorMethods = (app) => {
-	app.use('/users', usersRoutes);
-	app.use('/login', usersRoutes);
-	app.use('/logout', usersRoutes);
+	app.use('/login', loginRoutes);
+	app.use('/logout', logoutRoutes);
+	app.use('/signup', signupRoutes);
 	app.use('/fightCards', fightCardsRoutes);
 	app.use('/messages', messagesRoutes);
 	app.use('/fighters', fightersRoutes);

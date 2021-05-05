@@ -258,6 +258,10 @@ const COUNTRIES = {
 };
 
 module.exports = {
+	async getAllUsers() {
+		const userCollection = await users();
+		return await userCollection.find({}).toArray();
+	},
 	async get(id) {
 		try {
 			errorChecking.checkIsProperString(id, 'id');

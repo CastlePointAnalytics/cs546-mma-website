@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
-const errorChecking = require('../errorChecking');
-const er = errorChecking.checker;
 const bcrypt = require('bcryptjs');
 
 function validateFormData(inputUsername, inputPassword) {
@@ -21,7 +19,7 @@ async function authenticatedUser(inputUsername, inputPassword) {
 	for (let user of await userData.getAllUsers()) {
 		if (
 			user.username.toLowerCase() == inputUsername.toLowerCase() &&
-			(await bcrypt.compare(inputPassword, user.hashedPassword))
+			(await bcrypt.compare(inputPassword, user.password))
 		) {
 			presentUser = true;
 		}
@@ -30,16 +28,19 @@ async function authenticatedUser(inputUsername, inputPassword) {
 }
 
 router.get('/', async (req, res) => {
-	// if authenticated user, redirect to profile page
 	if (req.session.user) {
-		res.redirect('/profile');
+		if (
+			authenticatedUser(req.session.user.username, req.session.user.password)
+		) {
+			res.status(200).render('user/profile', { user: req.session.user });
+		}
 	} else {
-		// render a view with a login form
 		res.render('user/login');
 	}
 });
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
+	console.log('POST login');
 	// if successful username + password
 	if (await authenticatedUser(req.body.username, req.body.password)) {
 		// set AuthCookie
@@ -47,7 +48,7 @@ router.post('/login', async (req, res) => {
 		for (let user of await userData.getAllUsers()) {
 			if (
 				user.username.toLowerCase() == req.body.username &&
-				(await bcrypt.compare(req.body.password, user.hashedPassword))
+				(await bcrypt.compare(req.body.password, user.password))
 			) {
 				currUser = user;
 			}
@@ -60,39 +61,11 @@ router.post('/login', async (req, res) => {
 			age: currUser.age,
 			country: currUser.country,
 		};
-		res.redirect('user/profile');
+		res.status(200).render('user/profile', { user: req.session.user });
 	} else {
 		// if not successful
 		res.status(401).render('user/login');
 		// error message with HTTP 401
-	}
-});
-
-router.post('/signup', async (req, res) => {
-	const userAdd = req.body;
-	try {
-		er.isValidString(userAdd.username, 'username');
-		er.isValidString(userAdd.firstName, 'firstName');
-		er.isValidString(userAdd.lastName, 'lastName');
-		er.isValidArray(userAdd.age, 'age');
-		er.isValidString(userAdd.country, 'country');
-	} catch (e) {
-		res.status(400).json({ error: e });
-		return;
-	}
-	try {
-		const { username, firstName, lastName, password, age, country } = userAdd;
-		const user = await userData.create(
-			username,
-			firstName,
-			lastName,
-			password,
-			age,
-			country,
-		);
-		res.json(user);
-	} catch (e) {
-		res.status(404).json({ message: 'Error: not found!' });
 	}
 });
 
