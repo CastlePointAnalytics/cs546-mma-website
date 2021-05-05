@@ -3,7 +3,6 @@ const users = mongoCollections.users;
 const bcrypt = require('bcrypt');
 const saltRounds = 2;
 const errorChecking = require('../errorChecking');
-const er = errorChecking.checker;
 
 //<script src="https://gist.github.com/incredimike/1469814.js"></script>
 const COUNTRIES = {
@@ -261,7 +260,7 @@ const COUNTRIES = {
 module.exports = {
 	async get(id) {
 		try {
-			er.isValidString(id, 'id');
+			errorChecking.checkIsProperString(id, 'id');
 		} catch (e) {
 			throw e;
 		}
@@ -272,15 +271,15 @@ module.exports = {
 		user._id = user._id.toString();
 		return user;
 	},
-	async create(username, firstName, lastName, age, country) {
+	async create(username, firstName, lastName, password, age, country) {
 		const userCollection = await users();
 		//error checking...
 		try {
-			er.isValidString(username, 'username');
-			er.isValidString(firstName, 'firstName');
-			er.isValidString(lastName, 'lastName');
-			er.isValidAge(age, 'age');
-			er.isValidString(country, 'country');
+			errorChecking.checkIsProperString(username, 'username');
+			errorChecking.checkIsProperString(firstName, 'firstName');
+			errorChecking.checkIsProperString(lastName, 'lastName');
+			// age, 'age'; //TODO
+			errorChecking.checkIsProperString(country, 'country');
 		} catch (e) {
 			throw e;
 		}
@@ -292,12 +291,12 @@ module.exports = {
 			lastName: lastName,
 			password: hashedPassword,
 			age: age,
-			country: country,
+			country: COUNTRIES[country],
 		};
 		const insertInfo = await userCollection.insertOne(newUser);
 		if (insertInfo.insertedCount === 0) throw 'Could not add user.';
-		return await this.getUserById(insertInfo.insertedId);
-	}, //end create
+		return await this.get(insertInfo.insertedId);
+	},
 
 	async updatePickEmsFuture(id, newPickEms) {
 		const userCollection = await users();
@@ -331,7 +330,7 @@ module.exports = {
 		}
 		id = id.toString();
 		return await this.get(id);
-	}, //end updatePickEmsFuture
+	},
 
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();

@@ -61,14 +61,14 @@ async function main() {
 		21,
 		'US',
 	);
-	await usersCollection.create('jmoney', 'Jay', 'Money', 'passwordj', 31, 'EU');
+	await usersCollection.create('jmoney', 'Jay', 'Money', 'passwordj', 31, 'EE');
 	await usersCollection.create(
 		'frezno',
 		'Fredrick',
 		'Buns',
 		'passwordf',
 		65,
-		'EU',
+		'FJ',
 	);
 
 	await db.serverConfig.close();
