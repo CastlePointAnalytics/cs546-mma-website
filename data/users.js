@@ -3,6 +3,7 @@ const users = mongoCollections.users;
 const bcrypt = require('bcrypt');
 const saltRounds = 2;
 const errorChecking = require('../errorChecking');
+let { ObjectId } = require('mongodb');
 
 //<script src="https://gist.github.com/incredimike/1469814.js"></script>
 const COUNTRIES = {
@@ -294,6 +295,9 @@ module.exports = {
 			password: hashedPassword,
 			age: age,
 			country: COUNTRIES[country],
+			recentMessages: [],
+			pickEmsFuture: {},
+			pickEmsPast: []
 		};
 		const insertInfo = await userCollection.insertOne(newUser);
 		if (insertInfo.insertedCount === 0) throw 'Could not add user.';
@@ -303,11 +307,11 @@ module.exports = {
 	async updatePickEmsFuture(id, newPickEms) {
 		const userCollection = await users();
 		//error checking...
-		try {
-			er.isValidObject(newPickEms, 'newPickEms');
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	er.isValidObject(newPickEms, 'newPickEms');
+		// } catch (e) {
+		// 	throw e;
+		// }
 		//done with error checking
 		const user = await userCollection.findOne({ _id: id });
 		if (user === null)
@@ -337,20 +341,28 @@ module.exports = {
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();
 		//error checking...
-		try {
-			er.isValidObject(newMessage, 'newMessage');
-			er.isValidString(newMessage.boutcard_id, 'boutcard_id');
-			er.isValidString(newMessage.text, 'text');
-			er.isValidString(newMessage.timestamp, 'timestamp');
-			er.isValidString(newMessage.user_id, 'user_id');
-			if (newMessage.parent != null) {
-				er.isValidString(newMessage.parent, 'parent');
-			}
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	er.isValidObject(newMessage, 'newMessage');
+		// 	er.isValidString(newMessage.boutcard_id, 'boutcard_id');
+		// 	er.isValidString(newMessage.text, 'text');
+		// 	er.isValidString(newMessage.timestamp, 'timestamp');
+		// 	er.isValidString(newMessage.user_id, 'user_id');
+		// 	if (newMessage.parent != null) {
+		// 		er.isValidString(newMessage.parent, 'parent');
+		// 	}
+		// } catch (e) {
+		// 	throw e;
+		// }
 		//done with error checking
-		const user = await userCollection.findOne({ _id: id });
+
+		let parsedId;
+		try {
+			parsedId = ObjectId(id);
+		} catch (e) {
+			throw e.message;
+		}
+		
+		const user = await userCollection.findOne({ _id: parsedId });
 		if (user === null)
 			throw 'Error: id provided does not correspond to a user.';
 		let updatedRecentMessages = user.recentMessages;
@@ -370,50 +382,60 @@ module.exports = {
 		};
 
 		const updatedInfo = await userCollection.updateOne(
-			{ _id: id },
+			{ _id: parsedId },
 			{ $set: updatedUser },
 		);
 		if (updatedInfo.modifiedCount === 0) {
 			throw "Error: Could not update user's recentMessages.";
 		}
-		id = id.toString();
-		return await this.get(id);
+		//id = id.toString();
+		//return await this.get(id);
 	}, //end updateRecentMessages
 
-	async editMessage(id, editedText, newTimestamp) {
+	async editMessage(id, messageId, editedText, newTimestamp) {
 		const userCollection = await users();
 		//error checking...
-		try {
-			er.isValidObject(newMessage, 'newMessage');
-			er.isValidString(newMessage.boutcard_id, 'boutcard_id');
-			er.isValidString(newMessage.text, 'text');
-			er.isValidString(newMessage.timestamp, 'timestamp');
-			er.isValidString(newMessage.user_id, 'user_id');
-			if (newMessage.parent != null) {
-				er.isValidString(newMessage.parent, 'parent');
-			}
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	er.isValidObject(newMessage, 'newMessage');
+		// 	er.isValidString(newMessage.boutcard_id, 'boutcard_id');
+		// 	er.isValidString(newMessage.text, 'text');
+		// 	er.isValidString(newMessage.timestamp, 'timestamp');
+		// 	er.isValidString(newMessage.user_id, 'user_id');
+		// 	if (newMessage.parent != null) {
+		// 		er.isValidString(newMessage.parent, 'parent');
+		// 	}
+		// } catch (e) {
+		// 	throw e;
+		// }
 		//done with error checking
-		const user = await userCollection.findOne({ _id: id });
+
+		let parsedId;
+		try {
+			parsedId = ObjectId(id);
+		} catch (e) {
+			throw e.message;
+		}
+
+		const user = await userCollection.findOne({ _id: parsedId });
 		if (user === null)
 			throw 'Error: id provided does not correspond to a user.';
 		let tenMessages = user.recentMessages;
-		let newArray = [];
+		//let newArray = [];
 		for (let mes of tenMessages) {
-			if (mes._id == id) {
-				let edit = {
-					_id: id,
-					boutcard_id: mes.boutcard_id,
-					text: editedText,
-					timestamp: newTimestamp,
-					user_id: mes.user_id,
-					parent: mes.parent,
-				};
-				newArray.push(edit);
+			if (mes._id.toString() === messageId) {
+				// let edit = {
+				// 	_id: mes._id,
+				// 	boutcard_id: mes.boutcard_id,
+				// 	text: editedText,
+				// 	timestamp: newTimestamp,
+				// 	user_id: mes.user_id,
+
+				// };
+				//newArray.push(edit);
+				mes.text = editedText;
+				mes.timestamp = newTimestamp;
 			}
-			newArray.push(mes);
+			//newArray.push(mes);
 		}
 
 		const updatedUser = {
@@ -424,37 +446,45 @@ module.exports = {
 			country: user.country,
 			pickEmsFuture: user.pickEmsFuture,
 			pickEmsPast: user.pickEmsPast,
-			recentMessages: newArray,
+			recentMessages: tenMessages,
 		};
 
 		const updatedInfo = await userCollection.updateOne(
-			{ _id: id },
+			{ _id: parsedId },
 			{ $set: updatedUser },
 		);
 		if (updatedInfo.modifiedCount === 0) {
 			throw "Error: Could not edit user's message.";
 		}
-		id = id.toString();
-		return await this.get(id);
+		//id = id.toString();
+		//return await this.get(id);
 	}, //end editMessage
 
 	async deleteMessage(id, messageId) {
 		const userCollection = await users();
 		//error checking...
-		try {
-			er.isValidString(id, 'id');
-			er.isValidString(messageId, 'messageId');
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	er.isValidString(id, 'id');
+		// 	er.isValidString(messageId, 'messageId');
+		// } catch (e) {
+		// 	throw e;
+		// }
 		//done with error checking
-		const user = await userCollection.findOne({ _id: id });
+
+		let parsedId;
+		try {
+			parsedId = ObjectId(id);
+		} catch (e) {
+			throw e.message;
+		}
+
+		const user = await userCollection.findOne({ _id: parsedId });
 		if (user === null)
 			throw 'Error: id provided does not correspond to a user.';
 		let tenMessages = user.recentMessages;
 		let newArray = [];
 		for (let mes of tenMessages) {
-			if (mes._id != messageId) {
+			if (mes._id.toString() != messageId) {
 				newArray.push(mes);
 			}
 		}
@@ -470,14 +500,14 @@ module.exports = {
 		};
 
 		const updatedInfo = await userCollection.updateOne(
-			{ _id: id },
+			{ _id: parsedId },
 			{ $set: updatedUser },
 		);
-		if (updatedInfo.modifiedCount === 0) {
+		if (updatedInfo.deletedCount === 0) {
 			throw "Error: Could not edit user's message.";
 		}
-		id = id.toString();
-		return await this.get(id);
+		//id = id.toString();
+		//return await this.get(id);
 	},
 	async getGlobalUserStats() {
 		const globalUsers = await this.getAllUsers();
