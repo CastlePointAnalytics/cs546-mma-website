@@ -1,15 +1,15 @@
 const express = require('express');
+const fetchData = require('../fetchData/fetchData');
 const router = express.Router();
-const data = require('../data');
-const fullCardDistData = data.fullCardDistributions;
+const path = require('path');
 
 router.get('/', async (req, res) => {
-	try {
-		const fullCardDistList = fullCardDistData.getAllFullCardDistributions();
-		res.json(fullCardDistList);
-	} catch (e) {
-		[res.status(500).json({ error: e })];
-	}
+	res.sendFile(path.resolve('static/bettingStrategy/bettingStrategy.html'));
+});
+
+router.get('/apiData', async (req, res) => {
+	const fullCardDistJSONData = await fetchData.getFullCardDistributions();
+	res.json(fullCardDistJSONData);
 });
 
 module.exports = router;

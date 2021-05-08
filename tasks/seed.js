@@ -1,42 +1,44 @@
-const { boutOdds } = require('../config/mongoCollections');
-const dbConnection = require('../config/mongoConnection');
-const data = require('../data');
-const fetchData = require('../fetchData/fetchData');
+const dbConnection = require("../config/mongoConnection");
+const data = require("../data");
+const fetchData = require("../fetchData/fetchData");
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
-const fullCardDistributionsCollection = data.fullCardDistributions;
-// const boutOddsCollection = data.boutOdds;
-const boutOddsCollection = require('../data/boutOdds');
-const messagesCollection = data.messages;
-const usersCollection = data.users;
+const boutOddsCollection = data.boutOdds;
 
 async function main() {
-	const db = await dbConnection();
-	await db.dropDatabase();
+  const db = await dbConnection();
+  await db.dropDatabase();
 
 	const fightersJSONData = await fetchData.getFighters();
-	// [(id1, id2), ...]
-	for (let i = 0; i < fightersJSONData.length; i++) {
-		await fightersCollection.addFighter(fightersJSONData[i]);
-	}
-
-	const boutOddsJSONData = await fetchData.getBoutOdds();
-	for (let i = 0; i < boutOddsJSONData.length; i++) {
-		await boutOddsCollection.addBout(boutOddsJSONData[i]);
-	}
-
 	const fightCardsJSONData = await fetchData.getFightCards();
-	for (let i = 0; i < fightCardsJSONData.length; i++) {
-		await fightCardsCollection.addFightCard(fightCardsJSONData[i]);
+	const boutOddsJSONData = await fetchData.getBoutOdds();
+	const currFightCard = await fightCardsCollection.addFightCard(
+		fightCardsJSONData[0],
+	);
+
+	let boutIds = [];
+	let boutIndex = 0;
+	for (let i = 0; i < fightersJSONData.length; i += 2) {
+		currBoutOdd = boutOddsJSONData[boutIndex++];
+		const odds = {
+			fighter1: (await fightersCollection.addFighter(fightersJSONData[i]))._id,
+			fighter2: (await fightersCollection.addFighter(fightersJSONData[i + 1]))
+				._id,
+			cpaProb: currBoutOdd.cpaProb,
+			vegasProb: currBoutOdd.vegasProb,
+			vegasMoneyLine: currBoutOdd.vegasMoneyLine,
+			expectedValue: currBoutOdd.expectedValue,
+			fightDate: currFightCard.date,
+		};
+		let boutId = await boutOddsCollection.addBout(currFightCard._id, odds);
+		boutIds.push(boutId);
 	}
 
-	const fullCardDistributionsJSONData = await fetchData.getFullCardDistributions();
-	for (let i = 0; i < fullCardDistributionsJSONData.length; i++) {
-		console.log(fullCardDistributionsJSONData[i]);
-		await fullCardDistributionsCollection.addFullCardDistribution(
-			fullCardDistributionsJSONData[i],
-		);
-	}
+	let timestamp = new Date();
+	await messagesCollection.createMessage(boutIds[0].toString(), "Brunson will win this fight easily", timestamp, "1", "test_user_name");
+	timestamp.setHours(timestamp.getHours()+1);
+	await messagesCollection.createMessage(boutIds[0].toString(), "Nah Holland all the way", timestamp, "2", "anotha_one");
+
 
 	await db.serverConfig.close();
 }

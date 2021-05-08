@@ -1,0 +1,45 @@
+.card-data {
+	border: 3px solid #fff;
+	padding: 20px;
+}
+
+.float-child {
+	width: 50%;
+	float: left;
+	padding: 20px;
+	/* border: 2px solid red; */
+}
+
+#page-title {
+	display: table;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+li {
+	font-size: 20px;
+	margin: 0 0 3px 0;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+}
+
+html,
+body {
+	/* Full height */
+	height: 100%;
+
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background: rgb(34, 193, 195);
+	background: linear-gradient(
+		0deg,
+		rgba(34, 193, 195, 0.6180847338935574) 0%,
+		rgba(255, 255, 255, 1) 50%
+	);
+}
