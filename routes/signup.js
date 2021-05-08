@@ -7,9 +7,11 @@ const saltRounds = 2;
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
+		alert("Please enter a valid username.");
 		throw 'Invalid username';
 	}
 	if (typeof inputPassword !== 'string' || !inputPassword.trim()) {
+		alert("Please enter a valid password.");
 		throw 'Invalid password';
 	}
 }
