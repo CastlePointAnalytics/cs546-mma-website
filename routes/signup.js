@@ -81,7 +81,9 @@ router.post('/', async (req, res) => {
 			errorChecking.isValidString(req.body.hashedPassword);
 			errorChecking.isValidAge(req.body.age);
 			errorChecking.isValidCountry(req.body.country);
-		} catch (e) {}
+		} catch (e) {
+			res.render('user/signup', { hasErrors: e });
+		}
 
 		if (await uniqueUsername(req.body.username)) {
 			const user = await userData.create(

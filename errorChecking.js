@@ -31,6 +31,7 @@ function isValidBooelean(bool, boolName) {
 
 function isValidString(string, stringName) {
 	if (!string) throw stringName + `Error: ${stringName} was not provided.`;
+	if (!isNaN(string)) throw stringName + `Error: ${stringName} is a number`;
 	if (typeof string != 'string')
 		throw `Error: ${stringName} is not of type string.`;
 	if (string.trim() == '') throw `Error: ${stringName} is an empty string.`;
@@ -80,7 +81,7 @@ function isValidDate(date, dateName) {
 
 function isValidAge(age, ageName) {
 	if (!age) throw ageName + `Error: ${ageName} was not provided.`;
-	if (Number.isInteger(age)) throw `Error: ${ageName} is not an integer.`;
+	if (isNaN(age)) throw `Error: ${ageName} is not a number.`;
 }
 
 function isValidCountry(country, countryName) {}
