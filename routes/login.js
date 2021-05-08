@@ -5,13 +5,14 @@ const userData = data.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const xss = require('xss');
+const errorChecking = require('../errorChecking');
 
 function validateFormData(inputUsername, inputPassword) {
-	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
-		throw 'Invalid username';
-	}
-	if (typeof inputPassword !== 'string' || !inputPassword.trim()) {
-		throw 'Invalid password';
+	try {
+		errorChecking.isValidString(inputUsername, 'inputUsername');
+		errorChecking.isValidString(inputPassword, 'inputPassword');
+	} catch (e) {
+		console.log(e);
 	}
 }
 
@@ -40,7 +41,6 @@ router.get('/', async (req, res) => {
 		) {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
-				// js: 'user/loggedin.js',
 			});
 		}
 	} else {
@@ -71,10 +71,9 @@ router.post('/', async (req, res) => {
 		};
 		res.status(200).render('user/profile', {
 			user: req.session.user,
-			// js: 'user/loggedin'
 		});
 	} else {
-		res.status(401).render('user/login');
+		res.status(401).render('user/failure/login');
 	}
 });
 

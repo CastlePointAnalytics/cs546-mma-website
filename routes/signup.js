@@ -5,6 +5,7 @@ const userData = data.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const xss = require('xss');
+const errorChecking = require('../errorChecking');
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -50,7 +51,6 @@ router.get('/', async (req, res) => {
 		) {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
-				// js: 'user/loggedin',
 			});
 		}
 	} else {
@@ -69,11 +69,19 @@ router.post('/', async (req, res) => {
 		) {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
-				// js: 'user/loggedin',
 			});
 		}
 	} else {
 		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+		try {
+			errorChecking.isValidString(req.body.username);
+			errorChecking.isValidString(req.body.firstName);
+			errorChecking.isValidString(req.body.lastName);
+			errorChecking.isValidString(req.body.hashedPassword);
+			errorChecking.isValidAge(req.body.age);
+			errorChecking.isValidCountry(req.body.country);
+		} catch (e) {}
 
 		if (await uniqueUsername(req.body.username)) {
 			const user = await userData.create(
@@ -95,7 +103,6 @@ router.post('/', async (req, res) => {
 			};
 			res.status(200).render('user/profile', {
 				user: user,
-				// js: 'user/loggedin'
 			});
 		} else {
 			res.status(403).render('user/signup');
