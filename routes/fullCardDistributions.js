@@ -4,7 +4,10 @@ const router = express.Router();
 const path = require('path');
 
 router.get('/', async (req, res) => {
-	res.sendFile(path.resolve('static/bettingStrategy/bettingStrategy.html'));
+	res.render('bettingStrategy/bettingStrategy', {
+		css: 'bettingStrategy.css',
+		js: 'bettingStrategy/bettingStrategyForm.js',
+	});
 });
 
 router.get('/apiData', async (req, res) => {

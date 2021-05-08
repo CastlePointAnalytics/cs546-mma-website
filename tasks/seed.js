@@ -1,13 +1,15 @@
-const dbConnection = require("../config/mongoConnection");
-const data = require("../data");
-const fetchData = require("../fetchData/fetchData");
+const dbConnection = require('../config/mongoConnection');
+const data = require('../data');
+const fetchData = require('../fetchData/fetchData');
 const fightersCollection = data.fighters;
 const fightCardsCollection = data.fightCards;
 const boutOddsCollection = data.boutOdds;
+const messagesCollection = data.messages;
+const usersCollection = data.users;
 
 async function main() {
-  const db = await dbConnection();
-  await db.dropDatabase();
+	const db = await dbConnection();
+	await db.dropDatabase();
 
 	const fightersJSONData = await fetchData.getFighters();
 	const fightCardsJSONData = await fetchData.getFightCards();
@@ -34,11 +36,71 @@ async function main() {
 		boutIds.push(boutId);
 	}
 
-	let timestamp = new Date();
-	await messagesCollection.createMessage(boutIds[0].toString(), "Brunson will win this fight easily", timestamp, "1", "test_user_name");
-	timestamp.setHours(timestamp.getHours()+1);
-	await messagesCollection.createMessage(boutIds[0].toString(), "Nah Holland all the way", timestamp, "2", "anotha_one");
+	let luke = await usersCollection.create(
+		'lmcevoy',
+		'luke',
+		'mcevoy',
+		'passwordl',
+		21,
+		'US',
+	);
+	let jay = await usersCollection.create(
+		'jmoney',
+		'Jay',
+		'Money',
+		'passwordj',
+		31,
+		'EE',
+	);
+	let hold = await usersCollection.create(
+		'holdma',
+		'Hold',
+		'Ma',
+		'passwordm',
+		31,
+		'EE',
+	);
+	let elon = await usersCollection.create(
+		'emusk',
+		'Elon',
+		'Musk',
+		'passworde',
+		53,
+		'EE',
+	);
+	let fred = await usersCollection.create(
+		'frezno',
+		'Fredrick',
+		'Buns',
+		'passwordf',
+		65,
+		'FJ',
+	);
 
+	let timestamp = new Date();
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'Brunson will win this fight easily',
+		timestamp,
+		luke._id,
+		luke.username,
+	);
+	timestamp.setHours(timestamp.getHours() + 1);
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'Nah Holland all the way',
+		timestamp,
+		jay._id,
+		jay.username,
+	);
+	timestamp.setHours(timestamp.getHours() + 3);
+	await messagesCollection.createMessage(
+		boutIds[0].toString(),
+		'F*** Holland',
+		timestamp,
+		fred._id,
+		fred.username,
+	);
 
 	await db.serverConfig.close();
 }
