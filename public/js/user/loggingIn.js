@@ -19,7 +19,7 @@ function checkLogin() {
         alert("Please enter a valid username or signup.")
     }
 
-    
+
 
 }
 
