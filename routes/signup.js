@@ -4,6 +4,7 @@ const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
+const xss = require('xss');
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
