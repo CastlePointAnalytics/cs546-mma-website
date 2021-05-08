@@ -4,6 +4,7 @@ const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
+const xss = require('xss');
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -30,9 +31,9 @@ async function authenticatedUser(inputUsername, inputPassword) {
 
 router.get('/', async (req, res) => {
 	if (
-		req.session.user &&
-		req.session.user.username &&
-		req.session.user.password
+		xss(req.session.user) &&
+		xss(req.session.user.username) &&
+		xss(req.session.user.password)
 	) {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
@@ -48,7 +49,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-	if (await authenticatedUser(req.body.username, req.body.password)) {
+	if (await authenticatedUser(xss(req.body.username), xss(req.body.password))) {
 		let currUser;
 		for (let user of await userData.getAllUsers()) {
 			if (

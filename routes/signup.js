@@ -41,9 +41,9 @@ async function uniqueUsername(inputUsername) {
 
 router.get('/', async (req, res) => {
 	if (
-		req.session.user &&
-		req.session.user.username &&
-		req.session.user.password
+		xss(req.session.user) &&
+		xss(req.session.user.username) &&
+		xss(req.session.user.password)
 	) {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
@@ -59,7 +59,11 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-	if (req.session.user) {
+	if (
+		xss(req.session.user) &&
+		xss(req.session.user.username) &&
+		xss(req.session.user.password)
+	) {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
