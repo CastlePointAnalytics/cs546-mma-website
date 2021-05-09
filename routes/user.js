@@ -31,9 +31,10 @@ router.post("/updatePickem", async (req, res) => {
   }
 
   const title = req.body.title;
-  const fighter = req.body.name;
+  const fighters = req.body.fighters;
+  //Fighters is array of IDs in string format
   let fightCardId = await getFightCardByName(title);
-  await updatePickEmsFuture(parsedId, [fighter, null], fightCardId);
+  await updatePickEmsFuture(parsedId, fighters, fightCardId);
   //[fightcardid: [[fighter1, Null]]];
 });
 

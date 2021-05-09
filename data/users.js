@@ -314,22 +314,16 @@ module.exports = {
     //done with error checking
 
     let user = await userCollection.findOne({ _id: id });
-    console.log(user);
     if (user === null)
       throw "Error: id provided does not correspond to a user.";
     let arr = [];
-    if (user.pickEmsFuture[fightCardID]) {
-      arr = user.pickEmsFuture[fightCardID];
-      for (let x of arr) {
-        if (x[0] == newPickEms[0]) {
-          return;
-        }
-      }
-      arr.push(newPickEms);
-    } else {
-      arr.push(newPickEms);
+    //Create a new array of pickems (we overwrite previous pickems for that fightcard)
+    for (let x of newPickEms) {
+      //newPickems is [[id1], [id2]]
+      x.push(null);
+      //now its [[id1, null], [id2, null]]
     }
-    user.pickEmsFuture[fightCardID] = arr;
+    user.pickEmsFuture[fightCardID] = newPickEms;
     const updatedUser = {
       username: user.username,
       firstName: user.firstName,
@@ -349,7 +343,6 @@ module.exports = {
       throw "Error: Could not update user's pickEmsFuture.";
     }
     user = await userCollection.findOne({ _id: id });
-    console.log(user);
   },
 
   async updateRecentMessages(id, newMessage) {
