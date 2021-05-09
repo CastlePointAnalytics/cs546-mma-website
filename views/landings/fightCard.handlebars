@@ -2,10 +2,10 @@
     <h1 id="title">{{title}}</h1>
     
         <div id="fight-card">
-            <form id="pickemForm" method="post">
+            
             <div class="bouts">
                 {{#each allBouts}}
-                    
+                <form class="pickemForm" id = "{{@index}}_form" method="post">
                     <div class="column left">
                         <h3>{{fighter1.firstName}} {{fighter1.lastName}}</h3>
                         <h4>{{fighter1.record.wins}}-{{fighter1.record.losses}}-{{fighter1.record.draws}}</h4>
@@ -18,10 +18,10 @@
                         <h4>{{vegasMoneyLine.fighter1}}</h4>
                         <h4>{{expectedValue.fighter1}}</h4>
                         <div class="form-group">
-                            <label for="pickEm" id="pickEm-left">
+                            <label for="{{fighter1._id}}-pickEm" id="{{fighter1._id}}-left">
                             {{fighter1.lastName}}
                             </label>
-                            <input type="radio" name={{@index}} id="pickEm"/>
+                            <input type="radio" name={{@index}} id="{{fighter1._id}}-pickEm"/>
                         </div>
                     </div>
                     <div class="column middle">
@@ -48,19 +48,19 @@
                         <h4>{{vegasMoneyLine.fighter2}}</h4>
                         <h4>{{expectedValue.fighter2}}</h4>
                         <div class="form-group">
-                            <label for="pickEm" id="formLabel">
+                            <label for="{{fighter2._id}}-pickEm" id="{{fighter2._id}}-right">
                             {{fighter2.lastName}}
                             </label>
-                            <input type="radio" name={{@index}} id="pickEm-right"/>
+                            <input type="radio" name={{@index}} id="{{fighter2._id}}-pickEm"/>
                         </div>
                     </div>
                     <input type="submit" value="Submit">
-                    </form>
+
                 <br>
-                
+                </form>
                 {{/each}}
             </div>
-            </form>
+            
         </div>
         
 </main>
