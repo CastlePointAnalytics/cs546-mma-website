@@ -27,7 +27,8 @@
     color: rgb(197, 0, 0);
 }
 .upcomingFight,
-#mostRecentFight {
+#mostRecentFight,
+#matchUpContainer {
     border: thin solid black;
     border-radius: 5px;
     padding: 1%;
