@@ -106,14 +106,18 @@ let exportedMethods = {
         const allFightCards = await module.exports.getAllFightCards();
 
         // sets the most recent fight card and date to the first item in the list of all fightCards
-        let mostRecentFightCard = allFightCards[0];
-        let mostRecentFightDate = stringToDate(allFightCards[0].date);
+        let mostRecentFightCard = null;
+        let mostRecentFightDate = null;
         for (let fightCard of allFightCards) {
             // convert current fightCard's date to a usable JS Date
             let fightDate = stringToDate(fightCard.date);
 
             // if current fightDate was before today AND after the current mostRecentFight
-            if (fightDate < today && fightDate > mostRecentFightCard) {
+            if (
+                fightDate < today &&
+                (fightDate > mostRecentFightDate ||
+                    mostRecentFightCard === null)
+            ) {
                 // swap the current fight to the most recent
                 mostRecentFightCard = fightCard;
                 mostRecentFightDate = fightDate;
@@ -122,7 +126,7 @@ let exportedMethods = {
         return mostRecentFightCard;
     },
     /**
-     * Gets the 10 closest upcoming fightCards
+     * Gets the 5 closest upcoming fightCards
      */
     async getUpcomingFightCards() {
         const today = new Date();

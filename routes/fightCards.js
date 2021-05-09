@@ -63,8 +63,8 @@ router.post("/", async (req, res) => {
         const upcomingFightCards = await fightCardsData.getUpcomingFightCards();
         let userMatchUp = {};
         let matchUpOdds = {};
-        matchUpOdds.fighter1 = fighter1;
-        matchUpOdds.fighter2 = fighter2;
+        matchUpOdds.fighter1 = req.body.fighter1;
+        matchUpOdds.fighter2 = req.body.fighter2;
         // if there are no upcoming fight cards in the db set default values
         if (upcomingFightCards.length === 0) {
             userMatchUp.location = "Las Vegas, NV";

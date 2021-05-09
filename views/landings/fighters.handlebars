@@ -31,15 +31,17 @@
     </div>
     <h2>Most Recent Fight:</h2>
     <div id="mostRecentFight">
-        <h3>{{mostRecent.title}}</h3>
-        <p>{{mostRecent.date}}</p>
-        <p>{{mostRecent.location}}</p>
+        {{#if mostRecent}}
+            <h3>{{mostRecent.title}}</h3>
+            <p>{{mostRecent.date}}</p>
+            <p>{{mostRecent.location}}</p>
+        {{else}}
+            <p>Do not have fight before today's date saved.</p>
+        {{/if}}
     </div>
     <h2>Upcoming Fights:</h2>
     <div id="upcomingFights">
         {{#if upcoming.length}}
-            <p id="noUpcoming">No upcoming fights.</p>
-        {{else}}
             {{#each upcoming}}
             <div class="upcomingFight">
                 <h3>{{title}}</h3>
@@ -47,6 +49,8 @@
                 <p>{{location}}</p>
             </div>
             {{/each}}
+        {{else}}
+            <p id="noUpcoming">No upcoming fights.</p>
         {{/if}}
     </div>
 </main>
