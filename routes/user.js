@@ -21,21 +21,25 @@ router.get("/globalUserStats", async (res, req) => {
   return worldDict;
 });
 router.post("/updatePickem", async (req, res) => {
-  if (!req.session.user.id) throw "no user signed in";
-  const userID = req.session.user.id;
-  let parsedId;
-  try {
-    parsedId = ObjectId(userID);
-  } catch (e) {
-    throw e.message;
-  }
+  if (typeof req.session.user == "undefined") {
+    return;
+    //TODO: Render error page?
+  } else {
+    const userID = req.session.user.id;
+    let parsedId;
+    try {
+      parsedId = ObjectId(userID);
+    } catch (e) {
+      throw e.message;
+    }
 
-  const title = req.body.title;
-  const fighters = req.body.fighters;
-  //Fighters is array of IDs in string format
-  let fightCardId = await getFightCardByName(title);
-  await updatePickEmsFuture(parsedId, fighters, fightCardId);
-  //[fightcardid: [[fighter1, Null]]];
+    const title = req.body.title;
+    const fighters = req.body.fighters;
+    //Fighters is array of IDs in string format
+    let fightCardId = await getFightCardByName(title);
+    await updatePickEmsFuture(parsedId, fighters, fightCardId);
+    //[fightcardid: [[fighter1, Null]]];
+  }
 });
 
 module.exports = router;
