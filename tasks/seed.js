@@ -78,29 +78,32 @@ async function main() {
 	);
 
 	let timestamp = new Date();
-	await messagesCollection.createMessage(
+	let lukemsg1 = await messagesCollection.createMessage(
 		boutIds[0].toString(),
 		'Brunson will win this fight easily',
 		timestamp,
 		luke._id,
 		luke.username,
 	);
+	await usersCollection.updateRecentMessages(luke._id, lukemsg1);
 	timestamp.setHours(timestamp.getHours() + 1);
-	await messagesCollection.createMessage(
+	let jaymsg1 = await messagesCollection.createMessage(
 		boutIds[0].toString(),
 		'Nah Holland all the way',
 		timestamp,
 		jay._id,
 		jay.username,
 	);
+	await usersCollection.updateRecentMessages(jay._id, jaymsg1);
 	timestamp.setHours(timestamp.getHours() + 3);
-	await messagesCollection.createMessage(
+	let fredmsg1 = await messagesCollection.createMessage(
 		boutIds[0].toString(),
 		'F*** Holland',
 		timestamp,
 		fred._id,
 		fred.username,
 	);
+	await usersCollection.updateRecentMessages(fred._id, fredmsg1);
 
 	await db.serverConfig.close();
 }

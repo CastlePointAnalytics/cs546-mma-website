@@ -3,7 +3,7 @@
     <h2>{{bout.fightDate}}</h2>
 
     <h4>Message Thread</h4>
-    <div id='invalid-user'>Currently logged in user is not original Poster. Please re-login if you feel this is a mistake</div>
+    <div hidden id='invalid-user'>Currently logged in user is not original Poster. Please re-login if you feel this is a mistake</div>
     <div id='messageContainer'>
     {{#each messages}}
         <div class='message' id={{this._id}}>
@@ -21,7 +21,6 @@
         <a class="editLink" id="{{this._id}}_EL" href=''>Edit</a>
         <a class="deleteLink" id="{{this._id}}_DL" href="/messages/{{this._id}}">Delete</a>
         <form hidden class="editMessage" id="{{this._id}}_editForm">
-            <input hidden id='{{this._id}}_user' value="{{this.user_id}}"/>
             <input hidden id='{{this._id}}_path' value="/messages/{{this._id}}"/>
             <label for="message" id='messageLabel'>Edit Message</label>
             <input id="{{this._id}}_editText" type="text" placeholder="Enter New Message Here" required/>
@@ -44,7 +43,7 @@
         <button id="postNewMessage" type="submit">Post</button>
     </form>
     {{else}}
-    <div>Please <a href ="/implement me">login</a> to post a new message </div>
+    <div>Please <a href ="/login">login</a> to post a new message </div>
     {{/if}}
 </main>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="

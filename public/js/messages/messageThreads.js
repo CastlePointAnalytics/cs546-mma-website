@@ -50,8 +50,7 @@ $(document).ready(()=>{
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({
-                text: $(`#${id}_editText`).val(),
-                user: $(`#${id}_user`).val()
+                text: $(`#${id}_editText`).val()
             })
         }).then((editedMessage)=>{
             $(`#${id}_text`).text(editedMessage.text);
