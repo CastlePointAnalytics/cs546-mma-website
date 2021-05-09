@@ -292,6 +292,9 @@ module.exports = {
       firstName: firstName,
       lastName: lastName,
       password: hashedPassword,
+      recentMessages: [],
+      pickEmsFuture: {},
+      pickEmsPast: [],
       age: age,
       country: COUNTRIES[country],
     };
@@ -309,12 +312,19 @@ module.exports = {
     //     throw e;
     // }
     //done with error checking
+
     let user = await userCollection.findOne({ _id: id });
+    console.log(user);
     if (user === null)
       throw "Error: id provided does not correspond to a user.";
     let arr = [];
     if (user.pickEmsFuture[fightCardID]) {
       arr = user.pickEmsFuture[fightCardID];
+      for (let x of arr) {
+        if (x[0] == newPickEms[0]) {
+          return;
+        }
+      }
       arr.push(newPickEms);
     } else {
       arr.push(newPickEms);
@@ -338,8 +348,8 @@ module.exports = {
     if (updatedInfo.modifiedCount === 0) {
       throw "Error: Could not update user's pickEmsFuture.";
     }
-    id = id.toString();
-    return await this.get(id);
+    user = await userCollection.findOne({ _id: id });
+    console.log(user);
   },
 
   async updateRecentMessages(id, newMessage) {
