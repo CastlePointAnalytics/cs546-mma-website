@@ -42,6 +42,7 @@ function myDBfunction(id) {
   let parsedId = ObjectId(id);
   return parsedId;
 }
+
 router.get("/:id", async (req, res) => {
   try {
     const card = await fightCardsData.getFightCardById(

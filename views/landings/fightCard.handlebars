@@ -2,7 +2,7 @@
     <h1 id="title">{{title}}</h1>
     
         <div id="fight-card">
-            <form id="pickemForm" method="post"></form>
+            <form id="pickemForm" method="post">
             <div class="bouts">
                 {{#each allBouts}}
                     
@@ -55,6 +55,7 @@
                         </div>
                     </div>
                     <input type="submit" value="Submit">
+                    </form>
                 <br>
                 
                 {{/each}}
@@ -62,5 +63,7 @@
             </form>
         </div>
         
-    
 </main>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script src='/public/js/fightcards/fightcards.js'></script>

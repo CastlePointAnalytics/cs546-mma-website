@@ -13,7 +13,7 @@ $(document).ready(() => {
     console.log(fighter);
 
     $.ajax({
-      url: $("/users/updatePickem"),
+      url: "/user/updatePickem",
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify({
@@ -23,4 +23,3 @@ $(document).ready(() => {
     });
   });
 });
-//fightcardid: [[fighter1, Null]];
