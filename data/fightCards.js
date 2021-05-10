@@ -70,6 +70,11 @@ function validateFightCard(fightCard) {
     }
 }
 let exportedMethods = {
+    async getFightCardByName(title) {
+        const fightCardsCollection = await fightCards();
+        const fightCard = await fightCardsCollection.findOne({ title: title });
+        return fightCard._id;
+    },
     async getFightCardById(id) {
         //Assumes id in object form
         const fightCardsCollection = await fightCards();

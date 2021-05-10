@@ -3,7 +3,7 @@
     <div id="matchUpContainer">
         <form action="/fightCards" method="POST" id="matchUpForm">
             <!-- will receive and display all fighter in a dropdown -->
-            <label for="fighter1">Fighter 1: 
+            <label for="fighter1">Fighter 1:
                 <select name="fighter1" id="fighter1">
                     <option value="default" selected disabled hidden>Choose First Fighter</option>
                     {{#each fighters}}
@@ -14,7 +14,7 @@
             <span class="error" id="fighter1Error" hidden>Must select a value for Fighter 1.</span>
             <br>
             <!-- identical to first dropdown, JS must check that fighters selected are not the same person -->
-            <label for="fighter2">Fighter 2: 
+            <label for="fighter2">Fighter 2:
                 <select name="fighter2" id="fighter2">
                     <option value="default" selected disabled hidden>Choose Second Fighter</option>
                     {{#each fighters}}
@@ -52,5 +52,13 @@
         {{else}}
             <p id="noUpcoming">No upcoming fights.</p>
         {{/if}}
+    </div>
+    <h2>Global User Statistics</h2>
+    <div id="globalUserStats">
+        <ul>
+            {{#each globalUserStats}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
     </div>
 </main>

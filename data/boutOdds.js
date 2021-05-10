@@ -184,8 +184,9 @@ let exportedMethods = {
         } catch (e) {
             console.error(e);
         }
-        myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
-        return myFightCard;
+        //myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
+        //return myFightCard;
+        return newObjId;
     },
 };
 

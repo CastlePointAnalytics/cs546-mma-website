@@ -43,55 +43,26 @@ function myDBfunction(id) {
     let parsedId = ObjectId(id);
     return parsedId;
 }
+
 router.get("/:id", async (req, res) => {
     try {
         const card = await fightCardsData.getFightCardById(
             myDBfunction(req.params.id)
         );
+        let userBool;
+        if (req.session.user) {
+            userBool = true;
+        } else {
+            userBool = false;
+        }
         res.render("landings/fightCard", {
             title: card.title,
             allBouts: card.allBoutOdds,
             css: "fightCard.css",
+            loggedIn: userBool,
         });
     } catch (e) {
         res.status(404).json({ error: e.message });
-    }
-});
-
-router.post("/", async (req, res) => {
-    try {
-        const upcomingFightCards = await fightCardsData.getUpcomingFightCards();
-        let userMatchUp = {};
-        let matchUpOdds = {};
-        matchUpOdds.fighter1 = req.body.fighter1;
-        matchUpOdds.fighter2 = req.body.fighter2;
-        // if there are no upcoming fight cards in the db set default values
-        if (upcomingFightCards.length === 0) {
-            userMatchUp.location = "Las Vegas, NV";
-            // get today's date formatted like: 'MM/DD/YYYY'
-            let today = new Date();
-            let month = String(today.getMonth() + 1).padStart(2, "0");
-            let day = String(today.getDate()).padStart(2, "0");
-            let year = today.getFullYear();
-            userMatchUp.date = `${month}/${day}/${year}`;
-            userMatchUp.title = "UFC 9000";
-        } else {
-            userMatchUp.location = upcomingFightCards[0].location;
-            userMatchUp.date = upcomingFightCards[0].date;
-            userMatchUp.title = upcomingFightCards[0].title;
-        }
-        userMatchUp = await fightCardsData.addFightCard(userMatchUp);
-
-        matchUpOdds.fightDate = userMatchUp.date;
-
-        // TODO generate user matchUp probabilities
-
-        // boutOdds created for user made match up
-        boutOddsData.addBout(userMatchUp._id, matchUpOdds);
-
-        res.redirect(`/${userMatchUp._id}`);
-    } catch (e) {
-        console.log(e);
     }
 });
 

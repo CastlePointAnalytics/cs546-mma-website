@@ -20,14 +20,14 @@
 ## Core Features
 
 1. **(Ryan)** Landing page
-    - [ ] Allows users to pick fighter combinations using two drop downs
+    - [X] Allows users to pick fighter combinations using two drop downs
     - [ ] Shows upcoming fights (fighter, location, date, odds)
 2. **(Luke)** Betting Strategy
-    - [ ] Expected value of betting portfolio based on average returns
-    - [ ] Basic Betting
-    - [ ] Parlays 
-    - [ ] Set-and-Forget bet allocation
-    - [ ] Advanced betting Kelly
+    - [X] Expected value of betting portfolio based on average returns
+    - [X] Basic Betting
+    - [X] Parlays 
+    - [X] Set-and-Forget bet allocation
+    - [X] Advanced betting Kelly
 3. **(Elias)** Match Up Statistic Page
     - [ ] Newsletter format (contains information of fighters in match up)
     - [ ] Record, Age, Height, Weight, Reach
