@@ -263,6 +263,11 @@ module.exports = {
 		return await userCollection.find({}).toArray();
 	},
 	async get(id) {
+		// try {
+		// 	errorChecking.checkIsProperString(id, 'id');
+		// } catch (e) {
+		// 	throw e;
+		// }
 		const userCollection = await users();
 		const user = await userCollection.findOne({ _id: id }); //?
 		if (!user) throw 'No user with that id';
@@ -270,15 +275,16 @@ module.exports = {
 	},
 	async create(username, firstName, lastName, password, age, country) {
 		const userCollection = await users();
-		try {
-			errorChecking.isValidString(username, 'username');
-			errorChecking.isValidString(firstName, 'firstName');
-			errorChecking.isValidString(lastName, 'lastName');
-			errorChecking.isValidAge(age, 'age');
-			errorChecking.isValidString(country, 'country');
-		} catch (e) {
-			throw e;
-		}
+		//error checking...
+		// try {
+		// 	errorChecking.checkIsProperString(username, 'username');
+		// 	errorChecking.checkIsProperString(firstName, 'firstName');
+		// 	errorChecking.checkIsProperString(lastName, 'lastName');
+		// 	// age, 'age'; //TODO
+		// 	errorChecking.checkIsProperString(country, 'country');
+		// } catch (e) {
+		// 	throw e;
+		// }
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 
 		let newUser = {
@@ -286,7 +292,10 @@ module.exports = {
 			firstName: firstName,
 			lastName: lastName,
 			password: hashedPassword,
-			age: parseInt(age),
+			recentMessages: [],
+			pickEmsFuture: {},
+			pickEmsPast: [],
+			age: age,
 			country: COUNTRIES[country],
 		};
 		const insertInfo = await userCollection.insertOne(newUser);
@@ -294,22 +303,34 @@ module.exports = {
 		return await this.get(insertInfo.insertedId);
 	},
 
-	async updatePickEmsFuture(id, newPickEms) {
+	async updatePickEmsFuture(id, newPickEms, fightCardID) {
 		const userCollection = await users();
-		try {
-			errorChecking.isValidObject(newPickEms, 'newPickEms');
-		} catch (e) {
-			throw e;
+		//error checking...
+		// try {
+		//     er.isValidObject(newPickEms, 'newPickEms');
+		// } catch (e) {
+		//     throw e;
+		// }
+		//done with error checking
+
+		let user = await userCollection.findOne({ _id: id });
+		if (user === null)
+			throw 'Error: id provided does not correspond to a user.';
+		let arr = [];
+		//Create a new array of pickems (we overwrite previous pickems for that fightcard)
+		for (let x of newPickEms) {
+			//newPickems is [[id1], [id2]]
+			x.push(null);
+			//now its [[id1, null], [id2, null]]
 		}
-		const user = await userCollection.findOne({ _id: id });
-		if (!user) throw 'Error: id provided does not correspond to a user.';
+		user.pickEmsFuture[fightCardID] = newPickEms;
 		const updatedUser = {
 			username: user.username,
 			firstName: user.firstName,
 			lastName: user.lastName,
 			age: user.age,
 			country: user.country,
-			pickEmsFuture: newPickEms,
+			pickEmsFuture: user.pickEmsFuture,
 			pickEmsPast: user.pickEmsPast,
 			recentMessages: user.recentMessages,
 		};
@@ -318,29 +339,30 @@ module.exports = {
 			{ _id: id },
 			{ $set: updatedUser },
 		);
-		if (updatedInfo.modifiedCount === 0) {
-			throw "Error: Could not update user's pickEmsFuture.";
-		}
-		id = id.toString();
-		return await this.get(id);
+
+		user = await userCollection.findOne({ _id: id });
+		return true;
 	},
 
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();
+		//error checking...
 		try {
-			errorChecking.isValidObject(newMessage, 'newMessage');
-			errorChecking.isValidString(newMessage.boutcard_id, 'boutcard_id');
-			errorChecking.isValidString(newMessage.text, 'text');
-			errorChecking.isValidString(newMessage.timestamp, 'timestamp');
-			errorChecking.isValidString(newMessage.user_id, 'user_id'); // This doesn't seem right
+			er.isValidObject(newMessage, 'newMessage');
+			er.isValidString(newMessage.boutcard_id, 'boutcard_id');
+			er.isValidString(newMessage.text, 'text');
+			er.isValidString(newMessage.timestamp, 'timestamp');
+			er.isValidString(newMessage.user_id, 'user_id');
 			if (newMessage.parent != null) {
-				errorChecking.isValidString(newMessage.parent, 'parent');
+				er.isValidString(newMessage.parent, 'parent');
 			}
 		} catch (e) {
 			throw e;
 		}
+		//done with error checking
 		const user = await userCollection.findOne({ _id: id });
-		if (!user) throw 'Error: id provided does not correspond to a user.';
+		if (user === null)
+			throw 'Error: id provided does not correspond to a user.';
 		let updatedRecentMessages = user.recentMessages;
 		updatedRecentMessages.push(newMessage);
 		if (updatedRecentMessages.length > 10) {
@@ -370,14 +392,15 @@ module.exports = {
 
 	async editMessage(id, editedText, newTimestamp) {
 		const userCollection = await users();
+		//error checking...
 		try {
-			errorChecking.isValidObject(newMessage, 'newMessage');
-			errorChecking.isValidString(newMessage.boutcard_id, 'boutcard_id');
-			errorChecking.isValidString(newMessage.text, 'text');
-			errorChecking.isValidString(newMessage.timestamp, 'timestamp');
-			errorChecking.isValidString(newMessage.user_id, 'user_id'); // This doesn't seem right
+			er.isValidObject(newMessage, 'newMessage');
+			er.isValidString(newMessage.boutcard_id, 'boutcard_id');
+			er.isValidString(newMessage.text, 'text');
+			er.isValidString(newMessage.timestamp, 'timestamp');
+			er.isValidString(newMessage.user_id, 'user_id');
 			if (newMessage.parent != null) {
-				errorChecking.isValidString(newMessage.parent, 'parent');
+				er.isValidString(newMessage.parent, 'parent');
 			}
 		} catch (e) {
 			throw e;
@@ -429,8 +452,8 @@ module.exports = {
 		const userCollection = await users();
 		//error checking...
 		try {
-			errorChecking.isValidString(id, 'id'); // This doesn't seem right
-			errorChecking.isValidString(messageId, 'messageId');
+			er.isValidString(id, 'id');
+			er.isValidString(messageId, 'messageId');
 		} catch (e) {
 			throw e;
 		}
@@ -478,6 +501,7 @@ module.exports = {
 			}
 		}
 		const entries = Object.entries(worldDict);
+		console.log(worldDict, entries);
 		return entries;
 	},
 };

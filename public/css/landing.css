@@ -4,6 +4,8 @@
 #navbar {
     border: none;
     background-color: black;
+    border-radius: 5px;
+    padding: 1%;
 }
 #navbar * {
     color: white;
@@ -24,7 +26,9 @@
 .error {
     color: rgb(197, 0, 0);
 }
-div {
+.upcomingFight,
+#mostRecentFight,
+#matchUpContainer {
     border: thin solid black;
     border-radius: 5px;
     padding: 1%;
@@ -38,7 +42,7 @@ p {
 }
 
 select {
-    width: 175px;
+    width: 190px;
 }
 
 #noUpcoming {
