@@ -24,30 +24,6 @@ function stringToDate(stringDate) {
     // convert to a usable JS Date object
     return new Date(stringDate[2], stringDate[1] - 1, stringDate[2]);
 }
-/**
- * Sort the fightCards in order of date, furthest away to earliest
- */
-function sortFightCardsByDate(fightCards) {
-    if (fightCards.length <= 1) {
-        return fightCards;
-    }
-
-    for (let i = 0; i < fightCards.length; i++) {
-        let max = i;
-        for (let j = i; j < fightCards.length; j++) {
-            if (
-                stringToDate(fightCards[max].date) <
-                stringToDate(fightCards[j].date)
-            )
-                max = j;
-        }
-        // swap
-        let temp = fightCards[max];
-        fightCards[max] = fightCards[i];
-        fightCards[i] = temp;
-    }
-    return fightCards;
-}
 function validateFightCard(fightCard) {
     // {
     //     "_id": "507f1f77bcf86cd799439011",
@@ -70,6 +46,30 @@ function validateFightCard(fightCard) {
     }
 }
 let exportedMethods = {
+    /**
+     * Sort the fightCards in order of date, furthest away to earliest
+     */
+    sortFightCardsByDate(fightCards) {
+        if (fightCards.length <= 1) {
+            return fightCards;
+        }
+
+        for (let i = 0; i < fightCards.length; i++) {
+            let max = i;
+            for (let j = i; j < fightCards.length; j++) {
+                if (
+                    stringToDate(fightCards[max].date) <
+                    stringToDate(fightCards[j].date)
+                )
+                    max = j;
+            }
+            // swap
+            let temp = fightCards[max];
+            fightCards[max] = fightCards[i];
+            fightCards[i] = temp;
+        }
+        return fightCards;
+    },
     async getFightCardByName(title) {
         const fightCardsCollection = await fightCards();
         const fightCard = await fightCardsCollection.findOne({ title: title });
@@ -158,7 +158,8 @@ let exportedMethods = {
                 upcomingFights[0] = fightCard;
             }
             // sort in descending order by date, in order to keep the most distant game as the first element
-            upcomingFights = sortFightCardsByDate(upcomingFights);
+            upcomingFights =
+                module.exports.sortFightCardsByDate(upcomingFights);
         }
         // reverses the order to make them sorted in order from closest to furthest from today's date
         return upcomingFights.reverse();

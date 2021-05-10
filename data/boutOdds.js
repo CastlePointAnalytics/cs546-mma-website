@@ -191,9 +191,14 @@ let exportedMethods = {
         await module.exports.validateBoutObject(newBoutObject);
         const fightCardsCollection = await fightCards();
         let myFightCard = await fightCard.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
-        let { ObjectId } = require("mongodb");
-        let newObjId = ObjectId(); //creates a new object ID
-        newBoutObject._id = newObjId;
+        let newObjId = null;
+        if (!newBoutObject._id) {
+            let { ObjectId } = require("mongodb");
+            newObjId = ObjectId(); //creates a new object ID
+            newBoutObject._id = newObjId;
+        } else {
+            newObjId = newBoutObject._id;
+        }
         newBoutObject.fighter1 = await fighters.getFighterById(
             newBoutObject.fighter1
         ); //Replace the ID with the fighter
@@ -211,6 +216,24 @@ let exportedMethods = {
         //myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
         //return myFightCard;
         return newObjId;
+    },
+    async getBoutOddsByFighters(fighter1Id, fighter2Id) {
+        const allFightCards = await fightCard.sortFightCardsByDate(
+            await fightCard.getAllFightCards()
+        );
+        for (let fightCard of allFightCards) {
+            for (let boutOdd of fightCard.allBoutOdds) {
+                if (
+                    (fighter1Id === boutOdd.fighter1._id.toString() &&
+                        fighter2Id === boutOdd.fighter2._id.toString()) ||
+                    (fighter2Id === boutOdd.fighter2._id.toString() &&
+                        fighter1Id === boutOdd.fighter1._id.toString())
+                ) {
+                    return boutOdd;
+                }
+            }
+        }
+        return null;
     },
 };
 
