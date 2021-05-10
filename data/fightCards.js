@@ -37,7 +37,7 @@ function sortFightCardsByDate(fightCards) {
         for (let j = i; j < fightCards.length; j++) {
             if (
                 stringToDate(fightCards[max].date) <
-                stringToDate(fightcards[j].date)
+                stringToDate(fightCards[j].date)
             )
                 max = j;
         }
@@ -117,6 +117,10 @@ let exportedMethods = {
             // convert current fightCard's date to a usable JS Date
             let fightDate = stringToDate(fightCard.date);
 
+            if (fightCard.notActualFight) {
+                continue;
+            }
+
             // if current fightDate was before today AND after the current mostRecentFight
             if (
                 fightDate < today &&
@@ -142,7 +146,7 @@ let exportedMethods = {
         for (let fightCard of allFightCards) {
             let fightDate = stringToDate(fightCard.date);
             // if fight has alreaady happened, then skip this iteration
-            if (fightDate < today) {
+            if (fightCard.notActualFight || fightDate < today) {
                 continue;
             }
             // check if list is empty

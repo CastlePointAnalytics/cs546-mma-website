@@ -118,29 +118,53 @@ let exportedMethods = {
             throw "expectedValue is empty";
         }
         //Check odds objects to make sure they are numbers
-        if (typeof boutObject.cpaProb.fighter1 !== "number") {
-            throw "cpaProb figher1 value is NaN";
+        if (
+            typeof boutObject.cpaProb.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "cpaProb fighter1 value is NaN";
         }
-        if (typeof boutObject.cpaProb.fighter2 !== "number") {
-            throw "cpaProb figher2 value is NaN";
+        if (
+            typeof boutObject.cpaProb.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "cpaProb fighter2 value is NaN";
         }
-        if (typeof boutObject.vegasProb.fighter1 !== "number") {
-            throw "vegasProb figher1 value is NaN";
+        if (
+            typeof boutObject.vegasProb.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "vegasProb fighter1 value is NaN";
         }
-        if (typeof boutObject.vegasProb.fighter2 !== "number") {
-            throw "vegasProb figher2 value is NaN";
+        if (
+            typeof boutObject.vegasProb.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "vegasProb fighter2 value is NaN";
         }
-        if (typeof boutObject.vegasMoneyLine.fighter1 !== "number") {
-            throw "vegasMoneyLine figher1 value is NaN";
+        if (
+            typeof boutObject.vegasMoneyLine.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "vegasMoneyLine fighter1 value is NaN";
         }
-        if (typeof boutObject.vegasMoneyLine.fighter2 !== "number") {
-            throw "vegasMoneyLine figher2 value is NaN";
+        if (
+            typeof boutObject.vegasMoneyLine.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "vegasMoneyLine fighter2 value is NaN";
         }
-        if (typeof boutObject.expectedValue.fighter1 !== "number") {
-            throw "expectedValue figher1 value is NaN";
+        if (
+            typeof boutObject.expectedValue.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "expectedValue fighter1 value is NaN";
         }
-        if (typeof boutObject.expectedValue.fighter2 !== "number") {
-            throw "expectedValue figher2 value is NaN";
+        if (
+            typeof boutObject.expectedValue.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "expectedValue fighter2 value is NaN";
         }
     },
     async getBoutById(id) {
