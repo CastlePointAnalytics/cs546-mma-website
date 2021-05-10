@@ -5,6 +5,7 @@ let { ObjectId } = require("mongodb");
 const { getFightCardByName } = require("../data/fightCards");
 const { updatePickEmsFuture } = require("../data/users");
 const userData = data.users;
+const xss = require("xss");
 
 router.get("/globalUserStats", async (res, req) => {
   const users = await userData.getAllUsers();
