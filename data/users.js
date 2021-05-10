@@ -268,6 +268,7 @@ module.exports = {
 		// } catch (e) {
 		// 	throw e;
 		// }
+		console.log(typeof id, id);
 		const userCollection = await users();
 		const user = await userCollection.findOne({ _id: id }); //?
 		if (!user) throw 'No user with that id';
@@ -501,7 +502,7 @@ module.exports = {
 			}
 		}
 		const entries = Object.entries(worldDict);
-		console.log(worldDict, entries);
+		// console.log(worldDict, entries);
 		return entries;
 	},
 };
