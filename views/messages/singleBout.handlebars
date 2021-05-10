@@ -3,7 +3,6 @@
     <h2>{{bout.fightDate}}</h2>
 
     <h4>Message Thread</h4>
-    <div hidden id='invalid-user'>Currently logged in user is not original Poster. Please re-login if you feel this is a mistake</div>
     <div id='messageContainer'>
     {{#each messages}}
         <div class='message' id={{this._id}}>
@@ -25,7 +24,7 @@
             <label for="message" id='messageLabel'>Edit Message</label>
             <input id="{{this._id}}_editText" type="text" placeholder="Enter New Message Here" required/>
             <button id="{{this._id}}_editPost" type="submit">Edit</button>
-        </form>      
+        </form>    
     {{/each}}
     </div>
     {{#if currentUser.bool}}

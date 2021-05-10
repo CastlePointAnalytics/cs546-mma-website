@@ -484,7 +484,7 @@ module.exports = {
 		let tenMessages = user.recentMessages;
 		let newArray = [];
 		for (let mes of tenMessages) {
-			if (mes._id.toString() != messageId) {
+			if (mes._id != messageId) {
 				newArray.push(mes);
 			}
 		}
