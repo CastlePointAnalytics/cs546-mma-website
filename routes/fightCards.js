@@ -42,15 +42,23 @@ function myDBfunction(id) {
   let parsedId = ObjectId(id);
   return parsedId;
 }
+
 router.get("/:id", async (req, res) => {
   try {
     const card = await fightCardsData.getFightCardById(
       myDBfunction(req.params.id)
     );
+    let userBool;
+    if (req.session.user) {
+      userBool = true;
+    } else {
+      userBool = false;
+    }
     res.render("landings/fightCard", {
       title: card.title,
       allBouts: card.allBoutOdds,
       css: "fightCard.css",
+      loggedIn: userBool,
     });
   } catch (e) {
     res.status(404).json({ error: e.message });
