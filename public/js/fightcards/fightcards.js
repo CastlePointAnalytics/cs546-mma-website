@@ -13,7 +13,12 @@ $(document).ready(() => {
     if (fighters.length === 0) {
       alert("You must select at least one fighter before clicking submit!");
     } else {
-      updatePickem(fightCardTitle, fighters);
+      if ($("#logged-in").text() == "true") {
+        updatePickem(fightCardTitle, fighters);
+        alert("Pickem submitted!");
+      } else {
+        alert("You must be logged in to submit pickems!");
+      }
     }
     //console.log(fighter);
   });

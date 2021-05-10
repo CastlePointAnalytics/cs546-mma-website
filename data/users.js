@@ -339,10 +339,9 @@ module.exports = {
       { _id: id },
       { $set: updatedUser }
     );
-    if (updatedInfo.modifiedCount === 0) {
-      throw "Error: Could not update user's pickEmsFuture.";
-    }
+
     user = await userCollection.findOne({ _id: id });
+    return true;
   },
 
   async updateRecentMessages(id, newMessage) {

@@ -2,7 +2,11 @@
     <h1 id="title">{{title}}</h1>
     
         <div id="fight-card">
-            
+            {{#if loggedIn}}
+            <h6 hidden id="logged-in">true</h6>
+            {{else}}
+            <h6 hidden id="logged-in">false</h6>
+            {{/if}}
             <div class="bouts">
                 {{#each allBouts}}
                 <form class="pickemForm" id = "{{@index}}_form" method="post">

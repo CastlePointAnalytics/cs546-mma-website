@@ -23,7 +23,6 @@ router.get("/globalUserStats", async (res, req) => {
 router.post("/updatePickem", async (req, res) => {
   if (typeof req.session.user == "undefined") {
     return;
-    //TODO: Render error page?
   } else {
     const userID = req.session.user.id;
     let parsedId;
@@ -39,6 +38,7 @@ router.post("/updatePickem", async (req, res) => {
     let fightCardId = await getFightCardByName(title);
     await updatePickEmsFuture(parsedId, fighters, fightCardId);
     //[fightcardid: [[fighter1, Null]]];
+    return true;
   }
 });
 
