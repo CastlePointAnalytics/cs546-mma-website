@@ -269,7 +269,6 @@ module.exports = {
 		// } catch (e) {
 		// 	throw e;
 		// }
-		console.log(typeof id, id);
 		const userCollection = await users();
 		const user = await userCollection.findOne({ _id: id }); //?
 		if (!user) throw 'No user with that id';
@@ -349,20 +348,28 @@ module.exports = {
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();
 		//error checking...
-		try {
-			er.isValidObject(newMessage, 'newMessage');
-			er.isValidString(newMessage.boutcard_id, 'boutcard_id');
-			er.isValidString(newMessage.text, 'text');
-			er.isValidString(newMessage.timestamp, 'timestamp');
-			er.isValidString(newMessage.user_id, 'user_id');
-			if (newMessage.parent != null) {
-				er.isValidString(newMessage.parent, 'parent');
-			}
-		} catch (e) {
-			throw e;
-		}
+		// try {
+		// 	er.isValidObject(newMessage, 'newMessage');
+		// 	er.isValidString(newMessage.boutcard_id, 'boutcard_id');
+		// 	er.isValidString(newMessage.text, 'text');
+		// 	er.isValidString(newMessage.timestamp, 'timestamp');
+		// 	er.isValidString(newMessage.user_id, 'user_id');
+		// 	if (newMessage.parent != null) {
+		// 		er.isValidString(newMessage.parent, 'parent');
+		// 	}
+		// } catch (e) {
+		// 	throw e;
+		// }
 		//done with error checking
-		const user = await userCollection.findOne({ _id: id });
+
+		let parsedId;
+		try {
+			parsedId = ObjectId(id);
+		} catch (e) {
+			throw e.message;
+		}
+
+		const user = await userCollection.findOne({ _id: parsedId });
 		if (user === null)
 			throw 'Error: id provided does not correspond to a user.';
 		let updatedRecentMessages = user.recentMessages;
