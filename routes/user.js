@@ -5,6 +5,7 @@ let { ObjectId } = require('mongodb');
 const { getFightCardByName } = require('../data/fightCards');
 const { updatePickEmsFuture } = require('../data/users');
 const userData = data.users;
+const xss = require("xss");
 
 router.get('/globalUserStats', async (res, req) => {
 	const users = await userData.getAllUsers();
@@ -31,14 +32,15 @@ router.post('/updatePickem', async (req, res) => {
 			throw e.message;
 		}
 
-		const title = req.body.title;
-		const fighters = req.body.fighters;
-		//Fighters is array of IDs in string format
-		let fightCardId = await getFightCardByName(title);
-		await updatePickEmsFuture(parsedId, fighters, fightCardId);
-		//[fightcardid: [[fighter1, Null]]];
-		return true;
-	}
+
+    const title = xss(req.body.title);
+    const fighters = xss(req.body.fighters);
+    //Fighters is array of IDs in string format
+    let fightCardId = await getFightCardByName(title);
+    await updatePickEmsFuture(parsedId, fighters, fightCardId);
+    //[fightcardid: [[fighter1, Null]]];
+    return true;
+  }
 });
 
 module.exports = router;
