@@ -6,6 +6,7 @@ const userData = data.users;
 const boutData = data.boutOdds;
 let forumData = data.forum;
 const fightCardData = data.fightCards;
+const xss = require('xss');
 
 router.get('/', async (request,response)=>{
     try{
@@ -22,7 +23,7 @@ router.get('/', async (request,response)=>{
         }
     }catch(e){
         console.log(e);
-        response.send({error:e});
+        response.status(500).send({error:e}); // render an error page
         return;
     }
     response.render('messages/forumHomepage', {upcoming: forumData});
@@ -33,15 +34,15 @@ router.get('/:bout_id', async (request, response)=>{
         const messages = await messagesData.getAllMessagesFromBout(request.params.bout_id);
         const bout = await boutData.getBoutById(request.params.bout_id) // get bout Info
         let user = {
-                        bool: true,
-                    }
-        // if(request.cookies.user){
-        //     user.bool = true//,
-        //     //user.id = request.cookies.user.value
-        // }
+            bool: false
+        }
+        if(request.session.user){
+             user.bool = true
+             //user.id = request.cookies.user.value
+        }
         response.render('messages/singleBout', {messages: messages, bout: bout, currentUser: user}); // Render basic handlebar with list of messages
     }catch(e){
-        response.status(500).send({error: 'Could not get bout message thread'});
+        response.status(500).send({error: 'Could not get bout message thread'}); // render an error page
         console.log(e);
         return;
     }
@@ -50,86 +51,121 @@ router.get('/:bout_id', async (request, response)=>{
 router.post('/:bout_id', async (request, response)=>{
     let timestamp = new Date();
 
-    const text = request.body.text;
+    let text = xss(request.body.text);
+    const user = request.session.user;
 
-    if(!text){
-        console.log('error');
+    text = text.trim();
+    if(!text || typeof text != 'string' || text.length <1){
+        response.json({textError: true});
         return;
     }
+
     // if(!message.user_id){
     //     response.status(400).render('error'); // Render error message (*check lecture code*)
     //     return;
+    // }
+    // if(!user){
+
     // }
     // if(!message.parent){ // parent not neccessary fix this
     //      response.status(400).render('error'); // Render error message (*check lecture code*)
     //      return;
     // }
-   
+    const user_id = user.id;
+    const username = user.username;
     try{
-        const user_id = "3"//request.cookies.user.value; // something like that
-        const username = "posted_user"; //await userData.get(user_id).username;
-        const newMessage = await messagesData.createMessage(request.params.bout_id, text, timestamp, user_id, username);
-        //await userData.update(); // Need update function from Ellie
-        response.json(newMessage);
+        const newMessage = await messagesData.createMessage(xss(request.params.bout_id), text, timestamp, user_id.toString(), username);
+        response.json({newMessage});
     }catch(e){
-        console.log(e);
-        response.status(500).send({error: 'Could not create new post!'});
+        console.log(`Error creating message: ${e}`);
+        response.json({messageError: true}); 
         return;
+    }
+    try{
+        await userData.updateRecentMessages(user_id, newMessage); // Need update function from Ellie
+    }catch(e){
+        console.log(`Error updating user data: ${e}`);
     }
 });
 
 router.delete('/:message_id', async (request, response) => {
+    if(!request.session.user){
+        response.json({notLoggedIn:true});
+        return;
+    }
     let message;
     try{
        message = await messagesData.getMessage(request.params.message_id);
     }catch(e){
-        response.status(500).send({error:'Could not find post'});
+        console.log(`Error getting message: ${e}`);
+        response.json({getMessageError: true}); 
         return;
     }
+    let user_id = request.session.user.id;
     try{
-        const result = await messagesData.deleteMessage(request.params.message_id, '2');
-        //await userData.deleteMessage(); // Need delete function from Ellie
-        // response.redirect(`/messages/${message.boutcard_Id}`);
-        response.json(result)
+        const result = await messagesData.deleteMessage(message._id.toString(), user_id);//xss(request.session.user.id));
+        response.json({result});
+        // response.redirect(`/messages/${message.boutcard_Id}`);   
     }catch(e){
-        response.status(500).send({error:'Could not delete post'});
+        console.log(`Error deleting message: ${e}`);
+        if(e='Request came from unauthorized user!'){
+            response.json({wrongUser:true});
+        }else{
+            response.json({deleteMessageError: true}); 
+        }
         return;
+    }try{
+        await userData.deleteMessage(user_id, message._id); // Need delete function from Ellie
+    }catch(e){
+        console.log(`Error updating user data: ${e}`);
     }
+
+    
 });
 
 router.put('/:message_id', async (request, response) =>{
+    if(!request.session.user){
+        response.json({notLoggedIn:true});
+        return;
+    }
     let timestamp = new Date();
     
-    let text = request.body.text;
+    let text = xss(request.body.text);
     //const user_id = request.body.user_id;
 
     text = text.trim();
     if(!text || typeof text != 'string' || text.length <1){
-        response.status(400).render('error');
+        response.json({textError: true});
         return;
     }
-    // if(!user_id){
-    //     response.status(500).send({error: "user was not passed"});
-    //     return;
-    // }
     
     try{
         await messagesData.getMessage(request.params.message_id);
     }catch(e){
-        response.status(500).send({error: "Could not find post"});
+        console.log(`Error getting message: ${e}`);
+        response.json({getMessageError: true}); 
         return;
     }
-    let user_id ='1';
+    let user_id = request.session.user.id;
     try{
-        let updatedMessage = await messagesData.updateMessage(request.params.message_id, text, user_id, timestamp);
-        //await userData.update(); // Need update function from Ellie
+        let editedMessage = await messagesData.updateMessage(request.params.message_id, text, user_id, timestamp);
+       
         //response.redirect(`/messages/${message.boutcard_Id}`); 
-        response.json(updatedMessage);
+        response.json({editedMessage});
     }catch(e){
-        response.status(500).send({error: "Could not update post"});
-        console.log("Error updating message");
+        console.log(`Error updating message: ${e}`);
+        if(e='Request came from unauthorized user!'){
+            response.json({wrongUser:true});
+        }else{
+            response.json({updateMessageError: true}); 
+        }
         return;
-    } 
+    }try{
+        await userData.editMessage(user_id, request.params.message_id, text, timestamp); // Need update function from Ellie
+    }
+    catch(e){
+        console.log(`Error updating user data: ${e}`);
+    }
 });
 
 module.exports = router;
