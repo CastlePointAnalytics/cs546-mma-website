@@ -44,7 +44,7 @@ module.exports = {
 			pickEmsFuture: {},
 			pickEmsPast: [],
 			age: age,
-			country: countries[country],
+			country: country,
 		};
 		const insertInfo = await userCollection.insertOne(newUser);
 		if (insertInfo.insertedCount === 0) throw 'Could not add user.';
@@ -255,7 +255,7 @@ module.exports = {
 		const users = await this.getAllUsers();
 		const worldDict = {};
 		for (let user of users) {
-			if (user.country === null) break;
+			if (user.country === null) continue;
 			if (user.country in worldDict) {
 				worldDict[`${user.country}`] += 1;
 			} else {

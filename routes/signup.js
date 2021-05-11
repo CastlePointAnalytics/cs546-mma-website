@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const xss = require('xss');
 const errorChecking = require('../errorChecking');
+const countries = data.countries.COUNTRIES;
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -54,7 +55,9 @@ router.get('/', async (req, res) => {
 			});
 		}
 	} else {
-		res.status(200).render('user/signup');
+		res
+			.status(200)
+			.render('user/signup', { country: Object.values(countries) });
 	}
 });
 
@@ -86,6 +89,8 @@ router.post('/', async (req, res) => {
 				console.log(e);
 			}
 
+			console.log(req.body.country);
+
 			const user = await userData.create(
 				req.body.username,
 				req.body.firstName,
@@ -94,6 +99,8 @@ router.post('/', async (req, res) => {
 				req.body.age,
 				req.body.country,
 			);
+
+			console.log(user);
 			req.session.user = {
 				id: user._id,
 				username: user.username,

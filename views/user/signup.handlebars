@@ -25,7 +25,12 @@
             <div class="form-group">
                 <label>
                     Country
-                    <input type='text' name='country' placeholder="Country" class="full-width-input">
+                    <select name='country' for='country' id='country'>
+                        <option value='default' selected disabled hidden>Country</option>
+                        {{#each country}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
                 </label>
             </div>
             <div class="form-group">

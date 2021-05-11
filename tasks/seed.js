@@ -6,6 +6,7 @@ const fightCardsCollection = data.fightCards;
 const boutOddsCollection = data.boutOdds;
 const messagesCollection = data.messages;
 const usersCollection = data.users;
+const countries = data.countries.COUNTRIES;
 
 async function main() {
 	const db = await dbConnection();
@@ -42,7 +43,7 @@ async function main() {
 		'mcevoy',
 		'passwordl',
 		21,
-		'US',
+		countries.US,
 	);
 	let jay = await usersCollection.create(
 		'jmoney',
@@ -50,7 +51,7 @@ async function main() {
 		'Money',
 		'passwordj',
 		31,
-		'EE',
+		countries.EE,
 	);
 	let hold = await usersCollection.create(
 		'holdma',
@@ -58,7 +59,7 @@ async function main() {
 		'Ma',
 		'passwordm',
 		31,
-		'EE',
+		countries.EE,
 	);
 	let elon = await usersCollection.create(
 		'emusk',
@@ -66,7 +67,7 @@ async function main() {
 		'Musk',
 		'passworde',
 		53,
-		'EE',
+		countries.EE,
 	);
 	let fred = await usersCollection.create(
 		'frezno',
@@ -74,7 +75,7 @@ async function main() {
 		'Buns',
 		'passwordf',
 		65,
-		'FJ',
+		countries.FJ,
 	);
 	let elias = await usersCollection.create(
 		'one',
@@ -82,7 +83,7 @@ async function main() {
 		'Frieling',
 		'1',
 		65,
-		'FJ',
+		countries.FJ,
 	);
 
 	let timestamp = new Date();
