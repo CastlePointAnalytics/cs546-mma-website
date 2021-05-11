@@ -1,0 +1,50 @@
+<main>
+    <h1>{{bout.fighter1.lastName}} v. {{bout.fighter2.lastName}}</h1>
+    <h2>{{bout.fightDate}}</h2>
+
+    <h4>Message Thread</h4>
+    <div id='messageContainer'>
+    {{#each messages}}
+        <div class='message' id={{this._id}}>
+            <p id="{{this._id}}_username">{{this.username}}</p>
+            <p id="{{this._id}}_text">{{this.text}}</p>
+            <p id="{{this._id}}_timestamp">{{this.timestamp}}</p>
+        </div>
+         <!--<div hidden id='replyDiv'>
+            <form id="postReply" method="POST" action="/{{bout._id}}">
+                <label for="message" id=>Add Message</label>
+                <input id='messageText' type="text" placeholder="Enter Message Here"/>
+                <button id="postNewMessage" type="submit">Post</button>
+            </form>
+        </div>-->
+        <a class="editLink" id="{{this._id}}_EL" href=''>Edit</a>
+        <a class="deleteLink" id="{{this._id}}_DL" href="/messages/{{this._id}}">Delete</a>
+        <form hidden class="editMessage" id="{{this._id}}_editForm">
+            <input hidden id='{{this._id}}_path' value="/messages/{{this._id}}"/>
+            <label for="message" id='messageLabel'>Edit Message</label>
+            <input id="{{this._id}}_editText" type="text" placeholder="Enter New Message Here" required/>
+            <button id="{{this._id}}_editPost" type="submit">Edit</button>
+        </form>    
+    {{/each}}
+    </div>
+    {{#if currentUser.bool}}
+    <form id="postMessage">
+        <input hidden id='path' value="/messages/{{bout._id}}"/>
+        <label for="message" id='messageLabel'>Add Message</label>
+        <input id='messageText' type="text" placeholder="Enter Message Here" required/>
+        {{!-- <label for='parents' id='parentsLabel'>Select Parent based on Username and timestamp</label>
+        <select id='parents' name="parent">
+            <option value='NoParent'>Not a reply</option>
+            {{#each messages}}
+                <option value='{{this._id}}'>{{this.username}} Posted: {{this.timestamp}}</option>
+            {{/each}}
+        </select> --}}
+        <button id="postNewMessage" type="submit">Post</button>
+    </form>
+    {{else}}
+    <div>Please <a href ="/login">login</a> to post a new message </div>
+    {{/if}}
+</main>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script src='/public/js/messages/messageThreads.js'></script>

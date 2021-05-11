@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "seedDB": "node tasks/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +20,14 @@
   "homepage": "https://github.com/CastlePointAnalytics/cs546-mma-website#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
-    "mongo": "^0.1.0"
+    "express-handlebars": "^5.3.0",
+    "express-session": "^1.17.1",
+    "handlebars": "^4.7.7",
+    "mongodb": "^3.6.6",
+    "path": "^0.12.7",
+    "xss": "^1.0.9"
   }
 }

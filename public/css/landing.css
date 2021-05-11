@@ -1,0 +1,51 @@
+#title {
+    text-align: center;
+}
+#navbar {
+    border: none;
+    background-color: black;
+    border-radius: 5px;
+    padding: 1%;
+}
+#navbar * {
+    color: white;
+}
+.bouts {
+    text-align: center;
+}
+.column {
+    float: left;
+}
+.left,
+.right {
+    width: 40%;
+}
+.middle {
+    width: 20%;
+}
+.error {
+    color: rgb(197, 0, 0);
+}
+.upcomingFight,
+#mostRecentFight,
+#matchUpContainer {
+    border: thin solid black;
+    border-radius: 5px;
+    padding: 1%;
+}
+h1 {
+    display: inline;
+}
+
+p {
+    text-indent: 40px;
+}
+
+select {
+    width: 190px;
+}
+
+#noUpcoming {
+    text-align: center;
+    text-indent: 0;
+}
