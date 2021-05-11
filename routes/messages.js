@@ -9,6 +9,10 @@ const fightCardData = data.fightCards;
 const xss = require('xss');
 
 router.get('/', async (request,response)=>{
+    let logged = true;
+    if(request.session.user){
+        logged = false;
+    }
     try{
         const upcomingFight = await fightCardData.getUpcomingFightCards();
         const bouts = upcomingFight[0].allBoutOdds;
@@ -23,10 +27,10 @@ router.get('/', async (request,response)=>{
         }
     }catch(e){
         console.log(e);
-        response.status(500).render('messages/error', {previousPage: '/'}); // render an error page
+        response.status(500).render('messages/error', {previousPage: '/', notLoggedIn: logged}); // render an error page
         return;
     }
-    response.render('messages/forumHomepage', {upcoming: forumData, css: "messages/landing.css"});
+    response.render('messages/forumHomepage', {upcoming: forumData, css: "messages/landing.css", notLoggedIn: logged});
 });
 
 router.get('/:bout_id', async (request, response)=>{
@@ -40,7 +44,7 @@ router.get('/:bout_id', async (request, response)=>{
              user.bool = true
              //user.id = request.cookies.user.value
         }
-        response.render('messages/singleBout', {messages: messages, bout: bout, currentUser: user, css:"messages/bout.css"}); // Render basic handlebar with list of messages
+        response.render('messages/singleBout', {messages: messages, bout: bout, currentUser: user, css:"messages/bout.css", notLoggedIn:!(user.bool)}); // Render basic handlebar with list of messages
     }catch(e){
         response.status(500).render('messages/error', {previousPage: '/messages/'}); // render an error page
         console.log(e);
