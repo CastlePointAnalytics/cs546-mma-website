@@ -3,10 +3,7 @@ const users = mongoCollections.users;
 const bcrypt = require('bcrypt');
 const saltRounds = 2;
 const errorChecking = require('../errorChecking');
-<<<<<<< HEAD
-=======
 let { ObjectId } = require('mongodb');
->>>>>>> develop
 
 //<script src="https://gist.github.com/incredimike/1469814.js"></script>
 const COUNTRIES = {
