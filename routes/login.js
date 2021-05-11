@@ -42,6 +42,8 @@ router.get('/', async (req, res) => {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
 			});
+		} else {
+			res.render('user/login', { loginError: true });
 		}
 	} else {
 		res.render('user/login');
@@ -73,7 +75,7 @@ router.post('/', async (req, res) => {
 			user: req.session.user,
 		});
 	} else {
-		res.status(401).render('user/login');
+		res.status(401).render('user/login', { loginError: true });
 	}
 });
 
