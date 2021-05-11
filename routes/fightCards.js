@@ -60,6 +60,7 @@ router.get("/:id", async (req, res) => {
             allBouts: card.allBoutOdds,
             css: "fightCard.css",
             loggedIn: userBool,
+            notLoggedIn: !(userBool)
         });
     } catch (e) {
         res.status(404).json({ error: e.message });

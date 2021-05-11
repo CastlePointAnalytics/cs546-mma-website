@@ -23,6 +23,10 @@ const constructorMethods = (app) => {
 
 	app.get('/', async (req, res) => {
 		try {
+			let notLogged = true;
+			if(req.session.user){
+				notLogged = false;
+			}
 			// get fighters
 			let fighters = await fightersData.getAllFighters();
 			// get most recent fightCard
@@ -38,6 +42,7 @@ const constructorMethods = (app) => {
 				upcoming: upcomingFights,
 				globalUserStats: globalUserStats,
 				css: 'landing.css',
+				notLoggedIn: notLogged
 				// js: 'landing/globalUserStat.js',
 			});
 		} catch (e) {
