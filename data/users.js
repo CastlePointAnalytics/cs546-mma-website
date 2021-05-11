@@ -390,9 +390,7 @@ module.exports = {
 		if (updatedInfo.modifiedCount === 0) {
 			throw "Error: Could not update user's recentMessages.";
 		}
-		//id = id.toString();
-		//return await this.get(id);
-	}, //end updateRecentMessages
+	},
 
 	async editMessage(id, messageId, editedText, newTimestamp) {
 		const userCollection = await users();
