@@ -1,6 +1,6 @@
 let { ObjectId } = require('mongodb');
 
-function isEmptyString(string, stringName) {
+function isNotEmptyString(string, stringName) {
 	if (string === '' || string.trim() === '') {
 		throw `${stringName || 'Provided value'} cannot be an empty string`;
 	}
@@ -94,6 +94,7 @@ function isValidID(id, idName) {
 }
 
 module.exports = {
+	isNotEmptyString,
 	isValidDate,
 	isValidString,
 	isValidBooelean,

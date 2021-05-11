@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-sm-12">
         <form id="login-form" method="POST" action="/signup">
-            {{#if error.firstName}}
-            <h2>Invalid First Name</h2>
+            {{#if error}}
+            <h2>Invalid Sign Up Data</h2>
             {{/if}}
             <div class="form-group">
                 <label>
@@ -10,45 +10,30 @@
                     <input type='text' name='firstName' placeholder="First Name" class="full-width-input">
                 </label>
             </div>
-            {{#if error.lastName}}
-            <h2>Invalid Last Name</h2>
-            {{/if}}
             <div class="form-group">
                 <label>
                     Last Name
                     <input type='text' name='lastName' placeholder="Last Name" class="full-width-input">
                 </label>
             </div>
-            {{#if error.age}}
-            <h2>Invalid Age</h2>
-            {{/if}}
             <div class="form-group">
                 <label>
                     Age
                     <input type='number' name='age' placeholder="Age" class="full-width-input">
                 </label>
             </div>
-            {{#if error.country}}
-            <h2>Invalid Country</h2>
-            {{/if}}
             <div class="form-group">
                 <label>
                     Country
                     <input type='text' name='country' placeholder="Country" class="full-width-input">
                 </label>
             </div>
-            {{#if error.username}}
-            <h2>Invalid Username</h2>
-            {{/if}}
             <div class="form-group">
                 <label>
                     Username
                     <input type='text' name='username' placeholder="Username" class="full-width-input">
                 </label>
             </div>
-            {{#if error.password}}
-            <h2>Invalid Password</h2>
-            {{/if}}
             <div class="form-group">
                 <label>
                     Password

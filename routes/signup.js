@@ -5,6 +5,7 @@ const userData = data.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const xss = require('xss');
+const errorChecking = require('../errorChecking');
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -68,7 +69,22 @@ router.post('/', async (req, res) => {
 		}
 	} else {
 		if (await uniqueUsername(xss(req.body.username))) {
-			const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+			const hashedPassword = await bcrypt.hash(
+				xss(req.body.password),
+				saltRounds,
+			);
+
+			try {
+				errorChecking.isValidString(xss(req.body.firstName), 'first name');
+				errorChecking.isValidString(xss(req.body.lastName), 'last name');
+				errorChecking.isValidAge(xss(req.body.age), 'age');
+				errorChecking.isValidCountry(req.body.country, 'country');
+				errorChecking.isValidString(xss(req.body.username), 'username');
+				errorChecking.isNotEmptyString(xss(req.body.password), 'password');
+			} catch (e) {
+				res.status(403).render('user/signup', { error: true });
+				console.log(e);
+			}
 
 			const user = await userData.create(
 				req.body.username,
@@ -91,8 +107,7 @@ router.post('/', async (req, res) => {
 				user: user,
 			});
 		} else {
-			const error = { username: true };
-			res.status(403).render('user/signup', { error: error });
+			res.status(403).render('user/signup', { error: true });
 		}
 	}
 });
