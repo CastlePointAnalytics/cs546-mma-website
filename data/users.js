@@ -394,20 +394,18 @@ module.exports = {
 
 	async editMessage(id, messageId, editedText, newTimestamp) {
 		const userCollection = await users();
-		//error checking...
-		// try {
-		// 	er.isValidObject(newMessage, 'newMessage');
-		// 	er.isValidString(newMessage.boutcard_id, 'boutcard_id');
-		// 	er.isValidString(newMessage.text, 'text');
-		// 	er.isValidString(newMessage.timestamp, 'timestamp');
-		// 	er.isValidString(newMessage.user_id, 'user_id');
-		// 	if (newMessage.parent != null) {
-		// 		er.isValidString(newMessage.parent, 'parent');
-		// 	}
-		// } catch (e) {
-		// 	throw e;
-		// }
-		//done with error checking
+		try {
+			errorChecking.isValidObject(newMessage, 'newMessage');
+			errorChecking.isValidString(newMessage.boutcard_id, 'boutcard_id');
+			errorChecking.isValidString(newMessage.text, 'text');
+			errorChecking.isValidString(newMessage.timestamp, 'timestamp');
+			errorChecking.isValidString(newMessage.user_id, 'user_id');
+			if (newMessage.parent != null) {
+				errorChecking.isValidString(newMessage.parent, 'parent');
+			}
+		} catch (e) {
+			throw e;
+		}
 
 		let parsedId;
 		try {
