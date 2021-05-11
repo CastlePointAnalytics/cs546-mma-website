@@ -73,7 +73,7 @@ router.post('/', async (req, res) => {
 			user: req.session.user,
 		});
 	} else {
-		res.status(401).render('user/failure/login');
+		res.status(401).render('user/login');
 	}
 });
 
