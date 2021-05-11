@@ -3,7 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const boutOdds = data.boutOdds;
 const fightCards = data.fightCards;
-
+const xss = require("xss");
 function myDBfunction(id) {
   //function used to convert string id to obj id
   checkIds(id);
@@ -48,7 +48,7 @@ router.post("/:id", async (req, res) => {
     res.status(404).json({ error: "Fightcard not found" });
   }
   try {
-    const newBoutOdds = req.body;
+    const newBoutOdds = xss(req.body);
     const newBoutOdds = await boutOdds.addBout(
       myDBfunction(req.params.id),
       newBoutOdds
