@@ -454,20 +454,16 @@ module.exports = {
 		if (updatedInfo.modifiedCount === 0) {
 			throw "Error: Could not edit user's message.";
 		}
-		//id = id.toString();
-		//return await this.get(id);
-	}, //end editMessage
+	},
 
 	async deleteMessage(id, messageId) {
 		const userCollection = await users();
-		//error checking...
-		// try {
-		// 	er.isValidString(id, 'id');
-		// 	er.isValidString(messageId, 'messageId');
-		// } catch (e) {
-		// 	throw e;
-		// }
-		//done with error checking
+		try {
+			errorChecking.isValidString(id, 'id'); // Why strings? Not ObjectIDs?
+			errorChecking.isValidString(messageId, 'messageId'); // Why strings? Not ObjectIDs?
+		} catch (e) {
+			throw e;
+		}
 
 		let parsedId;
 		try {
