@@ -67,9 +67,9 @@ router.post('/', async (req, res) => {
 			});
 		}
 	} else {
-		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+		if (await uniqueUsername(xss(req.body.username))) {
+			const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
-		if (await uniqueUsername(req.body.username)) {
 			const user = await userData.create(
 				req.body.username,
 				req.body.firstName,
@@ -91,7 +91,8 @@ router.post('/', async (req, res) => {
 				user: user,
 			});
 		} else {
-			res.status(403).render('user/signup');
+			const error = { username: true };
+			res.status(403).render('user/signup', { error: error });
 		}
 	}
 });
