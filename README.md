@@ -1,5 +1,22 @@
 # CS 546 Final Project Group 18
 
+## Installing
+```bash
+npm install
+```
+
+## Seeding
+```bash
+npm run seedDB
+```
+
+## Running
+```bash
+npm start
+```
+
+These scripts can be run from either within the project's directories or from the project root directory.
+
 ## Team Members
 - Elias Frieling (efrielin@stevens.edu)
 - Tayler Marin (tmarin@stevens.edu)
@@ -21,7 +38,7 @@
 
 1. **(Ryan)** Landing page
     - [X] Allows users to pick fighter combinations using two drop downs
-    - [ ] Shows upcoming fights (fighter, location, date, odds)
+    - [X] Shows upcoming fights (fighter, location, date, odds)
 2. **(Luke)** Betting Strategy
     - [X] Expected value of betting portfolio based on average returns
     - [X] Basic Betting
@@ -29,16 +46,16 @@
     - [X] Set-and-Forget bet allocation
     - [X] Advanced betting Kelly
 3. **(Elias)** Match Up Statistic Page
-    - [ ] Newsletter format (contains information of fighters in match up)
-    - [ ] Record, Age, Height, Weight, Reach
-    - [ ] Win probability, Vegas Money Lines, By Decision, etc.
-    - [ ] Pick ems
+    - [X] Newsletter format (contains information of fighters in match up)
+    - [X] Record, Age, Height, Weight, Reach
+    - [X] Win probability, Vegas Money Lines, By Decision, etc.
+    - [X] Pick ems
 4. **(Tayler)** Forum exclusively for this fight
-    - [ ] Ability to edit and delete messages
+    - [X] Ability to edit and delete messages
 5. **(Ellie)** User Profile Page
-    - [ ] Name
-    - [ ] Age
-    - [ ] Supporting info
+    - [X] Name
+    - [X] Age
+    - [X] Supporting info
     - [ ] Show their pick ems
     - [ ] Show thread of messages from users in all forums (out of context? With context?
 6. Preview history page
@@ -60,7 +77,7 @@
 2. Indentation
 
 ## Agile Conventions
-1. Trello (look into this)
+[Our Trello Board over 6 Sprints](https://trello.com/b/sXB0dNd6/cs546-x-cpa)
 
 ## Workflow (Git) Conventions
 
