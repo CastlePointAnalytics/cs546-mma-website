@@ -97,11 +97,21 @@ $(document).ready(()=>{
             }else if(result.textError){
                 alert("Text input incorrect! Please fix text entry");
             }else{
-                let div = "<div class='message'>"
+                let id = result.newMessage._id;
+                let div = `<div class='message' id=${id}>`
                 let username = `<p class='username'>${result.newMessage.username}</p>`;
                 let text = `<p class='text'>${result.newMessage.text}</p>`;
-                let timestamp = `<p class='timestamp'>${result.newMessage.timestamp}</p>`
-                div = div + username + text + timestamp + "</div>"
+                let timestamp = `<p class='time'>${result.newMessage.timestamp}</p>`;
+                let innerdiv = '<div class=links>';
+                let edit = `<a class="editLink" id="${id}_EL" href=''>Edit</a>`;
+                let del = `<a class ="deleteLink" id=${id}_DL" href="/messages/${id}">Delete</a>`;
+                let form = `<form hidden class="editMessage" id="${id}_editForm">`;
+                let hidden = `<input hidden id='${id}_path' value="/messages/${id}"/>`
+                let label = `<label for="${id}_editText" id='${id}_messageLabel'>Edit Message</label>`
+                let newText = `<input id="${id}_editText" type="text" placeholder="Enter New Message" required/>`
+                let button = `<button id="${id}_editPost" type="submit">Edit</button>`
+                innerdiv += edit + del + form + hidden + label + newText + button + "</form> </div>"
+                div = div + username + text + timestamp + innerdiv + "</div>"
                 $('#messageContainer').append(div);
             }
         });
