@@ -1,3 +1,5 @@
+let { ObjectId } = require('mongodb');
+
 function isEmptyString(string, stringName) {
 	if (string === '' || string.trim() === '') {
 		throw `${stringName || 'Provided value'} cannot be an empty string`;
@@ -86,6 +88,11 @@ function isValidAge(age, ageName) {
 
 function isValidCountry(country, countryName) {}
 
+function isValidID(id, idName) {
+	if (!id) throw `${idName} was not provided`;
+	if (!ObjectId.isValid(id)) throw `${idName} is not a valid MongoDB ID.`;
+}
+
 module.exports = {
 	isValidDate,
 	isValidString,
@@ -99,4 +106,5 @@ module.exports = {
 	elementsInArrayValidStrings,
 	isValidAge,
 	isValidCountry,
+	isValidID,
 };

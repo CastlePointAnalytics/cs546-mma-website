@@ -264,11 +264,11 @@ module.exports = {
 		return await userCollection.find({}).toArray();
 	},
 	async get(id) {
-		// try {
-		// 	errorChecking.checkIsProperString(id, 'id');
-		// } catch (e) {
-		// 	throw e;
-		// }
+		try {
+			errorChecking.isValidID(id, 'id');
+		} catch (e) {
+			throw e;
+		}
 		const userCollection = await users();
 		const user = await userCollection.findOne({ _id: id }); //?
 		if (!user) throw 'No user with that id';
