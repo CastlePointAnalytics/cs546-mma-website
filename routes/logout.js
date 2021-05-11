@@ -10,9 +10,9 @@ router.get('/', async (req, res) => {
 	) {
 		const userFullName = `${req.session.user.firstName} ${req.session.user.lastName}`;
 		req.session.destroy();
-		res.render('user/logout', { user: userFullName });
+		res.render('user/logout', { user: userFullName, notLoggedIn: true });
 	} else {
-		res.status(403).render('user/login');
+		res.status(403).render('user/login', {notLoggedIn: true});
 	}
 });
 

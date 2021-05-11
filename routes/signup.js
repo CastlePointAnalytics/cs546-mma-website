@@ -57,7 +57,10 @@ router.get('/', async (req, res) => {
 	} else {
 		res
 			.status(200)
-			.render('user/signup', { country: Object.values(countries) });
+			.render('user/signup', {
+				country: Object.values(countries),
+				notLoggedIn: true,
+			});
 	}
 });
 
@@ -68,6 +71,8 @@ router.post('/', async (req, res) => {
 		) {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
+				// js: 'user/loggedin',
+				notLoggedIn: false,
 			});
 		}
 	} else {
@@ -110,12 +115,17 @@ router.post('/', async (req, res) => {
 			};
 			res.status(200).render('user/profile', {
 				user: user,
+				// js: 'user/loggedin',
+				notLoggedIn: false,
 			});
 		} else {
-			res.render('user/signup', {
-				usernameNotUnique: true,
-				country: Object.values(countries),
-			});
+			res
+				.status(403)
+				.render('user/signup', {
+					notLoggedIn: true,
+					usernameNotUnique: true,
+					country: Object.values(countries),
+				});
 		}
 	}
 });

@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
+const fightCardData = data.fightCards;
+const fightersData = data.fighters;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const xss = require('xss');
 const errorChecking = require('../errorChecking');
+let { ObjectId } = require('mongodb');
 
 function validateFormData(inputUsername, inputPassword) {
 	try {
@@ -39,14 +42,25 @@ router.get('/', async (req, res) => {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
+			let id;
+			try {
+				id = ObjectId(req.session.user.id);
+			} catch (e) {
+				console.log(e.message);
+			}
+			currUser = await userData.get(id);
+			console.log(currUser);
 			res.status(200).render('user/profile', {
-				user: req.session.user,
+				// user: req.session.user,
+				user: currUser,
+				// js: 'user/loggedin.js',
+				notLoggedIn: false,
 			});
 		} else {
 			res.render('user/login', { loginError: true });
 		}
 	} else {
-		res.render('user/login');
+		res.render('user/login', { notLoggedIn: true });
 	}
 });
 
@@ -65,17 +79,48 @@ router.post('/', async (req, res) => {
 		req.session.user = {
 			id: currUser._id,
 			username: currUser.username,
-			firstName: currUser.firstName,
-			lastName: currUser.lastName,
+			// firstName: currUser.firstName,
+			// lastName: currUser.lastName,
 			password: hashedPassword,
-			age: currUser.age,
-			country: currUser.country,
+			// age: currUser.age,
+			// country: currUser.country,
+			// recentMessages: currUser.recentMessages,
+			// pickEmsFuture: currUser.pickEmsFuture,
+			// pickEmsPast: currUser.pickEmsPast
 		};
+
+		let fightId;
+		let pickEmFight = currUser.pickEmsFuture;
+		let newArr = [];
+		let pickEmsObject = {};
+		if (Object.keys(pickEmFight).length > 0) {
+			for (let fight in currUser.pickEmsFuture) {
+				fightId = fight;
+			}
+			let pickEmsArray = pickEmFight[fightId];
+
+			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId));
+
+			pickEmsObject.title = fightcard.title;
+
+			for (let arr of pickEmsArray) {
+				let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
+				newArr.push(fighter.firstName + ' ' + fighter.lastName);
+			}
+		}
+
+		pickEmsObject.fighters = newArr;
+		currUser.pickEmsFuture = pickEmsObject;
+
 		res.status(200).render('user/profile', {
-			user: req.session.user,
+			user: currUser,
+			// js: 'user/loggedin',
+			notLoggedIn: false,
 		});
 	} else {
-		res.status(401).render('user/login', { loginError: true });
+		res
+			.status(401)
+			.render('user/login', { notLoggedIn: true, loginError: true });
 	}
 });
 
