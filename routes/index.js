@@ -1,25 +1,25 @@
-const loginRoutes = require('./login');
-const logoutRoutes = require('./logout');
-const signupRoutes = require('./signup');
-const userRoutes = require('./user');
-const fightCardsRoutes = require('./fightCards');
-const messagesRoutes = require('./messages');
-const fightersRoutes = require('./fighters');
-const fullCardDistributionsRoutes = require('./fullCardDistributions');
-const data = require('../data');
+const loginRoutes = require("./login");
+const logoutRoutes = require("./logout");
+const signupRoutes = require("./signup");
+const userRoutes = require("./user");
+const fightCardsRoutes = require("./fightCards");
+const messagesRoutes = require("./messages");
+const fightersRoutes = require("./fighters");
+const fullCardDistributionsRoutes = require("./fullCardDistributions");
+const data = require("../data");
 const userData = data.users;
 const fightersData = data.fighters;
 const fightCardsData = data.fightCards;
 
 const constructorMethods = (app) => {
-	app.use('/login', loginRoutes);
-	app.use('/logout', logoutRoutes);
-	app.use('/signup', signupRoutes);
-	app.use('/user', userRoutes);
-	app.use('/fightCards', fightCardsRoutes);
-	app.use('/messages', messagesRoutes);
-	app.use('/fighters', fightersRoutes);
-	app.use('/fullCardDistributions', fullCardDistributionsRoutes);
+    app.use("/login", loginRoutes);
+    app.use("/logout", logoutRoutes);
+    app.use("/signup", signupRoutes);
+    app.use("/user", userRoutes);
+    app.use("/fightCards", fightCardsRoutes);
+    app.use("/messages", messagesRoutes);
+    app.use("/fighters", fightersRoutes);
+    app.use("/fullCardDistributions", fullCardDistributionsRoutes);
 
 	app.get('/', async (req, res) => {
 		try {
@@ -53,9 +53,9 @@ const constructorMethods = (app) => {
 		}
 	});
 
-	app.use('*', (req, res) => {
-		res.status(404).json({ error: 'Not found' });
-	});
+    app.use("*", (req, res) => {
+        res.status(404).json({ error: "Not found" });
+    });
 };
 
 module.exports = constructorMethods;
