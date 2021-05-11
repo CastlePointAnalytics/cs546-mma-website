@@ -16,9 +16,8 @@ function checkLogin() {
     }
 
     if (typeof(username) != 'string') {
-        alert("Please enter a valid username or signup.")
+        alert("Please enter a valid username or signup.");
     }
-
 
 
 }
