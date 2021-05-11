@@ -276,16 +276,15 @@ module.exports = {
 	},
 	async create(username, firstName, lastName, password, age, country) {
 		const userCollection = await users();
-		//error checking...
-		// try {
-		// 	errorChecking.checkIsProperString(username, 'username');
-		// 	errorChecking.checkIsProperString(firstName, 'firstName');
-		// 	errorChecking.checkIsProperString(lastName, 'lastName');
-		// 	// age, 'age'; //TODO
-		// 	errorChecking.checkIsProperString(country, 'country');
-		// } catch (e) {
-		// 	throw e;
-		// }
+		try {
+			errorChecking.isValidString(username, 'username');
+			errorChecking.isValidString(firstName, 'firstName');
+			errorChecking.isValidString(lastName, 'lastName');
+			errorChecking.isValidAge(age, 'age');
+			errorChecking.isValidCountry(country, 'country'); // TODO
+		} catch (e) {
+			throw e;
+		}
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
 
 		let newUser = {
@@ -306,13 +305,11 @@ module.exports = {
 
 	async updatePickEmsFuture(id, newPickEms, fightCardID) {
 		const userCollection = await users();
-		//error checking...
-		// try {
-		//     er.isValidObject(newPickEms, 'newPickEms');
-		// } catch (e) {
-		//     throw e;
-		// }
-		//done with error checking
+		try {
+			errorChecking.isValidObject(newPickEms, 'newPickEms');
+		} catch (e) {
+			throw e;
+		}
 
 		let user = await userCollection.findOne({ _id: id });
 		if (user === null)
@@ -347,20 +344,18 @@ module.exports = {
 
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();
-		//error checking...
-		// try {
-		// 	er.isValidObject(newMessage, 'newMessage');
-		// 	er.isValidString(newMessage.boutcard_id, 'boutcard_id');
-		// 	er.isValidString(newMessage.text, 'text');
-		// 	er.isValidString(newMessage.timestamp, 'timestamp');
-		// 	er.isValidString(newMessage.user_id, 'user_id');
-		// 	if (newMessage.parent != null) {
-		// 		er.isValidString(newMessage.parent, 'parent');
-		// 	}
-		// } catch (e) {
-		// 	throw e;
-		// }
-		//done with error checking
+		try {
+			errorChecking.isValidObject(newMessage, 'newMessage');
+			errorChecking.isValidString(newMessage.boutcard_id, 'boutcard_id');
+			errorChecking.isValidString(newMessage.text, 'text');
+			errorChecking.isValidString(newMessage.timestamp, 'timestamp');
+			errorChecking.isValidString(newMessage.user_id, 'user_id');
+			if (newMessage.parent != null) {
+				errorChecking.isValidString(newMessage.parent, 'parent');
+			}
+		} catch (e) {
+			throw e;
+		}
 
 		let parsedId;
 		try {
