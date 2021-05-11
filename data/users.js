@@ -346,10 +346,12 @@ module.exports = {
 		const userCollection = await users();
 		try {
 			errorChecking.isValidObject(newMessage, 'newMessage');
-			errorChecking.isValidString(newMessage.boutcard_id, 'boutcard_id');
+			if (newMessage.boutcard_id) {
+				errorChecking.isValidID(newMessage.boutcard_id, 'boutcard_id');
+			}
 			errorChecking.isValidString(newMessage.text, 'text');
 			errorChecking.isValidString(newMessage.timestamp, 'timestamp');
-			errorChecking.isValidString(newMessage.user_id, 'user_id');
+			errorChecking.isValidID(newMessage.user_id, 'user_id');
 			if (newMessage.parent != null) {
 				errorChecking.isValidString(newMessage.parent, 'parent');
 			}
@@ -459,8 +461,8 @@ module.exports = {
 	async deleteMessage(id, messageId) {
 		const userCollection = await users();
 		try {
-			errorChecking.isValidString(id, 'id'); // Why strings? Not ObjectIDs?
-			errorChecking.isValidString(messageId, 'messageId'); // Why strings? Not ObjectIDs?
+			errorChecking.isValidID(id, 'id'); // Why strings? Not ObjectIDs?
+			errorChecking.isValidID(messageId, 'messageId'); // Why strings? Not ObjectIDs?
 		} catch (e) {
 			throw e;
 		}
@@ -500,8 +502,6 @@ module.exports = {
 		if (updatedInfo.deletedCount === 0) {
 			throw "Error: Could not edit user's message.";
 		}
-		//id = id.toString();
-		//return await this.get(id);
 	},
 	async getGlobalUserStats() {
 		const users = await this.getAllUsers();
