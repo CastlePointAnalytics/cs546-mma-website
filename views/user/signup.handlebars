@@ -4,6 +4,9 @@
             {{#if error}}
             <h2>Invalid Sign Up Data</h2>
             {{/if}}
+            {{#if usernameNotUnique}}
+            <h2>Username is already taken</h2>
+            {{/if}}
             <div class="form-group">
                 <label>
                     First Name

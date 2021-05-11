@@ -86,7 +86,9 @@ function isValidAge(age, ageName) {
 	if (isNaN(age)) throw `Error: ${ageName} is not a number.`;
 }
 
-function isValidCountry(country, countryName) {}
+function isValidCountry(country, countryName) {
+	if (!country) throw `invalid country`;
+}
 
 function isValidID(id, idName) {
 	if (!id) throw `${idName} was not provided`;

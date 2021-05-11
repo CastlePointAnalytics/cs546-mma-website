@@ -85,11 +85,11 @@ router.post('/', async (req, res) => {
 				errorChecking.isValidString(xss(req.body.username), 'username');
 				errorChecking.isNotEmptyString(xss(req.body.password), 'password');
 			} catch (e) {
-				res.status(403).render('user/signup', { error: true });
-				console.log(e);
+				res.status(403).render('user/signup', {
+					error: true,
+					country: Object.values(countries),
+				});
 			}
-
-			console.log(req.body.country);
 
 			const user = await userData.create(
 				req.body.username,
@@ -99,8 +99,6 @@ router.post('/', async (req, res) => {
 				req.body.age,
 				req.body.country,
 			);
-
-			console.log(user);
 			req.session.user = {
 				id: user._id,
 				username: user.username,
@@ -114,7 +112,10 @@ router.post('/', async (req, res) => {
 				user: user,
 			});
 		} else {
-			res.status(403).render('user/signup', { error: true });
+			res.render('user/signup', {
+				usernameNotUnique: true,
+				country: Object.values(countries),
+			});
 		}
 	}
 });
