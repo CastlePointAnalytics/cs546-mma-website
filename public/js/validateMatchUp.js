@@ -39,14 +39,14 @@ if (matchUpForm) {
         }
 
         // checks that all errors are hidden
-        if (
-            !(
-                fighter1Error.hidden &&
-                fighter2Error.hidden &&
-                sameFighterError.hidden
-            )
-        ) {
-            // potentially add new fightCard here client side?
-        }
+        // if (
+        //     !(
+        //         fighter1Error.hidden &&
+        //         fighter2Error.hidden &&
+        //         sameFighterError.hidden
+        //     )
+        // ) {
+        //     // potentially add new fightCard here client side?
+        // }
     });
 }

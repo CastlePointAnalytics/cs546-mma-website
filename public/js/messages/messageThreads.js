@@ -27,7 +27,19 @@ $(document).ready(()=>{
             url: e.target.href,
             method: "DELETE"
         }).then((result)=>{
-            $(`#${result.deleted}`).remove();
+            if(result.notLoggedIn){
+                alert("User not logged in!");
+            }else if(result.wrongUser){
+                alert("Currently logged in user is not original Poster. Please re-login if you feel this is a mistake");
+            }else if(result.deleteMessageError){
+                alert("Server error! Could not delete message. Please try again!")
+            }
+            else{
+                $(`#${result.result.deleted}`).remove();
+                $(`#${result.result.deleted}_EL`).remove();
+                $(`#${result.result.deleted}_DL`).remove();
+                $(`#${result.result.deleted}_editForm`).remove();
+            }
         });
     });
 
@@ -50,14 +62,24 @@ $(document).ready(()=>{
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify({
-                text: $(`#${id}_editText`).val(),
-                user: $(`#${id}_user`).val()
+                text: $(`#${id}_editText`).val()
             })
-        }).then((editedMessage)=>{
-            $(`#${id}_text`).text(editedMessage.text);
-            $(`#${id}_timestamp`).text(editedMessage.timestamp);
-            $(`#${id}_editForm`).hide();
-        })
+        }).then((result)=>{
+            if(result.notLoggedIn){
+                alert("User not logged in!");
+            }else if(result.textError){
+                alert("Text input incorrect! Please fix text entry");
+            }else if(result.wrongUser){
+                alert("Currently logged in user is not original Poster. Please re-login if you feel this is a mistake");
+            }else if(result.updateMessageError){
+                alert("Server error! Could not update message. Please try again!");
+            }
+            else{
+                $(`#${id}_text`).text(result.editedMessage.text);
+                $(`#${id}_timestamp`).text(result.editedMessage.timestamp);
+                $(`#${id}_editForm`).hide();
+            }
+        });
     })
 
     $('#postMessage').submit((event)=>{
@@ -69,13 +91,19 @@ $(document).ready(()=>{
             data : JSON.stringify({
                 text: $('#messageText').val(),
             })
-        }).then((newMessage)=>{
-            let div = "<div class='message'>"
-            let username = `<p class='username'>${newMessage.username}</p>`;
-            let text = `<p class='text'>${newMessage.text}</p>`;
-            let timestamp = `<p class='timestamp'>${newMessage.timestamp}</p>`
-            div = div + username + text + timestamp + "</div>"
-            $('#messageContainer').append(div);
+        }).then((result)=>{
+            if(result.messageError){
+                alert("Server error! Could not create new message. Please try again!");
+            }else if(result.textError){
+                alert("Text input incorrect! Please fix text entry");
+            }else{
+                let div = "<div class='message'>"
+                let username = `<p class='username'>${result.newMessage.username}</p>`;
+                let text = `<p class='text'>${result.newMessage.text}</p>`;
+                let timestamp = `<p class='timestamp'>${result.newMessage.timestamp}</p>`
+                div = div + username + text + timestamp + "</div>"
+                $('#messageContainer').append(div);
+            }
         });
     });
 })
