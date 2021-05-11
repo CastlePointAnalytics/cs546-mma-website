@@ -1,21 +1,21 @@
 # CS 546 Final Project Group 18
 
-## Installing
+## Install npm packages:
 ```bash
 npm install
 ```
 
-## Seeding
+## Seed MongoDB:
 ```bash
 npm run seedDB
 ```
 
-## Running
+## Run node.js project:
 ```bash
 npm start
 ```
 
-These scripts can be run from either within the project's directories or from the project root directory.
+These scripts can be run within any of the project's directories.
 
 ## Team Members
 - Elias Frieling (efrielin@stevens.edu)
