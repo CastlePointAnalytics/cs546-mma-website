@@ -108,8 +108,6 @@ router.post('/', async (req, res) => {
 
 		currUser.pickEmsFuture = pickEmsObject;
 
-		console.log(currUser.pickEmsFuture);
-
 		res.status(200).render('user/profile', {
 			user: currUser,
 			// js: 'user/loggedin',
