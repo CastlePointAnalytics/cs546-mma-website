@@ -19,9 +19,13 @@
     <div id="navbar">
         <h1><a href="/">Castle Point Analytics</a></h1>
         <!-- hide these links when a user is logged in -->
+        {{#if notLoggedIn}}
         <a id="navLogin" href="/login">Login</a>
         <a id="navSignup" href="/signup">Signup</a>
+        {{else}}
+        <a id="navProfile" href='/login'>Profile</a>
         <a id="navLogout" href="/logout">Logout</a>
+        {{/if}}
         <a id="navForums" href="/messages">Forums</a>
         <a id="navForums" href="/fullCardDistributions">Betting Strategy</a>
         <!-- Show this when a user is logged in -->
