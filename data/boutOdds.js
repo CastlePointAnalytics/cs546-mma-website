@@ -118,29 +118,53 @@ let exportedMethods = {
             throw "expectedValue is empty";
         }
         //Check odds objects to make sure they are numbers
-        if (typeof boutObject.cpaProb.fighter1 !== "number") {
-            throw "cpaProb figher1 value is NaN";
+        if (
+            typeof boutObject.cpaProb.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "cpaProb fighter1 value is NaN";
         }
-        if (typeof boutObject.cpaProb.fighter2 !== "number") {
-            throw "cpaProb figher2 value is NaN";
+        if (
+            typeof boutObject.cpaProb.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "cpaProb fighter2 value is NaN";
         }
-        if (typeof boutObject.vegasProb.fighter1 !== "number") {
-            throw "vegasProb figher1 value is NaN";
+        if (
+            typeof boutObject.vegasProb.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "vegasProb fighter1 value is NaN";
         }
-        if (typeof boutObject.vegasProb.fighter2 !== "number") {
-            throw "vegasProb figher2 value is NaN";
+        if (
+            typeof boutObject.vegasProb.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "vegasProb fighter2 value is NaN";
         }
-        if (typeof boutObject.vegasMoneyLine.fighter1 !== "number") {
-            throw "vegasMoneyLine figher1 value is NaN";
+        if (
+            typeof boutObject.vegasMoneyLine.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "vegasMoneyLine fighter1 value is NaN";
         }
-        if (typeof boutObject.vegasMoneyLine.fighter2 !== "number") {
-            throw "vegasMoneyLine figher2 value is NaN";
+        if (
+            typeof boutObject.vegasMoneyLine.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "vegasMoneyLine fighter2 value is NaN";
         }
-        if (typeof boutObject.expectedValue.fighter1 !== "number") {
-            throw "expectedValue figher1 value is NaN";
+        if (
+            typeof boutObject.expectedValue.fighter1 !== "number" &&
+            boutObject.cpaProb.fighter1 !== "N/A"
+        ) {
+            throw "expectedValue fighter1 value is NaN";
         }
-        if (typeof boutObject.expectedValue.fighter2 !== "number") {
-            throw "expectedValue figher2 value is NaN";
+        if (
+            typeof boutObject.expectedValue.fighter2 !== "number" &&
+            boutObject.cpaProb.fighter2 !== "N/A"
+        ) {
+            throw "expectedValue fighter2 value is NaN";
         }
     },
     async getBoutById(id) {
@@ -167,9 +191,14 @@ let exportedMethods = {
         await module.exports.validateBoutObject(newBoutObject);
         const fightCardsCollection = await fightCards();
         let myFightCard = await fightCard.getFightCardById(fightCardID); //Just to make sure theres no errors, try getting it first
-        let { ObjectId } = require("mongodb");
-        let newObjId = ObjectId(); //creates a new object ID
-        newBoutObject._id = newObjId;
+        let newObjId = null;
+        if (!newBoutObject._id) {
+            let { ObjectId } = require("mongodb");
+            newObjId = ObjectId(); //creates a new object ID
+            newBoutObject._id = newObjId;
+        } else {
+            newObjId = newBoutObject._id;
+        }
         newBoutObject.fighter1 = await fighters.getFighterById(
             newBoutObject.fighter1
         ); //Replace the ID with the fighter
@@ -187,6 +216,24 @@ let exportedMethods = {
         //myFightCard = await fightCard.getFightCardById(fightCardID); //This assume Object representation
         //return myFightCard;
         return newObjId;
+    },
+    async getBoutOddsByFighters(fighter1Id, fighter2Id) {
+        const allFightCards = await fightCard.sortFightCardsByDate(
+            await fightCard.getAllFightCards()
+        );
+        for (let fightCard of allFightCards) {
+            for (let boutOdd of fightCard.allBoutOdds) {
+                if (
+                    (fighter1Id === boutOdd.fighter1._id.toString() &&
+                        fighter2Id === boutOdd.fighter2._id.toString()) ||
+                    (fighter2Id === boutOdd.fighter2._id.toString() &&
+                        fighter1Id === boutOdd.fighter1._id.toString())
+                ) {
+                    return boutOdd;
+                }
+            }
+        }
+        return null;
     },
 };
 
