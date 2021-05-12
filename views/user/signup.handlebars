@@ -1,53 +1,56 @@
 <div class="row">
     <div class="col-sm-12">
-        <form id="login-form" method="POST" action="/signup">
+        <h2>Sign Up</h2>
+        <form id="signUp-form" method="POST" action="/signup">
             <div class="form-group">
                 <label>
                     First Name
-                    <input type='text' name='firstName' placeholder="First Name" class="full-width-input">
+                    <input type='text' name='firstName' placeholder="First Name" class="full-width-input" id="signUpFirstName">
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Last Name
-                    <input type='text' name='lastName' placeholder="Last Name" class="full-width-input">
+                    <input type='text' name='lastName' placeholder="Last Name" class="full-width-input" id="signUpLastName">
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Age
-                    <input type='text' name='age' placeholder="Age" class="full-width-input">
+                    <input type='number' name='age' placeholder="Age" class="full-width-input" id="signUpAge">
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Country
-                    <input type='text' name='country' placeholder="Country" class="full-width-input">
+                    <select id="countrySelection" name="country">
+                        <option value="default" selected disabled hidden>Select Country</option>
+                        {{#each countries}}
+                            <option value="{{@key}}">{{this}}</option>
+                        {{/each}}
+                    </select>
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Username
-                    <input type='text' name='username' placeholder="Username" class="full-width-input">
+                    <input type='text' name='username' placeholder="Username" class="full-width-input" id="signUpUsername">
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Password
-                    <input type='text' name='password' placeholder="Password" class="full-width-input">
+                    <input type='password' name='password' placeholder="Password" class="full-width-input" id="signUpPassword">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Re-Enter Password
+                    <input type='password' name='re-entered password' placeholder="Re-Enter Password" class="full-width-input" id="signUpPasswordAgain">
                 </label>
             </div>
             <button type="submit">Submit</button>
-
         </form>
-        {{#if hasErrors}}
-        <ul class="error-list">
-            {{#each errors}}
-            <li>
-                {{this}}
-            </li>
-            {{/each}}
-        </ul>
-        {{/if}}
+        <script src="/public/js/user/signUpValidation.js"></script>
     </div>
 </div>
