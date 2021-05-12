@@ -50,10 +50,11 @@ router.get('/', async (req, res) => {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
 				// js: 'user/loggedin',
+				notLoggedIn: false
 			});
 		}
 	} else {
-		res.status(200).render('user/signup');
+		res.status(200).render('user/signup', {notLoggedIn: true});
 	}
 });
 
@@ -65,6 +66,7 @@ router.post('/', async (req, res) => {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
 				// js: 'user/loggedin',
+				notLoggedIn: false
 			});
 		}
 	} else {
@@ -90,10 +92,11 @@ router.post('/', async (req, res) => {
 			};
 			res.status(200).render('user/profile', {
 				user: user,
-				// js: 'user/loggedin'
+				// js: 'user/loggedin',
+				notLoggedIn: false
 			});
 		} else {
-			res.status(403).render('user/signup');
+			res.status(403).render('user/signup', {notLoggedIn: true});
 		}
 	}
 });

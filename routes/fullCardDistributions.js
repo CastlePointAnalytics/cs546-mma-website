@@ -4,9 +4,14 @@ const router = express.Router();
 const path = require('path');
 
 router.get('/', async (req, res) => {
+	let notLogged = true;
+	if(req.session.user){
+		notLogged = false;
+	}
 	res.render('bettingStrategy/bettingStrategy', {
 		css: 'bettingStrategy.css',
 		js: 'bettingStrategy/bettingStrategyForm.js',
+		notLoggedIn: notLogged
 	});
 });
 

@@ -1,6 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const errorChecking = require('../errorChecking');
 let { ObjectId } = require('mongodb');
@@ -491,7 +491,7 @@ module.exports = {
 		let tenMessages = user.recentMessages;
 		let newArray = [];
 		for (let mes of tenMessages) {
-			if (mes._id != messageId) {
+			if (mes._id.toString() != messageId.toString()) {
 				newArray.push(mes);
 			}
 		}
