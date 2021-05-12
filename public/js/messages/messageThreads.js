@@ -104,7 +104,7 @@ $(document).ready(()=>{
                 let timestamp = `<p class='time'>${result.newMessage.timestamp}</p>`;
                 let innerdiv = '<div class=links>';
                 let edit = `<a class="editLink" id="${id}_EL" href=''>Edit</a>`;
-                let del = `<a class ="deleteLink" id=${id}_DL" href="/messages/${id}">Delete</a>`;
+                let del = `<a class="deleteLink" id="${id}_DL" href="/messages/${id}">Delete</a>`;
                 let form = `<form hidden class="editMessage" id="${id}_editForm">`;
                 let hidden = `<input hidden id='${id}_path' value="/messages/${id}"/>`
                 let label = `<label for="${id}_editText" id='${id}_messageLabel'>Edit Message</label>`
