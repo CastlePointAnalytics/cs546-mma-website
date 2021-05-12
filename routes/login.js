@@ -86,26 +86,28 @@ router.post('/', async (req, res) => {
 
 		let fightId;
 		let pickEmFight = currUser.pickEmsFuture;
-		for(let fight in currUser.pickEmsFuture){
-			fightId = fight;
-		}
-		let pickEmsArray = pickEmFight[fightId];
-
-		let pickEmsObject = {};
-
-		let fightcard = await fightCardData.getFightCardById(ObjectId(fightId))
-
-		pickEmsObject.title = fightcard.title;
-
 		let newArr = [];
+		let pickEmsObject = {};
+		if(Object.keys(pickEmFight).length >0){
+			for(let fight in currUser.pickEmsFuture){
+				fightId = fight;
+			}
+			let pickEmsArray = pickEmFight[fightId];
 
-		for(let arr of pickEmsArray){
-			let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
-			newArr.push(fighter.firstName+" "+fighter.lastName);
+			
+
+			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId))
+
+			pickEmsObject.title = fightcard.title;
+
+
+			for(let arr of pickEmsArray){
+				let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
+				newArr.push(fighter.firstName+" "+fighter.lastName);
+			}
 		}
 
 		pickEmsObject.fighters = newArr;
-
 		currUser.pickEmsFuture = pickEmsObject;
 
 		res.status(200).render('user/profile', {
