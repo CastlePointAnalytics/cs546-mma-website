@@ -21,12 +21,7 @@ function clearData() {
 }
 
 function validateBankroll(bankRoll) {
-	// TODO
-	// case where 'e' is passed since that is a number
-	// const tmp = bankRoll;
-	// console.log('Before -> ', bankRoll);
 	bankRoll = parseFloat(bankRoll).toFixed(2);
-	// console.log('After -> ', bankRoll, bankRoll == NaN);
 	if (bankRoll <= 0 || isNaN(bankRoll)) {
 		$('#errorDiv').empty();
 		$('#errorDiv').show();
