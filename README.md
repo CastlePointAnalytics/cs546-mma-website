@@ -60,7 +60,7 @@ These scripts can be run within any of the project's directories.
     - [ ] Show thread of messages from users in all forums (out of context? With context?
 6. Preview history page
     - [ ] Last fight weekend (stats + analytics performance)
-7. Global user analytics
+7. (Luke) Global user analytics
 
 ## Extra Features
 
