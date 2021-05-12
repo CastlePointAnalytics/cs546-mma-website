@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
 			}catch(e){
 				console.log(e.message);
 			}
-			currUser = await userData.get(id);
+			let currUser = await userData.get(id);
 			console.log(currUser)
 			res.status(200).render('user/profile', {
 				user: currUser,

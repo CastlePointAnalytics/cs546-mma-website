@@ -530,4 +530,5 @@ module.exports = {
 		const entries = Object.entries(worldDict);
 		return entries;
 	},
+	COUNTRIES
 };
