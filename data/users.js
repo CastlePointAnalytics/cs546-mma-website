@@ -520,7 +520,7 @@ module.exports = {
 		const globalUsers = await this.getAllUsers();
 		const worldDict = {};
 		for (let user of globalUsers) {
-			if (user.country === null) break;
+			if (user.country === null) continue;
 			if (user.country in worldDict) {
 				worldDict[`${user.country}`] += 1;
 			} else {
