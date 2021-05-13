@@ -3,7 +3,7 @@ const users = mongoCollections.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 8;
 const errorChecking = require('../errorChecking');
-const countries = require('./countries').COUNTRIES;
+const countries = require("./countries");
 let { ObjectId } = require('mongodb');
 
 module.exports = {
@@ -44,8 +44,9 @@ module.exports = {
 			pickEmsFuture: {},
 			pickEmsPast: [],
 			age: age,
-			country: country,
+			country: country
 		};
+		console.log(newUser.country);
 		const insertInfo = await userCollection.insertOne(newUser);
 		if (insertInfo.insertedCount === 0) throw 'Could not add user.';
 		return await this.get(insertInfo.insertedId);
