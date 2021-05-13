@@ -252,9 +252,9 @@ module.exports = {
 		}
 	},
 	async getGlobalUserStats() {
-		const users = await this.getAllUsers();
+		const globalUsers = await this.getAllUsers();
 		const worldDict = {};
-		for (let user of users) {
+		for (let user of globalUsers) {
 			if (user.country === null) continue;
 			if (user.country in worldDict) {
 				worldDict[`${user.country}`] += 1;
@@ -265,4 +265,5 @@ module.exports = {
 		const entries = Object.entries(worldDict);
 		return entries;
 	},
+	COUNTRIES
 };
