@@ -74,3 +74,6 @@ select {
     font-style: italic;
     padding-left: 5px;
 }
+.invalid{
+    color: red;
+}

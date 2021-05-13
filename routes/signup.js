@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
 		});
 	}
 	else {
-		res.status(200).render('user/signup', {notLoggedIn: true, countries: Object.values(countries)});
+		res.status(200).render('user/signup', {notLoggedIn: true, countries: countries});
 	}
 });
 
@@ -81,7 +81,7 @@ router.post('/', async (req, res) => {
 			xss(req.body.lastName),
 			xss(req.body.password),
 			xss(req.body.age),
-			xss(req.body.country),
+			countries[xss(req.body.country)],
 		);
 		req.session.user = {
 			id: user._id,
