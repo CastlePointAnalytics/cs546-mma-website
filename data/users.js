@@ -1,4 +1,4 @@
-const mongoCollections = require('../config/mongoCollections');
+const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 8;
@@ -58,37 +58,37 @@ module.exports = {
 		} catch (e) {
 			throw e;
 		}
+    
+    let user = await userCollection.findOne({ _id: id });
+    if (user === null)
+      throw "Error: id provided does not correspond to a user.";
+    let arr = [];
+    //Create a new array of pickems (we overwrite previous pickems for that fightcard)
+    for (let x of newPickEms) {
+      //newPickems is [[id1], [id2]]
+      x.push(null);
+      //now its [[id1, null], [id2, null]]
+    }
+    user.pickEmsFuture[fightCardID] = newPickEms;
+    const updatedUser = {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      country: user.country,
+      pickEmsFuture: user.pickEmsFuture,
+      pickEmsPast: user.pickEmsPast,
+      recentMessages: user.recentMessages,
+    };
 
-		let user = await userCollection.findOne({ _id: id });
-		if (user === null)
-			throw 'Error: id provided does not correspond to a user.';
-		let arr = [];
-		//Create a new array of pickems (we overwrite previous pickems for that fightcard)
-		for (let x of newPickEms) {
-			//newPickems is [[id1], [id2]]
-			x.push(null);
-			//now its [[id1, null], [id2, null]]
-		}
-		user.pickEmsFuture[fightCardID] = newPickEms;
-		const updatedUser = {
-			username: user.username,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			age: user.age,
-			country: user.country,
-			pickEmsFuture: user.pickEmsFuture,
-			pickEmsPast: user.pickEmsPast,
-			recentMessages: user.recentMessages,
-		};
+    const updatedInfo = await userCollection.updateOne(
+      { _id: id },
+      { $set: updatedUser }
+    );
 
-		const updatedInfo = await userCollection.updateOne(
-			{ _id: id },
-			{ $set: updatedUser },
-		);
-
-		user = await userCollection.findOne({ _id: id });
-		return true;
-	},
+    user = await userCollection.findOne({ _id: id });
+    return true;
+  },
 
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();
@@ -107,32 +107,32 @@ module.exports = {
 			throw e;
 		}
 
-		let parsedId;
-		try {
-			parsedId = ObjectId(id);
-		} catch (e) {
-			throw e.message;
-		}
+    let parsedId;
+    try {
+      parsedId = ObjectId(id);
+    } catch (e) {
+      throw e.message;
+    }
 
-		const user = await userCollection.findOne({ _id: parsedId });
-		if (user === null)
-			throw 'Error: id provided does not correspond to a user.';
-		let updatedRecentMessages = user.recentMessages;
-		updatedRecentMessages.push(newMessage);
-		if (updatedRecentMessages.length > 10) {
-			updatedRecentMessages.shift();
-		}
-		const updatedUser = {
-			username: user.username,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			age: user.age,
-			country: user.country,
-			pickEmsFuture: user.pickEmsFuture,
-			pickEmsPast: user.pickEmsPast,
-			recentMessages: updatedRecentMessages,
-		};
-
+    const user = await userCollection.findOne({ _id: parsedId });
+    if (user === null)
+      throw "Error: id provided does not correspond to a user.";
+    let updatedRecentMessages = user.recentMessages;
+    updatedRecentMessages.push(newMessage);
+    if (updatedRecentMessages.length > 10) {
+      updatedRecentMessages.shift();
+    }
+    const updatedUser = {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      country: user.country,
+      pickEmsFuture: user.pickEmsFuture,
+      pickEmsPast: user.pickEmsPast,
+      recentMessages: updatedRecentMessages,
+    };
+  
 		const updatedInfo = await userCollection.updateOne(
 			{ _id: parsedId },
 			{ $set: updatedUser },
@@ -155,47 +155,47 @@ module.exports = {
 			}
 		} catch (e) {
 			throw e;
-		}
+    }
 
-		let parsedId;
-		try {
-			parsedId = ObjectId(id);
-		} catch (e) {
-			throw e.message;
-		}
+    let parsedId;
+    try {
+      parsedId = ObjectId(id);
+    } catch (e) {
+      throw e.message;
+    }
 
-		const user = await userCollection.findOne({ _id: parsedId });
-		if (user === null)
-			throw 'Error: id provided does not correspond to a user.';
-		let tenMessages = user.recentMessages;
-		//let newArray = [];
-		for (let mes of tenMessages) {
-			if (mes._id.toString() === messageId) {
-				// let edit = {
-				// 	_id: mes._id,
-				// 	boutcard_id: mes.boutcard_id,
-				// 	text: editedText,
-				// 	timestamp: newTimestamp,
-				// 	user_id: mes.user_id,
+    const user = await userCollection.findOne({ _id: parsedId });
+    if (user === null)
+      throw "Error: id provided does not correspond to a user.";
+    let tenMessages = user.recentMessages;
+    //let newArray = [];
+    for (let mes of tenMessages) {
+      if (mes._id.toString() === messageId) {
+        // let edit = {
+        // 	_id: mes._id,
+        // 	boutcard_id: mes.boutcard_id,
+        // 	text: editedText,
+        // 	timestamp: newTimestamp,
+        // 	user_id: mes.user_id,
 
-				// };
-				//newArray.push(edit);
-				mes.text = editedText;
-				mes.timestamp = newTimestamp;
-			}
-			//newArray.push(mes);
-		}
+        // };
+        //newArray.push(edit);
+        mes.text = editedText;
+        mes.timestamp = newTimestamp;
+      }
+      //newArray.push(mes);
+    }
 
-		const updatedUser = {
-			username: user.username,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			age: user.age,
-			country: user.country,
-			pickEmsFuture: user.pickEmsFuture,
-			pickEmsPast: user.pickEmsPast,
-			recentMessages: tenMessages,
-		};
+    const updatedUser = {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      country: user.country,
+      pickEmsFuture: user.pickEmsFuture,
+      pickEmsPast: user.pickEmsPast,
+      recentMessages: tenMessages,
+    };
 
 		const updatedInfo = await userCollection.updateOne(
 			{ _id: parsedId },
@@ -215,13 +215,13 @@ module.exports = {
 			throw e;
 		}
 
-		let parsedId;
-		try {
-			parsedId = ObjectId(id);
-		} catch (e) {
-			throw e.message;
-		}
-
+    let parsedId;
+    try {
+      parsedId = ObjectId(id);
+    } catch (e) {
+      throw e.message;
+    }
+    
 		const user = await userCollection.findOne({ _id: parsedId });
 		if (user === null)
 			throw 'Error: id provided does not correspond to a user.';
