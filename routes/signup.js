@@ -4,6 +4,9 @@ const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
+const xss = require('xss');
+const errorChecking = require('../errorChecking');
+const countries = data.countries.COUNTRIES;
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -43,16 +46,14 @@ async function uniqueUsername(inputUsername) {
 router.get('/', async (req, res) => {
 	if (
 		req.session.user &&
-		req.session.user.username &&
-		req.session.user.password
+		xss(req.session.user.username) &&
+		xss(req.session.user.password)
 	) {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
-				// js: 'user/loggedin',
-				notLoggedIn: false
 			});
 		}
 	} else {
@@ -69,13 +70,30 @@ router.post('/', async (req, res) => {
 			res.status(200).render('user/profile', {
 				user: req.session.user,
 				// js: 'user/loggedin',
-				notLoggedIn: false
+				notLoggedIn: false,
 			});
 		}
 	} else {
-		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+		if (await uniqueUsername(xss(req.body.username))) {
+			const hashedPassword = await bcrypt.hash(
+				xss(req.body.password),
+				saltRounds,
+			);
 
-		if (await uniqueUsername(req.body.username)) {
+			try {
+				errorChecking.isValidString(xss(req.body.firstName), 'first name');
+				errorChecking.isValidString(xss(req.body.lastName), 'last name');
+				errorChecking.isValidAge(xss(req.body.age), 'age');
+				errorChecking.isValidCountry(req.body.country, 'country');
+				errorChecking.isValidString(xss(req.body.username), 'username');
+				errorChecking.isNotEmptyString(xss(req.body.password), 'password');
+			} catch (e) {
+				res.status(403).render('user/signup', {
+					error: true,
+					country: Object.values(countries),
+				});
+			}
+
 			const user = await userData.create(
 				req.body.username,
 				req.body.firstName,
@@ -96,10 +114,16 @@ router.post('/', async (req, res) => {
 			res.status(200).render('user/profile', {
 				user: user,
 				// js: 'user/loggedin',
-				notLoggedIn: false
+				notLoggedIn: false,
 			});
 		} else {
-			res.status(403).render('user/signup', {notLoggedIn: true});
+			res
+				.status(403)
+				.render('user/signup', {
+					notLoggedIn: true,
+					usernameNotUnique: true,
+					country: Object.values(countries),
+				});
 		}
 	}
 });

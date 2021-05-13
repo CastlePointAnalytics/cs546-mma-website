@@ -5,6 +5,7 @@ const fightersData = require('./fighters');
 const fullCardDistributionsData = require('./fullCardDistributions');
 const boutOddsData = require('./boutOdds');
 const forumData = require('./forumFightInfo');
+const countriesData = require('./countries');
 
 module.exports = {
 	users: usersData,
@@ -13,5 +14,6 @@ module.exports = {
 	fighters: fightersData,
 	fullCardDistributions: fullCardDistributionsData,
 	boutOdds: boutOddsData,
-	forum: forumData
+	forum: forumData,
+	countries: countriesData,
 };

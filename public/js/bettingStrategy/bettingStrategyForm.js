@@ -21,13 +21,13 @@ function clearData() {
 }
 
 function validateBankroll(bankRoll) {
-	// TODO
-	// case where 'e' is passed since that is a number
 	bankRoll = parseFloat(bankRoll).toFixed(2);
-	if (bankRoll <= 0) {
+	if (bankRoll <= 0 || isNaN(bankRoll)) {
 		$('#errorDiv').empty();
 		$('#errorDiv').show();
-		let errorMessage = `<h1>Your bank roll $${bankRoll} is invalid. Try again</h1>`;
+		let errorMessage = `<h1>Your bank roll ${
+			isNaN(bankRoll) ? 'contains scientific notation "e" which' : bankRoll
+		} is invalid. Try again</h1>`;
 		$('#errorDiv').append(errorMessage);
 		return false;
 	}
