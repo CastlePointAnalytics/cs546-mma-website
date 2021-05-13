@@ -5,15 +5,16 @@ const userData = data.users;
 const fightCardData = data.fightCards;
 const fightersData = data.fighters;
 const bcrypt = require('bcryptjs');
+const errorChecking = require('../errorChecking');
 let { ObjectId } = require('mongodb');
 const xss = require('xss');
 
 function validateFormData(inputUsername, inputPassword) {
-	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
-		throw 'Invalid username';
-	}
-	if (typeof inputPassword !== 'string' || !inputPassword.trim()) {
-		throw 'Invalid password';
+	try {
+		errorChecking.isValidString(inputUsername, 'inputUsername');
+		errorChecking.isValidString(inputPassword, 'inputPassword');
+	} catch (e) {
+		console.log(e);
 	}
 }
 
@@ -33,29 +34,33 @@ async function authenticatedUser(inputUsername, inputPassword) {
 
 router.get('/', async (req, res) => {
 	if (
-		req.session.user &&
-		req.session.user.username &&
-		req.session.user.password
+		xss(req.session.user) &&
+		xss(req.session.user.username) &&
+		xss(req.session.user.password)
 	) {
 		if (
 			authenticatedUser(req.session.user.username, req.session.user.password)
 		) {
 			let id;
-			try{
+			try {
 				id = ObjectId(req.session.user.id);
-			}catch(e){
+			} catch (e) {
 				console.log(e.message);
 			}
+
 			let currUser = await userData.get(id);
 			console.log(currUser)
 			res.status(200).render('user/profile', {
+				// user: req.session.user,
 				user: currUser,
 				// js: 'user/loggedin.js',
-				notLoggedIn: false
+				notLoggedIn: false,
 			});
+		} else {
+			res.render('user/login', { loginError: true });
 		}
 	} else {
-		res.render('user/login', {notLoggedIn: true});
+		res.render('user/login', { notLoggedIn: true });
 	}
 });
 
@@ -88,22 +93,19 @@ router.post('/', async (req, res) => {
 		let pickEmFight = currUser.pickEmsFuture;
 		let newArr = [];
 		let pickEmsObject = {};
-		if(Object.keys(pickEmFight).length >0){
-			for(let fight in currUser.pickEmsFuture){
+		if (Object.keys(pickEmFight).length > 0) {
+			for (let fight in currUser.pickEmsFuture) {
 				fightId = fight;
 			}
 			let pickEmsArray = pickEmFight[fightId];
 
-			
-
-			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId))
+			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId));
 
 			pickEmsObject.title = fightcard.title;
 
-
-			for(let arr of pickEmsArray){
+			for (let arr of pickEmsArray) {
 				let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
-				newArr.push(fighter.firstName+" "+fighter.lastName);
+				newArr.push(fighter.firstName + ' ' + fighter.lastName);
 			}
 		}
 
@@ -113,10 +115,12 @@ router.post('/', async (req, res) => {
 		res.status(200).render('user/profile', {
 			user: currUser,
 			// js: 'user/loggedin',
-			notLoggedIn: false
+			notLoggedIn: false,
 		});
 	} else {
-		res.status(401).render('user/login', {notLoggedIn: true});
+		res
+			.status(401)
+			.render('user/login', { notLoggedIn: true, loginError: true });
 	}
 });
 
