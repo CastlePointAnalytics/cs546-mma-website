@@ -5,6 +5,7 @@ const userData = data.users;
 const bcrypt = require('bcryptjs');
 const xss = require('xss');
 const errorChecking = require('../errorChecking');
+const { request } = require('express');
 const countries = data.countries.COUNTRIES;
 
 function validateFormData(inputUsername, inputPassword) {
@@ -45,81 +46,63 @@ async function uniqueUsername(inputUsername) {
 router.get('/', async (req, res) => {
 	if (
 		req.session.user &&
-		xss(req.session.user.username) &&
-		xss(req.session.user.password)
+		req.session.user.username
 	) {
-		if (
-			authenticatedUser(req.session.user.username, req.session.user.password)
-		) {
-			res.status(200).render('user/profile', {
-				user: req.session.user,
-			});
-		}
-	} else {
-		
-		res.status(200).render('user/signup', {notLoggedIn: true, countries: countries});
+		const user = await userData.get(req.session.user.id);
+		res.status(200).render('user/profile', {
+			user: user,
+		});
+	}
+	else {
+		res.status(200).render('user/signup', {notLoggedIn: true, countries: Object.values(countries)});
 	}
 });
 
 router.post('/', async (req, res) => {
-	if (req.session.user) {
-		if (
-			authenticatedUser(req.session.user.username, req.session.user.password)
-		) {
-			res.status(200).render('user/profile', {
-				user: req.session.user,
-				// js: 'user/loggedin',
-				notLoggedIn: false,
+	if (await uniqueUsername(xss(req.body.username))) {
+		try {
+			errorChecking.isValidString(xss(req.body.firstName), 'first name');
+			errorChecking.isValidString(xss(req.body.lastName), 'last name');
+			errorChecking.isValidAge(xss(req.body.age), 'age');
+			errorChecking.isValidCountry(req.body.country, 'country');
+			errorChecking.isValidString(xss(req.body.username), 'username');
+			errorChecking.isNotEmptyString(xss(req.body.password), 'password');
+		} catch (e) {
+			res.status(403).render('user/signup', {
+				error: true,
+				notLoggedIn: true,
+				countries: Object.values(countries)
 			});
+			return;
 		}
+		const user = await userData.create(
+			xss(req.body.username),
+			xss(req.body.firstName),
+			xss(req.body.lastName),
+			xss(req.body.password),
+			xss(req.body.age),
+			xss(req.body.country),
+		);
+		req.session.user = {
+			id: user._id,
+			username: user.username,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			//password: user.password,
+			//age: user.age,
+			//country: user.country,
+		};
+		res.status(200).render('user/profile', {
+			user: user,
+			// js: 'user/loggedin',
+			notLoggedIn: false,
+		});
 	} else {
-		if (await uniqueUsername(xss(req.body.username))) {
-			try {
-				errorChecking.isValidString(xss(req.body.firstName), 'first name');
-				errorChecking.isValidString(xss(req.body.lastName), 'last name');
-				errorChecking.isValidAge(xss(req.body.age), 'age');
-				errorChecking.isValidCountry(req.body.country, 'country');
-				errorChecking.isValidString(xss(req.body.username), 'username');
-				errorChecking.isNotEmptyString(xss(req.body.password), 'password');
-			} catch (e) {
-				res.status(403).render('user/signup', {
-					error: true,
-					country: Object.values(countries),
-				});
-				return;
-			}
-
-			const user = await userData.create(
-				xss(req.body.username),
-				xss(req.body.firstName),
-				xss(req.body.lastName),
-				xss(req.body.password),
-				xss(req.body.age),
-				xss(req.body.country),
-			);
-			req.session.user = {
-				id: user._id,
-				username: user.username,
-				firstName: user.firstName,
-				lastName: user.lastName,
-				//password: user.password,
-				//age: user.age,
-				//country: user.country,
-			};
-			res.status(200).render('user/profile', {
-				user: user,
-				// js: 'user/loggedin',
-				notLoggedIn: false,
-			});
-		} else {
-			res
-				.status(403)
-				.render('user/signup', {
-					notLoggedIn: true,
-					usernameNotUnique: true,
-					country: Object.values(countries),
-				});
-		}
+		res.status(403).render('user/signup', {
+			notLoggedIn: true,
+			usernameNotUnique: true,
+			countries: Object.values(countries),
+		});
 	}
 });
 

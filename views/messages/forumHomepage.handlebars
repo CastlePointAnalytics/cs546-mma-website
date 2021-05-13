@@ -1,6 +1,6 @@
 <h1>Message Forum Homepage</h1>
 
-<form id='fightSelection' method="GET">
+{{!-- <form id='fightSelection' method="GET">
     <label for = 'fightsDropdown'>Fightcards: </label>
     <select id="fightsDropdown">
         <option value=''>Select Fightcard....</option>
@@ -12,7 +12,7 @@
         </option>
     </select>
     <button type='submit' id='select'>Select</button>
-</form>
+</form> --}}
 
 <div hidden id='upcoming'>
     <!-- for each fight 
@@ -23,16 +23,16 @@
     {{#each upcoming}}
     <div class="grid-child">
     <img src='/public/JPGs/{{this.image_link}}.jpg' alt="{{this.image_link}}" width=200 height=200>
-    <a href='messages/{{this.site_link}}'>Fight Forum</a>
+    <a href='messages/{{this.site_link}}'>{{this.link_text}}</a>
     </div>
     {{/each}}
 </div>
-<div hidden id='past'>
+{{!-- <div hidden id='past'>
     <p>Past</p>
     <!-- for each fight 
 
         <img> INSERT FIGHT IMAGE </img>
         <a href='/boutId'>Fighter1-lastName v. Fighter2-lastName> 
     -->
-</div>
+</div> --}}
 <script src="/public/js/messages/selectFight.js"></script>

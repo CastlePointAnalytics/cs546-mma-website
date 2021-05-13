@@ -34,31 +34,25 @@ async function authenticatedUser(inputUsername, inputPassword) {
 
 router.get('/', async (req, res) => {
 	if (
-		xss(req.session.user) &&
-		xss(req.session.user.username) &&
-		xss(req.session.user.password)
+		req.session.user &&
+		req.session.user.username
 	) {
-		if (
-			authenticatedUser(req.session.user.username, req.session.user.password)
-		) {
-			let id;
-			try {
-				id = ObjectId(req.session.user.id);
-			} catch (e) {
-				console.log(e.message);
-			}
-
-			let currUser = await userData.get(id);
-			console.log(currUser)
-			res.status(200).render('user/profile', {
-				// user: req.session.user,
-				user: currUser,
-				// js: 'user/loggedin.js',
-				notLoggedIn: false,
-			});
-		} else {
-			res.render('user/login', { loginError: true });
+		let id;
+		try {
+			id = ObjectId(req.session.user.id);
+		} catch (e) {
+			console.log(e.message);
+			return;
 		}
+
+		let currUser = await userData.get(id);
+		console.log(currUser)
+		res.status(200).render('user/profile', {
+			// user: req.session.user,
+			user: currUser,
+			// js: 'user/loggedin.js',
+			notLoggedIn: false,
+		});
 	} else {
 		res.render('user/login', { notLoggedIn: true });
 	}
