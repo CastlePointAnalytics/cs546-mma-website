@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-sm-12">
 
-        <form id="login-form" method="POST" action="/signup">
+        <form id="signUp-form" method="POST" action="/signup">
             {{#if error}}
-            <h2>Invalid Sign Up Data</h2>
+            <h2 class="invalid">Invalid Sign Up Data</h2>
             {{/if}}
             {{#if usernameNotUnique}}
-            <h2>Username is already taken</h2>
+            <h2 class="invalid">Username is already taken</h2>
             {{/if}}
             <div class="form-group">
                 <label>
