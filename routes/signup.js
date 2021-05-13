@@ -3,7 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcryptjs');
-const saltRounds = 2;
+const xss = require('xss')
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -73,25 +73,23 @@ router.post('/', async (req, res) => {
 			});
 		}
 	} else {
-		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
-		if (await uniqueUsername(req.body.username)) {
+		if (await uniqueUsername(xss(req.body.username))) {
 			const user = await userData.create(
-				req.body.username,
-				req.body.firstName,
-				req.body.lastName,
-				hashedPassword,
-				req.body.age,
-				req.body.country,
+				xss(req.body.username),
+				xss(req.body.firstName),
+				xss(req.body.lastName),
+				xss(req.body.password),
+				xss(req.body.age),
+				xss(req.body.country),
 			);
 			req.session.user = {
 				id: user._id,
 				username: user.username,
 				firstName: user.firstName,
 				lastName: user.lastName,
-				password: hashedPassword,
-				age: user.age,
-				country: user.country,
+				//password: user.password,
+				//age: user.age,
+				//country: user.country,
 			};
 			res.status(200).render('user/profile', {
 				user: user,

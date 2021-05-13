@@ -1,7 +1,6 @@
 function checkLogin() {
     let username = document.getElementById("username");
     let password = document.getElementById("password");
-    console.log(password);
     if (username.value == "" && password.value == "") {
         alert("Please enter a username and password.");
         return;
@@ -15,11 +14,9 @@ function checkLogin() {
         return;
     }
 
-    if (typeof(username) != 'string') {
+    if (typeof username.value != 'string') {
         alert("Please enter a valid username or signup.");
     }
-
-
 }
 
 document.addEventListener("DOMContentLoaded", function(event) { 

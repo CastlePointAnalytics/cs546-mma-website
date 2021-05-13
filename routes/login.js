@@ -5,8 +5,8 @@ const userData = data.users;
 const fightCardData = data.fightCards;
 const fightersData = data.fighters;
 const bcrypt = require('bcryptjs');
-const saltRounds = 2;
 let { ObjectId } = require('mongodb');
+const xss = require('xss');
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
@@ -60,23 +60,23 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-	if (await authenticatedUser(req.body.username, req.body.password)) {
+	if (await authenticatedUser(xss(req.body.username), xss(req.body.password))) {
 		let currUser;
 		for (let user of await userData.getAllUsers()) {
 			if (
-				user.username.toLowerCase() == req.body.username.toLowerCase() &&
-				(await bcrypt.compare(req.body.password, user.password))
+				user.username.toLowerCase() == xss(req.body.username).toLowerCase() &&
+				(await bcrypt.compare(xss(req.body.password), user.password))
 			) {
 				currUser = user;
 			}
 		}
-		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+		//const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 		req.session.user = {
 			id: currUser._id,
 			username: currUser.username,
-			// firstName: currUser.firstName,
-			// lastName: currUser.lastName,
-			password: hashedPassword,
+			firstName: currUser.firstName,
+			lastName: currUser.lastName,
+			//password: hashedPassword,
 			// age: currUser.age,
 			// country: currUser.country,
 			// recentMessages: currUser.recentMessages,
