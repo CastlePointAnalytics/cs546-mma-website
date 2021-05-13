@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const xss = require('xss');
 
 router.get('/', async (req, res) => {
 	if (
-		xss(req.session.user) &&
-		xss(req.session.user.username) &&
-		xss(req.session.user.password)
+		req.session.user &&
+		req.session.user.username
 	) {
 		const userFullName = `${req.session.user.firstName} ${req.session.user.lastName}`;
 		req.session.destroy();

@@ -35,7 +35,7 @@ const constructorMethods = (app) => {
 			let upcomingFights = await fightCardsData.getUpcomingFightCards();
 			// renders the landing page using handlebars
 			let globalUserStats = await userData.getGlobalUserStats();
-			console.log(globalUserStats);
+			//console.log(globalUserStats);
 			res.render('landings/fighters', {
 				fighters: await fighters.toArray(),
 				mostRecent: mostRecentFightCard,

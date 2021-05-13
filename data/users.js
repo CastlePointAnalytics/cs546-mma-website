@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
 const bcrypt = require('bcryptjs');
-const saltRounds = 2;
+const saltRounds = 8;
 const errorChecking = require('../errorChecking');
 const countries = require('./countries').COUNTRIES;
 let { ObjectId } = require('mongodb');
@@ -265,5 +265,4 @@ module.exports = {
 		const entries = Object.entries(worldDict);
 		return entries;
 	},
-	COUNTRIES
 };
