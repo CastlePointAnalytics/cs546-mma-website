@@ -29,10 +29,16 @@
         <h3>User PickEms</h3>
 
         <h4>Future</h4>
-        {{#if user.pickEmsFuture.fighters.length}}
-        <h5>{{user.pickEmsFuture.title}}</h5>
+        {{#if user.pickEmsFuture.length}}
+        {{!-- <h5>{{user.pickEmsFuture.title}}</h5>
         {{#each user.pickEmsFuture.fighters}}
             <p>Pick: {{this}}</p>
+        {{/each}} --}}
+        {{#each user.pickEmsFuture}}
+        <h5>{{this.title}}</h5>
+            {{#each this.fighters}}
+            <p>Pick: {{this}}</p>
+            {{/each}}
         {{/each}}
         {{else}}
         <p>No future pickEms for {{user.username}}</p>
