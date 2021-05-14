@@ -4,11 +4,6 @@ $(document).ready(() => {
 
 function boutOutcomeGraphics(bout, index) {
 	if (bout.winner == 'fighter1') {
-		console.log(
-			'fighter1 was called, setting left to green',
-			index,
-			bout.winner,
-		);
 		$(`#${index}_left`).css({ color: 'green' });
 		$(`#${index}_right`).css({ color: 'red' });
 	} else {
@@ -24,7 +19,6 @@ function previousFightCard() {
 		url: '/previousFightCard/apiData',
 		contentType: 'application/json',
 	}).then((data) => {
-		console.log(data);
 		index = 0;
 		data.forEach((bout) => {
 			boutOutcomeGraphics(bout, index++);

@@ -6,7 +6,6 @@ const xss = require('xss');
 
 router.get('/', async (req, res) => {
 	const prevFightCard = await fetchData.getPreviousFightCard();
-	console.log(prevFightCard);
 	res.render('previousFightCard/previousFightCard', {
 		allBouts: prevFightCard,
 		css: 'fightCard.css',
