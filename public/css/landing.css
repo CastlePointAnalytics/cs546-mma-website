@@ -49,3 +49,31 @@ select {
     text-align: center;
     text-indent: 0;
 }
+
+.message{
+    border: lightgray solid 2px;
+    width: 21%;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.username{
+    color: #89cff0;
+    background-color: black;
+    border-radius: 5px;
+    font-size: 15px;
+    padding-left: 5px;
+}
+
+.text{
+    font-size: 17px;
+    padding-left: 5px;
+}
+
+.time{
+    font-style: italic;
+    padding-left: 5px;
+}
+.invalid{
+    color: red;
+}
