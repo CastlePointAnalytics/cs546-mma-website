@@ -5,9 +5,9 @@ $(document).ready(() => {
 function boutOutcomeGraphics(bout, index) {
 	if (bout.winner == 'fighter1') {
 		$(`#${index}_left`).css({ color: 'green' });
-		$(`#${index}_right`).css({ color: 'red' });
+		$(`#${index}_right`).css({ color: '#ee0000' });
 	} else {
-		$(`#${index}_left`).css({ color: 'red' });
+		$(`#${index}_left`).css({ color: '#ee0000' });
 		$(`#${index}_right`).css({ color: 'green' });
 	}
 }
