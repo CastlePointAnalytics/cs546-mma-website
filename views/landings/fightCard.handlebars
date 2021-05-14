@@ -1,90 +1,96 @@
 <main>
-  <h1 id="title">{{title}}</h1>
+    <h1 id="title">{{title}}</h1>
 
-  <div id="fight-card">
-    {{#if loggedIn}}
-      <h6 hidden id="logged-in">true</h6>
-    {{else}}
-      <h6 hidden id="logged-in">false</h6>
-    {{/if}}
-    <div id="helpDiv">
-      <button type="button" id="btnHelp">Help</button>
+    <div id="fight-card">
+        {{#if loggedIn}}
+            <p hidden id="logged-in">true</p>
+        {{else}}
+            <p hidden id="logged-in">false</p>
+        {{/if}}
+        <div id="helpDiv">
+            <button type="button" id="btnHelp">Help</button>
+        </div>
+
+        <div class="bouts">
+            {{#each allBouts}}
+                <form class="pickemForm" id="{{@index}}_form" method="post">
+                    <div class="column left">
+                        <h3>{{fighter1.firstName}} {{fighter1.lastName}}</h3>
+                        <h4
+                        >{{fighter1.record.wins}}-{{fighter1.record.losses}}-{{fighter1.record.draws}}</h4>
+                        <h4>{{fighter1.age}}</h4>
+                        <h4>{{fighter1.height}}</h4>
+                        <h4>{{fighter1.weight}}</h4>
+                        <h4>{{fighter1.reach}}</h4>
+                        <h4>{{cpaProb.fighter1}}</h4>
+                        <h4>{{vegasProb.fighter1}}</h4>
+                        <h4>{{vegasMoneyLine.fighter1}}</h4>
+                        <h4>{{expectedValue.fighter1}}</h4>
+                        <div class="form-group">
+                            <label
+                                for="{{fighter1._id}}-pickEm"
+                                id="{{fighter1._id}}-left"
+                            >
+                                {{fighter1.lastName}}
+                            </label>
+                            <input
+                                type="radio"
+                                name={{@index}}
+                                id="{{fighter1._id}}-pickEm"
+                            />
+                        </div>
+                    </div>
+                    <div class="column middle">
+                        <h3>VS</h3>
+                        <h4>Record</h4>
+                        <h4>Age</h4>
+                        <h4>Height</h4>
+                        <h4>Weight</h4>
+                        <h4>Reach</h4>
+                        <h4>CPA Win Probability</h4>
+                        <h4>Vegas Implied Probability</h4>
+                        <h4>Vegas Money Lines</h4>
+                        <h4>Cpa Expected Value</h4>
+                    </div>
+                    <div class="column right">
+                        <h3>{{fighter2.firstName}} {{fighter2.lastName}}</h3>
+                        <h4
+                        >{{fighter2.record.wins}}-{{fighter2.record.losses}}-{{fighter2.record.draws}}</h4>
+                        <h4>{{fighter2.age}}</h4>
+                        <h4>{{fighter2.height}}</h4>
+                        <h4>{{fighter2.weight}}</h4>
+                        <h4>{{fighter2.reach}}</h4>
+                        <h4>{{cpaProb.fighter2}}</h4>
+                        <h4>{{vegasProb.fighter2}}</h4>
+                        <h4>{{vegasMoneyLine.fighter2}}</h4>
+                        <h4>{{expectedValue.fighter2}}</h4>
+                        <div class="form-group">
+                            <label
+                                for="{{fighter2._id}}-pickEm"
+                                id="{{fighter2._id}}-right"
+                            >
+                                {{fighter2.lastName}}
+                            </label>
+                            <input
+                                type="radio"
+                                name={{@index}}
+                                id="{{fighter2._id}}-pickEm"
+                            />
+                        </div>
+                    </div>
+                    <input type="submit" value="Submit" />
+
+                    <br />
+                </form>
+            {{/each}}
+        </div>
+
     </div>
-
-    <div class="bouts">
-      {{#each allBouts}}
-        <form class="pickemForm" id="{{@index}}_form" method="post">
-          <div class="column left">
-            <h3>{{fighter1.firstName}} {{fighter1.lastName}}</h3>
-            <h4
-            >{{fighter1.record.wins}}-{{fighter1.record.losses}}-{{fighter1.record.draws}}</h4>
-            <h4>{{fighter1.age}}</h4>
-            <h4>{{fighter1.height}}</h4>
-            <h4>{{fighter1.weight}}</h4>
-            <h4>{{fighter1.reach}}</h4>
-            <h4>{{cpaProb.fighter1}}</h4>
-            <h4>{{vegasProb.fighter1}}</h4>
-            <h4>{{vegasMoneyLine.fighter1}}</h4>
-            <h4>{{expectedValue.fighter1}}</h4>
-            <div class="form-group">
-              <label for="{{fighter1._id}}-pickEm" id="{{fighter1._id}}-left">
-                {{fighter1.lastName}}
-              </label>
-              <input
-                type="radio"
-                name={{@index}}
-                id="{{fighter1._id}}-pickEm"
-              />
-            </div>
-          </div>
-          <div class="column middle">
-            <h3>VS</h3>
-            <h4>Record</h4>
-            <h4>Age</h4>
-            <h4>Height</h4>
-            <h4>Weight</h4>
-            <h4>Reach</h4>
-            <h4>CPA Win Probability</h4>
-            <h4>Vegas Implied Probability</h4>
-            <h4>Vegas Money Lines</h4>
-            <h4>Cpa Expected Value</h4>
-          </div>
-          <div class="column right">
-            <h3>{{fighter2.firstName}} {{fighter2.lastName}}</h3>
-            <h4
-            >{{fighter2.record.wins}}-{{fighter2.record.losses}}-{{fighter2.record.draws}}</h4>
-            <h4>{{fighter2.age}}</h4>
-            <h4>{{fighter2.height}}</h4>
-            <h4>{{fighter2.weight}}</h4>
-            <h4>{{fighter2.reach}}</h4>
-            <h4>{{cpaProb.fighter2}}</h4>
-            <h4>{{vegasProb.fighter2}}</h4>
-            <h4>{{vegasMoneyLine.fighter2}}</h4>
-            <h4>{{expectedValue.fighter2}}</h4>
-            <div class="form-group">
-              <label for="{{fighter2._id}}-pickEm" id="{{fighter2._id}}-right">
-                {{fighter2.lastName}}
-              </label>
-              <input
-                type="radio"
-                name={{@index}}
-                id="{{fighter2._id}}-pickEm"
-              />
-            </div>
-          </div>
-          <input type="submit" value="Submit" />
-
-          <br />
-        </form>
-      {{/each}}
-    </div>
-
-  </div>
 
 </main>
 <script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
 ></script>
 <script src="/public/js/fightcards/fightcards.js"></script>
