@@ -114,7 +114,20 @@ async function main() {
 	);
 	await usersCollection.updateRecentMessages(fred._id, fredmsg1);
 
+	for(let bout in boutIds){
+		if(bout === 0){
+			continue;
+		}
+		let mesg = await messagesCollection.createMessage(
+			boutIds[bout].toString(),
+			"Seeded Message",
+			timestamp,
+			elias._id,
+			elias.username);
+		await usersCollection.updateRecentMessages(elias._id, mesg);
+	}
 	await db.serverConfig.close();
+	console.log("Database seeded homie!");
 }
 
 main();
