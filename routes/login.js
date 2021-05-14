@@ -32,6 +32,38 @@ async function authenticatedUser(inputUsername, inputPassword) {
 	return presentUser;
 }
 
+async function repopulatePickEms(currUser){
+	
+	let pickEmFight = currUser.pickEmsFuture;
+	let pickEmsArr = [];
+	if (Object.keys(pickEmFight).length > 0) {
+		
+		for (let fight in currUser.pickEmsFuture) {
+			let fightId;
+			let pickEmsObject = {};
+			let fighterArr = [];
+			fightId = fight;
+
+			let pickEmsArray = pickEmFight[fightId];
+
+			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId));
+
+			pickEmsObject.title = fightcard.title;
+			if(fightcard.notActualFight) pickEmsObject.title += " (Hypothetical)"
+
+			for (let arr of pickEmsArray) {
+				let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
+				fighterArr.push(fighter.firstName + ' ' + fighter.lastName);
+			}
+			pickEmsObject.fighters = fighterArr;
+			pickEmsArr.push(pickEmsObject);
+		}
+		
+	}
+	currUser.pickEmsFuture = pickEmsArr;
+	return currUser;
+}
+
 router.get('/', async (req, res) => {
 	if (
 		req.session.user &&
@@ -46,7 +78,9 @@ router.get('/', async (req, res) => {
 		}
 
 		let currUser = await userData.get(id);
-		console.log(currUser)
+		
+		currUser = await repopulatePickEms(currUser);
+
 		res.status(200).render('user/profile', {
 			// user: req.session.user,
 			user: currUser,
@@ -83,28 +117,7 @@ router.post('/', async (req, res) => {
 			// pickEmsPast: currUser.pickEmsPast
 		};
 
-		let fightId;
-		let pickEmFight = currUser.pickEmsFuture;
-		let newArr = [];
-		let pickEmsObject = {};
-		if (Object.keys(pickEmFight).length > 0) {
-			for (let fight in currUser.pickEmsFuture) {
-				fightId = fight;
-			}
-			let pickEmsArray = pickEmFight[fightId];
-
-			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId));
-
-			pickEmsObject.title = fightcard.title;
-
-			for (let arr of pickEmsArray) {
-				let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
-				newArr.push(fighter.firstName + ' ' + fighter.lastName);
-			}
-		}
-
-		pickEmsObject.fighters = newArr;
-		currUser.pickEmsFuture = pickEmsObject;
+		currUser = await repopulatePickEms(currUser);
 
 		res.status(200).render('user/profile', {
 			user: currUser,
