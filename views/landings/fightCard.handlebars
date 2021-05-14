@@ -7,7 +7,10 @@
     {{else}}
       <h6 hidden id="logged-in">false</h6>
     {{/if}}
-    <button type="button" id="btnHelp">Help</button>
+    <div id="helpDiv">
+      <button type="button" id="btnHelp">Help</button>
+    </div>
+
     <div class="bouts">
       {{#each allBouts}}
         <form class="pickemForm" id="{{@index}}_form" method="post">
