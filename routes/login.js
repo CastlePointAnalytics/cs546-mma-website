@@ -31,28 +31,65 @@ async function authenticatedUser(inputUsername, inputPassword) {
     }
     return presentUser;
 }
+async function repopulatePickEms(currUser){
+	
+	let pickEmFight = currUser.pickEmsFuture;
+	let pickEmsArr = [];
+	if (Object.keys(pickEmFight).length > 0) {
+		
+		for (let fight in currUser.pickEmsFuture) {
+			let fightId;
+			let pickEmsObject = {};
+			let fighterArr = [];
+			fightId = fight;
 
-router.get("/", async (req, res) => {
-    if (req.session.user && req.session.user.username) {
-        let id;
-        try {
-            id = ObjectId(req.session.user.id);
-        } catch (e) {
-            console.log(e.message);
-            return;
-        }
+			let pickEmsArray = pickEmFight[fightId];
 
-        let currUser = await userData.get(id);
-        console.log(currUser);
-        res.status(200).render("user/profile", {
-            // user: req.session.user,
-            user: currUser,
-            // js: 'user/loggedin.js',
-            notLoggedIn: false,
-        });
-    } else {
-        res.render("user/login", { notLoggedIn: true });
-    }
+			let fightcard = await fightCardData.getFightCardById(ObjectId(fightId));
+
+			pickEmsObject.title = fightcard.title;
+			if(fightcard.notActualFight) pickEmsObject.title += " (Hypothetical)"
+
+			for (let arr of pickEmsArray) {
+				let fighter = await fightersData.getFighterById(ObjectId(arr[0]));
+				fighterArr.push(fighter.firstName + ' ' + fighter.lastName);
+			}
+			pickEmsObject.fighters = fighterArr;
+			pickEmsArr.push(pickEmsObject);
+		}
+		
+	}
+	currUser.pickEmsFuture = pickEmsArr;
+	return currUser;
+}
+
+router.get('/', async (req, res) => {
+	if (
+		req.session.user &&
+		req.session.user.username
+	) {
+		let id;
+		try {
+			id = ObjectId(req.session.user.id);
+		} catch (e) {
+			console.log(e.message);
+			return;
+		}
+
+		let currUser = await userData.get(id);
+		
+		currUser = await repopulatePickEms(currUser);
+
+		res.status(200).render('user/profile', {
+			// user: req.session.user,
+			user: currUser,
+			// js: 'user/loggedin.js',
+			notLoggedIn: false,
+		});
+	} else {
+		res.render('user/login', { notLoggedIn: true });
+	}
+
 });
 
 router.post("/", async (req, res) => {
@@ -82,43 +119,19 @@ router.post("/", async (req, res) => {
             // pickEmsFuture: currUser.pickEmsFuture,
             // pickEmsPast: currUser.pickEmsPast
         };
+		currUser = await repopulatePickEms(currUser);
 
-        let fightId;
-        let pickEmFight = currUser.pickEmsFuture;
-        let newArr = [];
-        let pickEmsObject = {};
-        if (Object.keys(pickEmFight).length > 0) {
-            for (let fight in currUser.pickEmsFuture) {
-                fightId = fight;
-            }
-            let pickEmsArray = pickEmFight[fightId];
+		res.status(200).render('user/profile', {
+			user: currUser,
+			// js: 'user/loggedin',
+			notLoggedIn: false,
+		});
+	} else {
+		res
+			.status(401)
+			.render('user/login', { notLoggedIn: true, loginError: true });
+	}
 
-            let fightcard = await fightCardData.getFightCardById(
-                ObjectId(fightId)
-            );
-
-            for (let arr of pickEmsArray) {
-                let fighter = await fightersData.getFighterById(
-                    ObjectId(arr[0])
-                );
-                newArr.push(fighter.firstName + " " + fighter.lastName);
-            }
-        }
-
-        pickEmsObject.fighters = newArr;
-        currUser.pickEmsFuture = pickEmsObject;
-
-        res.status(200).render("user/profile", {
-            user: currUser,
-            // js: 'user/loggedin',
-            notLoggedIn: false,
-        });
-    } else {
-        res.status(401).render("user/login", {
-            notLoggedIn: true,
-            loginError: true,
-        });
-    }
 });
 
 module.exports = router;

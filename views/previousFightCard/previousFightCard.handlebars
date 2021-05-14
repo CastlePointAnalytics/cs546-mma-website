@@ -1,0 +1,66 @@
+<main>
+  <h1 id="title">{{fightDate}}</h1>
+
+  <div id="fight-card">
+    <div class="bouts">
+      {{#each allBouts}}
+        {{!-- <div hidden id="winner">{{winner}}</div> --}}
+        <form class="pickemForm" id="{{@index}}_form" method="post">
+          <div class="column left" id="{{@index}}_left">
+            <h3 class='fighter1'>{{fighter1.firstName}} {{fighter1.lastName}}</h3>
+            <h4
+            >{{fighter1.record.wins}}-{{fighter1.record.losses}}-{{fighter1.record.draws}}</h4>
+            <h4>{{fighter1.age}}</h4>
+            <h4>{{fighter1.height}}</h4>
+            <h4>{{fighter1.weight}}</h4>
+            <h4>{{fighter1.reach}}</h4>
+            <h4>{{cpaProb.fighter1}}</h4>
+            <h4>{{vegasProb.fighter1}}</h4>
+            <h4>{{vegasMoneyLine.fighter1}}</h4>
+            <h4>{{expectedValue.fighter1}}</h4>
+            <div class="form-group">
+            </div>
+          </div>
+          <div class="column middle">
+            <h3>VS</h3>
+            <h4>Record</h4>
+            <h4>Age</h4>
+            <h4>Height</h4>
+            <h4>Weight</h4>
+            <h4>Reach</h4>
+            <h4>CPA Win Probability</h4>
+            <h4>Vegas Implied Probability</h4>
+            <h4>Vegas Money Lines</h4>
+            <h4>Cpa Expected Value</h4>
+            {{!-- <h4>{{winner}}</h4> --}}
+          </div>
+          <div class="column right" id="{{@index}}_right">
+            <h3 class='fighter2'>{{fighter2.firstName}} {{fighter2.lastName}}</h3>
+            <h4
+            >{{fighter2.record.wins}}-{{fighter2.record.losses}}-{{fighter2.record.draws}}</h4>
+            <h4>{{fighter2.age}}</h4>
+            <h4>{{fighter2.height}}</h4>
+            <h4>{{fighter2.weight}}</h4>
+            <h4>{{fighter2.reach}}</h4>
+            <h4>{{cpaProb.fighter2}}</h4>
+            <h4>{{vegasProb.fighter2}}</h4>
+            <h4>{{vegasMoneyLine.fighter2}}</h4>
+            <h4>{{expectedValue.fighter2}}</h4>
+            <div class="form-group">
+            </div>
+          </div>
+
+          <br />
+        </form>
+      {{/each}}
+    </div>
+
+  </div>
+
+</main>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"
+></script>
+<script src="/public/js/prevFightCard/prevFightCard.js"></script>

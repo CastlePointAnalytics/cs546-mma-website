@@ -3,7 +3,7 @@ const users = mongoCollections.users;
 const bcrypt = require('bcryptjs');
 const saltRounds = 8;
 const errorChecking = require('../errorChecking');
-const countries = require('./countries').COUNTRIES;
+const countries = require("./countries");
 let { ObjectId } = require('mongodb');
 
 module.exports = {
@@ -44,7 +44,7 @@ module.exports = {
 			pickEmsFuture: {},
 			pickEmsPast: [],
 			age: age,
-			country: country,
+			country: country
 		};
 		const insertInfo = await userCollection.insertOne(newUser);
 		if (insertInfo.insertedCount === 0) throw 'Could not add user.';
@@ -59,36 +59,36 @@ module.exports = {
 			throw e;
 		}
     
-    let user = await userCollection.findOne({ _id: id });
-    if (user === null)
-      throw "Error: id provided does not correspond to a user.";
-    let arr = [];
-    //Create a new array of pickems (we overwrite previous pickems for that fightcard)
-    for (let x of newPickEms) {
-      //newPickems is [[id1], [id2]]
-      x.push(null);
-      //now its [[id1, null], [id2, null]]
-    }
-    user.pickEmsFuture[fightCardID] = newPickEms;
-    const updatedUser = {
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      age: user.age,
-      country: user.country,
-      pickEmsFuture: user.pickEmsFuture,
-      pickEmsPast: user.pickEmsPast,
-      recentMessages: user.recentMessages,
-    };
+		let user = await userCollection.findOne({ _id: id });
+		if (user === null)
+		throw "Error: id provided does not correspond to a user.";
+		let arr = [];
+		//Create a new array of pickems (we overwrite previous pickems for that fightcard)
+		for (let x of newPickEms) {
+		//newPickems is [[id1], [id2]]
+		x.push(null);
+		//now its [[id1, null], [id2, null]]
+		}
+		user.pickEmsFuture[fightCardID] = newPickEms;
+		const updatedUser = {
+		username: user.username,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		age: user.age,
+		country: user.country,
+		pickEmsFuture: user.pickEmsFuture,
+		pickEmsPast: user.pickEmsPast,
+		recentMessages: user.recentMessages,
+		};
 
-    const updatedInfo = await userCollection.updateOne(
-      { _id: id },
-      { $set: updatedUser }
-    );
+		const updatedInfo = await userCollection.updateOne(
+		{ _id: id },
+		{ $set: updatedUser }
+		);
 
-    user = await userCollection.findOne({ _id: id });
-    return true;
-  },
+		user = await userCollection.findOne({ _id: id });
+		return true;
+	},
 
 	async updateRecentMessages(id, newMessage) {
 		const userCollection = await users();
@@ -250,7 +250,7 @@ module.exports = {
 		if (updatedInfo.deletedCount === 0) {
 			throw "Error: Could not edit user's message.";
 		}
-	},
+	},	
 	async getGlobalUserStats() {
 		const globalUsers = await this.getAllUsers();
 		const worldDict = {};

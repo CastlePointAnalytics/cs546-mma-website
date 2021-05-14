@@ -56,10 +56,10 @@ These scripts can be run within any of the project's directories.
     - [X] Name
     - [X] Age
     - [X] Supporting info
-    - [ ] Show their pick ems
-    - [ ] Show thread of messages from users in all forums (out of context? With context?
+    - [X] Show their pick ems
+    - [X] Show thread of messages from users in all forums (out of context? With context?
 6. Preview history page
-    - [ ] Last fight weekend (stats + analytics performance)
+    - [X] Last fight weekend (stats + analytics performance)
 7. Global user analytics
 
 ## Extra Features
