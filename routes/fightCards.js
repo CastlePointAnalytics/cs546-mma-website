@@ -59,6 +59,7 @@ router.get('/:id', async (req, res) => {
 			userBool = false;
 		}
 		res.render('landings/fightCard', {
+			title: card.title,
 			allBouts: card.allBoutOdds,
 			css: 'fightCard.css',
 			loggedIn: userBool,
