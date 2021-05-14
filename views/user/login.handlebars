@@ -1,19 +1,29 @@
 <div class="row">
     <div class="col-sm-12">
         {{#if loginError}}
-        <h2>Incorrect Username and/or password</h2>
+            <h2>Incorrect Username and/or password</h2>
         {{/if}}
         <form id="login-form" method="POST" action="/login">
             <div class="form-group">
                 <label>
                     Username
-                    <input type='text' name='username' placeholder="Username" class="full-width-input">
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        class="full-width-input"
+                    />
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Password
-                    <input type='password' name='password' placeholder="Password" class="full-width-input">
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        class="full-width-input"
+                    />
                 </label>
             </div>
             <button type="submit">Submit</button>

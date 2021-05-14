@@ -22,6 +22,11 @@ $(document).ready(() => {
     }
     //console.log(fighter);
   });
+  $("#btnHelp").click(function () {
+    alert(
+      "Clicking submit will submit all pickems you have currently selected. If you wish to change your pickem simply select different fighters and click submit again!"
+    );
+  });
 });
 
 function updatePickem(fighters, currentURL) {
