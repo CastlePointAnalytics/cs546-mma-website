@@ -10,9 +10,10 @@
     <button type="button" id="btnHelp">Help</button>
     <div class="bouts">
       {{#each allBouts}}
+        {{!-- <div hidden id="winner">{{winner}}</div> --}}
         <form class="pickemForm" id="{{@index}}_form" method="post">
-          <div class="column left">
-            <h3>{{fighter1.firstName}} {{fighter1.lastName}}</h3>
+          <div class="column left" id="{{@index}}_left">
+            <h3 class='fighter1'>{{fighter1.firstName}} {{fighter1.lastName}}</h3>
             <h4
             >{{fighter1.record.wins}}-{{fighter1.record.losses}}-{{fighter1.record.draws}}</h4>
             <h4>{{fighter1.age}}</h4>
@@ -39,8 +40,8 @@
             <h4>Cpa Expected Value</h4>
             {{!-- <h4>{{winner}}</h4> --}}
           </div>
-          <div class="column right">
-            <h3>{{fighter2.firstName}} {{fighter2.lastName}}</h3>
+          <div class="column right" id="{{@index}}_right">
+            <h3 class='fighter2'>{{fighter2.firstName}} {{fighter2.lastName}}</h3>
             <h4
             >{{fighter2.record.wins}}-{{fighter2.record.losses}}-{{fighter2.record.draws}}</h4>
             <h4>{{fighter2.age}}</h4>
@@ -68,4 +69,5 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"
 ></script>
-<script src="/public/js/fightcards/fightcards.js"></script>
+{{!-- <script src="/public/js/fightcards/fightcards.js"></script> --}}
+<script src="/public/js/prevFightCard/prevFightCard.js"></script>

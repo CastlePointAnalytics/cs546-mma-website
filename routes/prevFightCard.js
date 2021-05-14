@@ -13,4 +13,9 @@ router.get('/', async (req, res) => {
 	});
 });
 
+router.get('/apiData', async (req, res) => {
+	const previousFightCardJSON = await fetchData.getPreviousFightCard();
+	res.json(previousFightCardJSON);
+});
+
 module.exports = router;
