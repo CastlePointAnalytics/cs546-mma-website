@@ -7,6 +7,7 @@ const xss = require('xss');
 router.get('/', async (req, res) => {
 	const prevFightCard = await fetchData.getPreviousFightCard();
 	res.render('previousFightCard/previousFightCard', {
+		fightDate: prevFightCard[0].fightDate,
 		allBouts: prevFightCard,
 		css: 'fightCard.css',
 		notLoggedIn: true,
