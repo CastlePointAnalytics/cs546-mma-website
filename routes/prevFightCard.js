@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
 	res.render('previousFightCard/previousFightCard', {
 		allBouts: prevFightCard,
 		css: 'fightCard.css',
+		notLoggedIn: true,
 	});
 });
 

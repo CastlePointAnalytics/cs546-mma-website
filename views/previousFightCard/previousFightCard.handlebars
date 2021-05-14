@@ -2,12 +2,6 @@
   <h1 id="title">{{fightDate}}</h1>
 
   <div id="fight-card">
-    {{#if loggedIn}}
-      <h6 hidden id="logged-in">true</h6>
-    {{else}}
-      <h6 hidden id="logged-in">false</h6>
-    {{/if}}
-    <button type="button" id="btnHelp">Help</button>
     <div class="bouts">
       {{#each allBouts}}
         {{!-- <div hidden id="winner">{{winner}}</div> --}}
@@ -69,5 +63,4 @@
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"
 ></script>
-{{!-- <script src="/public/js/fightcards/fightcards.js"></script> --}}
 <script src="/public/js/prevFightCard/prevFightCard.js"></script>
