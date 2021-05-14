@@ -224,11 +224,35 @@ let exportedMethods = {
         for (let fightCard of allFightCards) {
             for (let boutOdd of fightCard.allBoutOdds) {
                 if (
-                    (fighter1Id === boutOdd.fighter1._id.toString() &&
-                        fighter2Id === boutOdd.fighter2._id.toString()) ||
-                    (fighter2Id === boutOdd.fighter2._id.toString() &&
-                        fighter1Id === boutOdd.fighter1._id.toString())
+                    fighter1Id === boutOdd.fighter1._id.toString() &&
+                    fighter2Id === boutOdd.fighter2._id.toString()
                 ) {
+                    return boutOdd;
+                }
+                // reverse order
+                if (
+                    fighter2Id === boutOdd.fighter1._id.toString() &&
+                    fighter1Id === boutOdd.fighter2._id.toString()
+                ) {
+                    // switch cpa prob
+                    let temp = boutOdd.cpaProb.fighter1;
+                    boutOdd.cpaProb.fighter1 = boutOdd.cpaProb.fighter2;
+                    boutOdd.cpaProb.fighter2 = temp;
+                    // switch vegas prob
+                    temp = boutOdd.vegasProb.fighter1;
+                    boutOdd.vegasProb.fighter1 = boutOdd.vegasProb.fighter2;
+                    boutOdd.vegasProb.fighter2 = temp;
+                    // switch money line
+                    temp = boutOdd.vegasMoneyLine.fighter1;
+                    boutOdd.vegasMoneyLine.fighter1 =
+                        boutOdd.vegasMoneyLine.fighter2;
+                    boutOdd.vegasMoneyLine.fighter2 = temp;
+                    // switch expected value
+                    temp = boutOdd.expectedValue.fighter1;
+                    boutOdd.expectedValue.fighter1 =
+                        boutOdd.expectedValue.fighter2;
+                    boutOdd.expectedValue.fighter2 = temp;
+
                     return boutOdd;
                 }
             }
