@@ -1,8 +1,6 @@
 $(document).ready(() => {
   $(".pickemForm").submit(function (event) {
     event.preventDefault();
-    //Get name of fightcard
-    let fightCardTitle = $("#title").text();
     //We get all the fighter ids that are checked
     let fighters = [];
     $("input[type='radio']:checked").each(function () {
@@ -10,11 +8,13 @@ $(document).ready(() => {
       // console.log($(this).attr("id"));
       fighters.push([$(this).attr("id").slice(0, -7)]);
     });
+
     if (fighters.length === 0) {
       alert("You must select at least one fighter before clicking submit!");
     } else {
       if ($("#logged-in").text() == "true") {
-        updatePickem(fightCardTitle, fighters);
+        let currentURL = window.location.pathname.substr(12);
+        updatePickem(fighters, currentURL);
         alert("Pickem submitted!");
       } else {
         alert("You must be logged in to submit pickems!");
@@ -22,15 +22,21 @@ $(document).ready(() => {
     }
     //console.log(fighter);
   });
+  $("#btnHelp").click(function () {
+    alert(
+      "Clicking submit will submit all pickems you have currently selected. If you wish to change your pickem simply select different fighters and click submit again!"
+    );
+  });
 });
 
-function updatePickem(fightCardTitle, fighters) {
+function updatePickem(fighters, currentURL) {
+  console.log(fighters);
   $.ajax({
     url: "/user/updatePickem",
     method: "POST",
     contentType: "application/json",
     data: JSON.stringify({
-      title: fightCardTitle,
+      id: currentURL,
       fighters: fighters,
     }),
   });

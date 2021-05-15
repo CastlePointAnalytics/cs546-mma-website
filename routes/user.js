@@ -5,6 +5,7 @@ let { ObjectId } = require("mongodb");
 const { getFightCardByName } = require("../data/fightCards");
 const { updatePickEmsFuture } = require("../data/users");
 const userData = data.users;
+const xss = require("xss");
 
 router.get("/globalUserStats", async (res, req) => {
   const users = await userData.getAllUsers();
@@ -17,7 +18,6 @@ router.get("/globalUserStats", async (res, req) => {
       worldDict[`${user.country}`] = 1;
     }
   }
-  console.log(worldDict);
   return worldDict;
 });
 router.post("/updatePickem", async (req, res) => {
@@ -31,12 +31,14 @@ router.post("/updatePickem", async (req, res) => {
     } catch (e) {
       throw e.message;
     }
-
-    const title = req.body.title;
+    const id = xss(req.body.id);
     const fighters = req.body.fighters;
     //Fighters is array of IDs in string format
-    let fightCardId = await getFightCardByName(title);
-    await updatePickEmsFuture(parsedId, fighters, fightCardId);
+    try {
+      await updatePickEmsFuture(parsedId, fighters, id);
+    } catch (e) {
+      console.log(e);
+    }
     //[fightcardid: [[fighter1, Null]]];
     return true;
   }

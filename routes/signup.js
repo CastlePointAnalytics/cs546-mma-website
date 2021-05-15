@@ -3,13 +3,17 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.users;
 const bcrypt = require('bcryptjs');
-const saltRounds = 2;
+const xss = require('xss');
+const errorChecking = require('../errorChecking');
+const countries = data.countries.COUNTRIES;
 
 function validateFormData(inputUsername, inputPassword) {
 	if (typeof inputUsername !== 'string' || !inputUsername.trim()) {
+		alert("Please enter a valid username.");
 		throw 'Invalid username';
 	}
 	if (typeof inputPassword !== 'string' || !inputPassword.trim()) {
+		alert("Please enter a valid password.");
 		throw 'Invalid password';
 	}
 }
@@ -41,60 +45,63 @@ async function uniqueUsername(inputUsername) {
 router.get('/', async (req, res) => {
 	if (
 		req.session.user &&
-		req.session.user.username &&
-		req.session.user.password
+		req.session.user.username
 	) {
-		if (
-			authenticatedUser(req.session.user.username, req.session.user.password)
-		) {
-			res.status(200).render('user/profile', {
-				user: req.session.user,
-				// js: 'user/loggedin',
-			});
-		}
-	} else {
-		res.status(200).render('user/signup');
+		const user = await userData.get(req.session.user.id);
+		res.status(200).render('user/profile', {
+			user: user,
+		});
+	}
+	else {
+		res.status(200).render('user/signup', {notLoggedIn: true, countries: countries});
 	}
 });
 
 router.post('/', async (req, res) => {
-	if (req.session.user) {
-		if (
-			authenticatedUser(req.session.user.username, req.session.user.password)
-		) {
-			res.status(200).render('user/profile', {
-				user: req.session.user,
-				// js: 'user/loggedin',
+	if (await uniqueUsername(xss(req.body.username))) {
+		try {
+			errorChecking.isValidString(xss(req.body.firstName), 'first name');
+			errorChecking.isValidString(xss(req.body.lastName), 'last name');
+			errorChecking.isValidAge(xss(req.body.age), 'age');
+			errorChecking.isValidCountry(req.body.country, 'country');
+			errorChecking.isValidString(xss(req.body.username), 'username');
+			errorChecking.isNotEmptyString(xss(req.body.password), 'password');
+		} catch (e) {
+			res.status(403).render('user/signup', {
+				error: true,
+				notLoggedIn: true,
+				countries: countries
 			});
+			return;
 		}
+		const user = await userData.create(
+			xss(req.body.username),
+			xss(req.body.firstName),
+			xss(req.body.lastName),
+			xss(req.body.password),
+			xss(req.body.age),
+			countries[xss(req.body.country)],
+		);
+		req.session.user = {
+			id: user._id,
+			username: user.username,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			//password: user.password,
+			//age: user.age,
+			//country: user.country,
+		};
+		res.status(200).render('user/profile', {
+			user: user,
+			// js: 'user/loggedin',
+			notLoggedIn: false,
+		});
 	} else {
-		const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-
-		if (await uniqueUsername(req.body.username)) {
-			const user = await userData.create(
-				req.body.username,
-				req.body.firstName,
-				req.body.lastName,
-				hashedPassword,
-				req.body.age,
-				req.body.country,
-			);
-			req.session.user = {
-				id: user._id,
-				username: user.username,
-				firstName: user.firstName,
-				lastName: user.lastName,
-				password: hashedPassword,
-				age: user.age,
-				country: user.country,
-			};
-			res.status(200).render('user/profile', {
-				user: user,
-				// js: 'user/loggedin'
-			});
-		} else {
-			res.status(403).render('user/signup');
-		}
+		res.status(403).render('user/signup', {
+			notLoggedIn: true,
+			usernameNotUnique: true,
+			countries: countries,
+		});
 	}
 });
 

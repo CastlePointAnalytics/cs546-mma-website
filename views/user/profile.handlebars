@@ -11,6 +11,45 @@
 
         <h2>Country</h2>
         <p>{{user.country}}</p>
+    
+        <h3>Recent User Messages</h3>
+        {{#if user.recentMessages.length}}
+        <div id='messageContainer'>
+            {{#each user.recentMessages}}
+            <div class='message' id={{this._id}}>
+                <p class='username' id="{{this._id}}_username">{{this.username}}</p>
+                <p class='text' id="{{this._id}}_text">{{this.text}}</p>
+                <p class='time' id="{{this._id}}_timestamp">{{this.timestamp}}</p>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p>No recent messages for {{user.username}}</p>
+        {{/if}}
+        <h3>User PickEms</h3>
 
+        <h4>Future</h4>
+        {{#if user.pickEmsFuture.length}}
+        {{!-- <h5>{{user.pickEmsFuture.title}}</h5>
+        {{#each user.pickEmsFuture.fighters}}
+            <p>Pick: {{this}}</p>
+        {{/each}} --}}
+        {{#each user.pickEmsFuture}}
+        <h5>{{this.title}}</h5>
+            {{#each this.fighters}}
+            <p>Pick: {{this}}</p>
+            {{/each}}
+        {{/each}}
+        {{else}}
+        <p>No future pickEms for {{user.username}}</p>
+        {{/if}}
+
+        <h4>Past</h4>
+        {{#if user.pickEmsPast.length}}
+
+
+        {{else}}
+        <p>No past pickEms for {{user.username}}</p>
+        {{/if}}
     </div>
 </div>
